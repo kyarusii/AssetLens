@@ -13,3 +13,7 @@
 ### 0.0.4
 - object context menu
 - draw count in inspector
+
+### 0.0.5
+- lock
+- scrollview
