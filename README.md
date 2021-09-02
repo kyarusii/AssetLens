@@ -10,7 +10,7 @@
 ```json
 {
     "dependencies": {
-        "kr.seonghwan.reference": "0.0.2"
+        "kr.seonghwan.reference": "0.0.3"
     }
 }
 ```

@@ -15,6 +15,7 @@ namespace RV
 			}
 
 			Task indexAssets = ReferenceCache.IndexAssets();
+			Config.IsEnabled = true;
 		}
 
 		[MenuItem("Tools/Reference/Log Selection %&r")]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -12,11 +13,28 @@ namespace RV
 		private Object selected = default;
 		private Object previous = default;
 
-		private Object[] dependencies = default;
-		private Object[] referenced = default;
+		private Object[] dependencies = Array.Empty<Object>();
+		private Object[] referenced = Array.Empty<Object>();
 
 		private void OnGUI()
 		{
+			if (!Config.IsEnabled)
+			{
+				EditorGUILayout.HelpBox("Reference is not initialized!", MessageType.Error);
+				EditorGUILayout.Space(10);
+
+				if (GUILayout.Button("Initialize", new[] { GUILayout.Height(16) }))
+				{
+					if (!EditorUtility.DisplayDialog("주의", "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?", "계속", "취소"))
+					{
+						return;
+					}
+
+					Task indexAssets = ReferenceCache.IndexAssets();
+					Config.IsEnabled = true;
+				}
+			}
+			
 			selected = Selection.activeObject;
 			
 			if (!ReferenceEquals(previous, selected))
@@ -50,7 +68,7 @@ namespace RV
 			}
 
 			EditorGUILayout.Space(4);
-			// EditorGUI.indentLevel++;
+			
 			if (dependencies.Length > 0)
 			{
 				EditorGUILayout.LabelField("Dependencies", EditorStyles.boldLabel);
@@ -80,7 +98,6 @@ namespace RV
 
 				EditorGUI.indentLevel--;
 			}
-			// EditorGUI.indentLevel--;
 			
 			previous = selected;
 		}
