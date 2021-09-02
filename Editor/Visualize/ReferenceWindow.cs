@@ -6,10 +6,8 @@ using Object = UnityEngine.Object;
 
 namespace RV
 {
-	public class ReferenceWindow : EditorWindow
+	public sealed class ReferenceWindow : EditorWindow
 	{
-
-
 		private Object selected = default;
 		private Object previous = default;
 
@@ -68,6 +66,9 @@ namespace RV
 			}
 
 			EditorGUILayout.Space(4);
+			
+			EditorGUILayout.ObjectField($"Selected", selected, typeof(Object), true, Array.Empty<GUILayoutOption>());
+			EditorGUILayout.Space(5);
 			
 			if (dependencies.Length > 0)
 			{

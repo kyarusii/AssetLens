@@ -53,12 +53,22 @@ namespace RV
 			window.Show();
 		}
 
-		private const string FinInProjectsMenuName = "Assets/Find References in projects";
+		private const string FinInProjectsMenuName = "Assets/Find References In Project";
+		private const int order = 28;
 		
-		[MenuItem(FinInProjectsMenuName, false, 50)]
+		[MenuItem(FinInProjectsMenuName, false, order)]
 		private static void FindInProjects()
 		{
+			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
 			
+			window.titleContent = new GUIContent("Reference Viewer");
+			window.Show();
+		}
+
+		[MenuItem(FinInProjectsMenuName, true, order)]
+		private static bool ValidateFindInProject()
+		{
+			return Selection.activeObject != null && Selection.objects.Length == 1;
 		}
 	}
 }

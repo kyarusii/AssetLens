@@ -25,12 +25,12 @@ namespace RV
 			
 			foreach (string asset in movedAssets)
 			{
-				
+				// 에셋 이동은 guid 변경과 큰 관계가 없음
 			}
 			
 			foreach (string asset in movedFromAssetPaths)
 			{
-				
+				// 에셋 이동은 guid 변경과 큰 관계가 없음
 			}
 		}
 

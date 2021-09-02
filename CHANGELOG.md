@@ -9,3 +9,7 @@
 ### 0.0.3
 - bug fix
 - initialize helpbox
+
+### 0.0.4
+- object context menu
+- draw count in inspector
