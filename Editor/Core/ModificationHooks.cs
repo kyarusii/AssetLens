@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RV
 {
-	public class ModificationHooks : AssetModificationProcessor
+	internal sealed class ModificationHooks : AssetModificationProcessor
 	{
 		private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
 		{

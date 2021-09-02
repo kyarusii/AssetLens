@@ -3,11 +3,10 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RV
 {
-	internal class PostprocessHook : AssetPostprocessor {
+	internal sealed class PostprocessHook : AssetPostprocessor {
 		private static void OnPostprocessAllAssets(
 			string[] importedAssets, string[] deletedAssets, 
 			string[] movedAssets, string[] movedFromAssetPaths)

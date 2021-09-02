@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace RV
 {
-    internal static class Callbacks
+    internal static class Entrypoint
     {
         [InitializeOnLoadMethod]
         private static async void InitializeOnLoadMethod()
