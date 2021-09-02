@@ -14,6 +14,11 @@ namespace RV
 		private Object[] dependencies = Array.Empty<Object>();
 		private Object[] referenced = Array.Empty<Object>();
 
+		private Vector2 dependencyScrollPos = default;
+		private Vector2 referenceScrollPos = default;
+
+		private bool isLocked = false;
+
 		private void OnGUI()
 		{
 			if (!Config.IsEnabled)
@@ -31,9 +36,21 @@ namespace RV
 					Task indexAssets = ReferenceCache.IndexAssets();
 					Config.IsEnabled = true;
 				}
+
+				return;
 			}
-			
-			selected = Selection.activeObject;
+
+			using (new EditorGUILayout.HorizontalScope())
+			{
+				GUILayout.FlexibleSpace();
+
+				isLocked = EditorGUILayout.Toggle("Lock", isLocked);
+			}
+
+			if (!isLocked)
+			{
+				selected = Selection.activeObject;
+			}
 			
 			if (!ReferenceEquals(previous, selected))
 			{
@@ -72,13 +89,26 @@ namespace RV
 			
 			if (dependencies.Length > 0)
 			{
-				EditorGUILayout.LabelField("Dependencies", EditorStyles.boldLabel);
+				EditorGUILayout.LabelField($"Dependencies : {dependencies.Length}", EditorStyles.boldLabel);
 				EditorGUILayout.Space(2);
 				
 				EditorGUI.indentLevel++;
+				
+				if (dependencies.Length > 8)
+				{
+					EditorGUILayout.BeginVertical();
+					dependencyScrollPos = EditorGUILayout.BeginScrollView(dependencyScrollPos,  GUILayout.Height(160));
+				}
+				
 				foreach (Object dependency in dependencies)
 				{
 					EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
+				}
+				
+				if (dependencies.Length > 8)
+				{
+					EditorGUILayout.EndScrollView();
+					EditorGUILayout.EndVertical();
 				}
 
 				EditorGUI.indentLevel--;
@@ -88,14 +118,28 @@ namespace RV
 
 			if (referenced.Length > 0)
 			{
-				EditorGUILayout.LabelField("Referenced By", EditorStyles.boldLabel);
+				EditorGUILayout.LabelField($"Referenced By : {referenced.Length}", EditorStyles.boldLabel);
 				EditorGUILayout.Space(2);
 				
 				EditorGUI.indentLevel++;
+				
+				if (referenced.Length > 8)
+				{
+					EditorGUILayout.BeginVertical();
+					referenceScrollPos = EditorGUILayout.BeginScrollView(referenceScrollPos,  GUILayout.Height(160));
+				}
+				
 				foreach (Object dependency in referenced)
 				{
 					EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
 				}
+				
+				if (referenced.Length > 8)
+				{
+					EditorGUILayout.EndScrollView();
+					EditorGUILayout.EndVertical();
+				}
+
 
 				EditorGUI.indentLevel--;
 			}
