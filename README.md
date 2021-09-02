@@ -3,14 +3,15 @@
 레퍼런스 하고 있는 에셋과, 이 에셋을 레퍼런스 하고 있는 에셋을 상호 저장함으로써 레퍼런스 링크를 생성합니다. 파일시스템을 기반으로 바이너리로 각 guid 별로 쪼개어 저장합니다. 
 
 ![image](https://user-images.githubusercontent.com/79823287/131787910-1cc009e6-d483-4a87-afb0-a6ac31d3cf0d.png)
-
+![image](https://user-images.githubusercontent.com/79823287/131797772-078dda37-0917-4d98-abea-f09645e33a77.png)
+![image](https://user-images.githubusercontent.com/79823287/131797825-213d2927-db5a-47d0-a02d-bb87e0400b52.png)
 
 ## Install
 
 ```json
 {
     "dependencies": {
-        "kr.seonghwan.reference": "0.0.3"
+        "kr.seonghwan.reference": "0.0.4"
     }
 }
 ```
