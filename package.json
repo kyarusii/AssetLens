@@ -1,6 +1,6 @@
 {
   "name": "kr.seonghwan.reference",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "displayName": "Reference",
   "description": "This package helps to view references between assets in project.",
   "unity": "2021.1",

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -12,25 +13,33 @@ namespace RV
 			string[] movedAssets, string[] movedFromAssetPaths)
 		{
 			if (!Config.IsEnabled) return;
-			
-			foreach (string asset in importedAssets)
+			if (EditorApplication.timeSinceStartup < 30) return;
+
+			try
 			{
-				OnAssetImport(asset);
+				foreach (string asset in importedAssets)
+				{
+					OnAssetImport(asset);
+				}
+			
+				foreach (string asset in deletedAssets)
+				{
+					OnAssetDelete(asset);
+				}
+			
+				foreach (string asset in movedAssets)
+				{
+					// 에셋 이동은 guid 변경과 큰 관계가 없음
+				}
+			
+				foreach (string asset in movedFromAssetPaths)
+				{
+					// 에셋 이동은 guid 변경과 큰 관계가 없음
+				}	
 			}
-			
-			foreach (string asset in deletedAssets)
+			catch (Exception e)
 			{
-				OnAssetDelete(asset);
-			}
-			
-			foreach (string asset in movedAssets)
-			{
-				// 에셋 이동은 guid 변경과 큰 관계가 없음
-			}
-			
-			foreach (string asset in movedFromAssetPaths)
-			{
-				// 에셋 이동은 guid 변경과 큰 관계가 없음
+				Debug.LogException(e);
 			}
 		}
 

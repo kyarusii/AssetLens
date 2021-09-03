@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace RV
 {
@@ -27,11 +31,13 @@ namespace RV
 			string path = AssetDatabase.GetAssetPath(obj);
 			string guid = AssetDatabase.AssetPathToGUID(path);
 
+			FileInfo fi = new FileInfo(path);
+			
 			RefData asset = RefData.Get(guid);
 			foreach (string foundGuid in asset.ownGuids)
 			{
 				string foundPath = AssetDatabase.GUIDToAssetPath(foundGuid);
-				Debug.Log($"<color=#7FFF00>레퍼런스하고 있는 에셋 : {foundPath}</color>",
+				Debug.Log($"<color=#7FFF00>{fi.Name}이 사용하고 있는 에셋 : {foundPath}</color>",
 					AssetDatabase.LoadAssetAtPath<Object>(foundPath));
 			}
 			
@@ -39,7 +45,7 @@ namespace RV
 			{
 				string foundPath = AssetDatabase.GUIDToAssetPath(foundGuid);
 				
-				Debug.Log($"<color=#FF0F8F>이 에셋을 레퍼런스하고 있는 에셋 : {foundPath}</color>", 
+				Debug.Log($"<color=#1E90FF>{fi.Name}을 사용하고 있는 에셋 : {foundPath}</color>", 
 					AssetDatabase.LoadAssetAtPath<Object>(foundPath));
 			}
 		}
@@ -53,10 +59,12 @@ namespace RV
 			window.Show();
 		}
 
-		private const string FinInProjectsMenuName = "Assets/Find References In Project";
+		private const string FindReferenceInMenuName = "Assets/Find References In Project";
+		private const string FindExplicitReferenceInProjectMenuName = "Assets/Find Explicit References In Project (slow)";
+		
 		private const int order = 28;
 		
-		[MenuItem(FinInProjectsMenuName, false, order)]
+		[MenuItem(FindReferenceInMenuName, false, order)]
 		private static void FindInProjects()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
@@ -65,10 +73,40 @@ namespace RV
 			window.Show();
 		}
 
-		[MenuItem(FinInProjectsMenuName, true, order)]
+		[MenuItem(FindExplicitReferenceInProjectMenuName, true, order+1)]
+		[MenuItem(FindReferenceInMenuName, true, order)]
 		private static bool ValidateFindInProject()
 		{
 			return Selection.activeObject != null && Selection.objects.Length == 1;
+		}
+		
+		[MenuItem(FindExplicitReferenceInProjectMenuName, false, order+1)]
+		private static void FindInProjectsExplicit()
+		{
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
+			
+			Object obj = Selection.activeObject;
+			if (obj == null) return;
+			
+			string path = AssetDatabase.GetAssetPath(obj);
+			string guid = AssetDatabase.AssetPathToGUID(path);
+
+			string[] foundPaths = ReferenceUtil.ExplicitSearchGuid(Application.dataPath, "*.*", guid).ToArray();
+
+			sw.Stop();
+			
+			if (EditorUtility.DisplayDialog("Done!", $"{foundPaths.Count()} assets found! \nPrint on console?", "Print", "Close"))
+			{
+				sw.Start();
+				foreach (string foundPath in foundPaths)
+				{
+					Debug.Log(foundPath, AssetDatabase.LoadAssetAtPath<Object>(foundPath));
+				}
+				sw.Stop();
+			}
+			
+			Debug.Log($"{foundPaths.Length} files, {sw.ElapsedMilliseconds * 0.001f:N2}s elapsed!");
 		}
 	}
 }

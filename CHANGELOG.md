@@ -1,19 +1,23 @@
 # CHANGE LOG
 
 ### 0.0.1
-- basic features
+- basic features  
 
 ### 0.0.2
-- reference viewer
+- reference viewer  
 
 ### 0.0.3
-- bug fix
-- initialize helpbox
+- bug fix  
+- initialize helpbox  
 
 ### 0.0.4
-- object context menu
-- draw count in inspector
+- object context menu  
+- draw count in inspector  
 
 ### 0.0.5
-- lock
-- scrollview
+- lock  
+- scrollview  
+
+### 0.0.6
+- explicit search tool (sr4dev)  
+- run safer (try-catch)  
