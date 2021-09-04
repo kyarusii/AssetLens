@@ -21,3 +21,7 @@
 ### 0.0.6
 - explicit search tool (sr4dev)  
 - run safer (try-catch)  
+
+### 0.0.7
+
+- do not create ref file if its directory

@@ -52,6 +52,9 @@ namespace RV
 			}
 			else
 			{
+				// 폴더이면 패스
+				if (!File.Exists(path)) return;
+				
 				OnAssetCreate(path, guid);
 			}
 		}
