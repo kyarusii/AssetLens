@@ -23,5 +23,7 @@
 - run safer (try-catch)  
 
 ### 0.0.7
-
 - do not create ref file if its directory
+
+### 0.0.8
+- check empty path

@@ -1,13 +1,14 @@
 # Reference
 
 레퍼런스 하고 있는 에셋과, 이 에셋을 레퍼런스 하고 있는 에셋을 상호 저장함으로써 레퍼런스 링크를 생성합니다. 파일시스템을 기반으로 바이너리로 각 guid 별로 쪼개어 저장합니다. 
+This plugin generate both dependency map of the asset and which asset is referencing the asset.
 
 ## Install
 
 ```json
 {
     "dependencies": {
-        "kr.seonghwan.reference": "0.0.7"
+        "kr.seonghwan.reference": "0.0.8"
     }
 }
 ```

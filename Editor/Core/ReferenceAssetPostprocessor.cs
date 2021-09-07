@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace RV
 {
-	internal sealed class PostprocessHook : AssetPostprocessor {
+	internal sealed class ReferenceAssetPostprocessor : AssetPostprocessor {
 		private static void OnPostprocessAllAssets(
 			string[] importedAssets, string[] deletedAssets, 
 			string[] movedAssets, string[] movedFromAssetPaths)
@@ -30,11 +30,13 @@ namespace RV
 				foreach (string asset in movedAssets)
 				{
 					// 에셋 이동은 guid 변경과 큰 관계가 없음
+					OnAssetMoved(asset);
 				}
 			
 				foreach (string asset in movedFromAssetPaths)
 				{
 					// 에셋 이동은 guid 변경과 큰 관계가 없음
+					OnAssetMoved(asset);
 				}	
 			}
 			catch (Exception e)
@@ -58,13 +60,85 @@ namespace RV
 				OnAssetCreate(path, guid);
 			}
 		}
+		
+		internal static void OnAssetDelete(string path)
+		{
+			string guid = AssetDatabase.AssetPathToGUID(path);
+			RefData refAsset = RefData.Get(guid);
+
+			// 이 에셋을 레퍼런스 하는 에셋정보들 편집
+			foreach (string referedByGuid in refAsset.referedByGuids)
+			{
+				// 문제는 에셋 파일에는 미싱 상태로 남아있다는 점
+				RefData referedAsset = RefData.Get(referedByGuid);
+				
+				referedAsset.ownGuids.Remove(guid);
+				referedAsset.Save();
+			}
+			
+			// 이 에셋이 레퍼런스하는 에셋 정보들 편집
+			foreach (string ownGuid in refAsset.ownGuids)
+			{
+				RefData referedAsset = RefData.Get(ownGuid);
+				
+				referedAsset.referedByGuids.Remove(guid);
+				referedAsset.Save();
+			}
+
+			refAsset.Remove();
+		}
+
+		internal static void OnAssetMoved(string path)
+		{
+			
+		}
 
 		private static void OnAssetCreate(string path, string guid)
 		{
 			if (path.Contains("Packages/Reference")) return;
+
+#if !DEBUG_REFERENCE
+			if (path.Contains("Packages/")) return;
+#endif
 			
 			// 새로 만들었으면 이 에셋을 레퍼런스된게 있을 수 없으므로 그냥 프로필만 생성 ctrl-z로 복구하는거면 문제생길수있음...
-			RefData.New(guid).Save();
+			if (string.IsNullOrWhiteSpace(path))
+			{
+#if DEBUG_REFERENCE
+				Debug.LogError($"Something wrong in OnAssetCreate : ({path}, guid:{guid})");
+#endif
+				return;
+			}
+			
+			if (!File.Exists(path))
+			{
+#if DEBUG_REFERENCE
+				Debug.LogError($"Something wrong in OnAssetCreate : ({path}, guid:{guid})");
+#endif
+				return;
+			}
+
+#if DEBUG_REFERENCE
+			string tempPath = AssetDatabase.GUIDToAssetPath(guid);
+			if (tempPath != path)
+			{
+				Debug.LogError($"{tempPath} : {path} (guid: {guid})");
+			}
+#endif
+			
+			try
+			{
+				RefData.New(guid).Save();
+			}
+			catch (Exception e)
+			{
+#if DEBUG_REFERENCE
+				Debug.LogError(tempPath);
+				Debug.LogError(path);
+				
+				Debug.LogException(e);
+#endif
+			}
 		}
 
 		private static void OnAssetModify(string path, string guid)
@@ -106,33 +180,6 @@ namespace RV
 
 			asset.ownGuids = newGuids;
 			asset.Save();
-		}
-
-		internal static void OnAssetDelete(string path)
-		{
-			string guid = AssetDatabase.AssetPathToGUID(path);
-			RefData refAsset = RefData.Get(guid);
-
-			// 이 에셋을 레퍼런스 하는 에셋정보들 편집
-			foreach (string referedByGuid in refAsset.referedByGuids)
-			{
-				// 문제는 에셋 파일에는 미싱 상태로 남아있다는 점
-				RefData referedAsset = RefData.Get(referedByGuid);
-				
-				referedAsset.ownGuids.Remove(guid);
-				referedAsset.Save();
-			}
-			
-			// 이 에셋이 레퍼런스하는 에셋 정보들 편집
-			foreach (string ownGuid in refAsset.ownGuids)
-			{
-				RefData referedAsset = RefData.Get(ownGuid);
-				
-				referedAsset.referedByGuids.Remove(guid);
-				referedAsset.Save();
-			}
-
-			refAsset.Remove();
 		}
 	}
 }
