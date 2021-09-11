@@ -9,7 +9,7 @@ namespace RV
 	{
 		private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
 		{
-			if (!Config.IsEnabled) return AssetDeleteResult.DidNotDelete;
+			if (!ReferenceSetting.IsEnabled) return AssetDeleteResult.DidNotDelete;
 
 			try
 			{

@@ -27,3 +27,6 @@
 
 ### 0.0.8
 - check empty path
+
+### 0.0.9
+- store setting in setting object instead editor prefs

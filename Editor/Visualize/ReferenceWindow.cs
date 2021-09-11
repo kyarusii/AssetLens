@@ -21,7 +21,7 @@ namespace RV
 
 		private void OnGUI()
 		{
-			if (!Config.IsEnabled)
+			if (!ReferenceSetting.IsEnabled)
 			{
 				EditorGUILayout.HelpBox("Reference is not initialized!", MessageType.Error);
 				EditorGUILayout.Space(10);
@@ -34,7 +34,7 @@ namespace RV
 					}
 
 					Task indexAssets = ReferenceCache.IndexAssets();
-					Config.IsEnabled = true;
+					ReferenceSetting.IsEnabled = true;
 				}
 
 				return;

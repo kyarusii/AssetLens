@@ -5,6 +5,8 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using System.Collections.Generic;
 
+#pragma warning disable CS0168
+
 namespace RV
 {
 	internal sealed class ReferenceAssetPostprocessor : AssetPostprocessor {
@@ -12,7 +14,7 @@ namespace RV
 			string[] importedAssets, string[] deletedAssets, 
 			string[] movedAssets, string[] movedFromAssetPaths)
 		{
-			if (!Config.IsEnabled) return;
+			if (!ReferenceSetting.IsEnabled) return;
 			if (EditorApplication.timeSinceStartup < 30) return;
 
 			try
@@ -183,3 +185,5 @@ namespace RV
 		}
 	}
 }
+
+#pragma warning restore CS0168

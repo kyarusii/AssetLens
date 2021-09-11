@@ -19,11 +19,11 @@ namespace RV
                 if (EditorUtility.DisplayDialog(title, content, "생성", "스킵"))
                 {
                     await ReferenceCache.IndexAssets();
-                    Config.IsEnabled = true;
+                    ReferenceSetting.IsEnabled = true;
                 }
                 else
                 {
-                    Config.IsEnabled = false;
+                    ReferenceSetting.IsEnabled = false;
                 }
             }
         }
