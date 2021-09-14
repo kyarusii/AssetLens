@@ -30,3 +30,7 @@
 
 ### 0.0.9
 - store setting in setting object instead editor prefs
+
+### 0.0.10
+- add an option whether to collect dependencies in playmode or not.
+- add an option whether to collect scene object or not.

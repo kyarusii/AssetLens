@@ -12,6 +12,8 @@ namespace RV
 		private const string k_editorCustomSettingsPath = "Assets/Editor Default Resources/Reference Setting.asset";
 
 		[SerializeField] private bool enabled = false;
+		[SerializeField] public bool pauseInPlaymode = true;
+		[SerializeField] public bool traceSceneObject = false;
 
 		public static bool IsEnabled {
 			get
@@ -23,6 +25,14 @@ namespace RV
 				GetOrCreateSettings().enabled = value;
 				EditorUtility.SetDirty(GetOrCreateSettings());
 			}
+		}
+
+		public static bool PauseInPlaymode {
+			get => GetOrCreateSettings().pauseInPlaymode;
+		}
+		
+		public static bool TraceSceneObject {
+			get => GetOrCreateSettings().traceSceneObject;
 		}
 
 		private static ReferenceSetting GetOrCreateSettings()
@@ -58,14 +68,11 @@ namespace RV
 			[UnityEditor.SettingsProvider]
 			public static UnityEditor.SettingsProvider CreateFromSettingsObject()
 			{
-				// Object settingsObj =
-				// 	UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(ReferenceSetting.k_previousCustomSettingsPath);
 				Object settingsObj = EditorGUIUtility.Load(ReferenceSetting.k_editorCustomSettingsPath);
 				
 				AssetSettingsProvider provider =
 					UnityEditor.AssetSettingsProvider.CreateProviderFromObject("Project/Reference", settingsObj);
 
-				// Register keywords from the properties of settingsObj
 				provider.keywords =
 					UnityEditor.SettingsProvider.GetSearchKeywordsFromSerializedObject(
 						new UnityEditor.SerializedObject(settingsObj));

@@ -46,5 +46,11 @@ namespace RV
 		{
 			return ExplicitSearchGuid(Application.dataPath, "*.prefab", guid);
 		}
+
+		public static bool IsSceneObject(this GameObject target)
+		{
+			if (target == null) return false;
+			return !string.IsNullOrWhiteSpace(target.scene.name);
+		}
 	}
 }

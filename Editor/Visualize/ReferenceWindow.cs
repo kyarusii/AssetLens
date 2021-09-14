@@ -40,6 +40,13 @@ namespace RV
 				return;
 			}
 
+			if (Application.isPlaying && ReferenceSetting.PauseInPlaymode)
+			{
+				EditorGUILayout.HelpBox("Disabled in Playmode.", MessageType.Info);
+				
+				return;
+			}
+
 			using (new EditorGUILayout.HorizontalScope())
 			{
 				GUILayout.FlexibleSpace();
@@ -49,7 +56,17 @@ namespace RV
 
 			if (!isLocked)
 			{
-				selected = Selection.activeObject;
+				Object current  = Selection.activeObject;
+				if (!ReferenceSetting.TraceSceneObject && current is GameObject go)
+				{
+					if (go.IsSceneObject())
+					{
+						EditorGUILayout.HelpBox("Disabled on Scene Object.", MessageType.Info);
+						return;
+					}					
+				}
+
+				selected = current;
 			}
 			
 			if (!ReferenceEquals(previous, selected))
