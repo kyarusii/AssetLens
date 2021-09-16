@@ -11,7 +11,7 @@ namespace RV
 {
 	internal static class ReferenceCache
 	{
-		public static async Task IndexAssets()
+		internal static async Task IndexAssets()
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -141,7 +141,7 @@ namespace RV
 			}
 		}
 
-		public static async Task<int> CleanUpAssets()
+		internal static async Task<int> CleanUpAssets()
 		{
 			await Task.Delay(10);
 

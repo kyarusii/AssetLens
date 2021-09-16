@@ -38,7 +38,6 @@ namespace RV
 			EditorGUILayout.PropertyField(enabled, new GUIContent(Localize.Inst.setting_enabled));
 			EditorGUILayout.Space(12);
 
-
 			EditorGUI.BeginDisabledGroup(!enabled.boolValue);
 			{
 				// EditorGUI.indentLevel++;
