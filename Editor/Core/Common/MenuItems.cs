@@ -10,10 +10,14 @@ namespace RV
 {
 	internal static class MenuItems
 	{
-		[MenuItem("Tools/Reference/Index All Assets")]
+		[MenuItem(Constants.MENU_INDEX_ALL_ASSETS)]
 		private static void IndexAllAssets()
 		{
-			if (!EditorUtility.DisplayDialog("주의", "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?", "계속", "취소"))
+			if (!EditorUtility.DisplayDialog(
+				Localize.Inst.indexing_title,
+				Localize.Inst.indexing_message, 
+				Localize.Inst.indexing_proceed,
+				Localize.Inst.indexing_cancel))
 			{
 				return;
 			}
@@ -22,7 +26,7 @@ namespace RV
 			ReferenceSetting.IsEnabled = true;
 		}
 
-		[MenuItem("Tools/Reference/Log Selection %&r")]
+		[MenuItem(Constants.MENU_LOG_REFERENCE + " %&r")]
 		private static void LogReferences()
 		{
 			Object obj = Selection.activeObject;
@@ -50,7 +54,7 @@ namespace RV
 			}
 		}
 		
-		[MenuItem("Window/Reference Viewer")]
+		[MenuItem(Constants.WINDOW_VIEWER)]
 		private static void Init()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
@@ -58,13 +62,10 @@ namespace RV
 			window.titleContent = new GUIContent("Reference Viewer");
 			window.Show();
 		}
-
-		private const string FindReferenceInMenuName = "Assets/Find References In Project";
-		private const string FindExplicitReferenceInProjectMenuName = "Assets/Find Explicit References In Project (slow)";
 		
 		private const int order = 28;
 		
-		[MenuItem(FindReferenceInMenuName, false, order)]
+		[MenuItem(Constants.ASSETMENU_FindReferenceIn, false, order)]
 		private static void FindInProjects()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
@@ -73,14 +74,14 @@ namespace RV
 			window.Show();
 		}
 
-		[MenuItem(FindExplicitReferenceInProjectMenuName, true, order+1)]
-		[MenuItem(FindReferenceInMenuName, true, order)]
+		[MenuItem(Constants.ASSETMENU_FindExplicitReferenceInProject, true, order+1)]
+		[MenuItem(Constants.ASSETMENU_FindReferenceIn, true, order)]
 		private static bool ValidateFindInProject()
 		{
 			return Selection.activeObject != null && Selection.objects.Length == 1;
 		}
 		
-		[MenuItem(FindExplicitReferenceInProjectMenuName, false, order+1)]
+		[MenuItem(Constants.ASSETMENU_FindExplicitReferenceInProject, false, order+1)]
 		private static void FindInProjectsExplicit()
 		{
 			Stopwatch sw = new Stopwatch();

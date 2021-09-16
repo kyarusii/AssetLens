@@ -18,6 +18,8 @@ namespace RV
 		[SerializeField] private bool traceSceneObject = false;
 		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
 
+		[SerializeField] private string localization = "English";
+
 		public static bool IsEnabled {
 			get
 			{
@@ -40,6 +42,25 @@ namespace RV
 
 		public static bool UseEditorUtilityWhenSearchDependencies {
 			get => GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
+		}
+
+		public static Localize LoadLocalization {
+			get
+			{
+				string locale = GetOrCreateSettings().localization;
+				string fullPath = Path.GetFullPath($"Packages/kr.seonghwan.reference/Languages/{locale}.json");
+
+				var json = File.ReadAllText(fullPath);
+				return JsonUtility.FromJson<Localize>(json);
+			}
+		}
+
+		public static string Localization {
+			set
+			{
+				GetOrCreateSettings().localization = value;
+				EditorUtility.SetDirty(GetOrCreateSettings());
+			}
 		}
 
 

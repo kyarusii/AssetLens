@@ -1,0 +1,12 @@
+{
+	"name": "English",
+	"indexing_title": "Warning!",
+	"indexing_message": "This process might require a long time. Continue?",
+	"indexing_proceed": "Continue",
+	"indexing_cancel": "Cancel",
+	"setting_enabled": "Activated",
+	"setting_pauseInPlaymode": "EditMode Only",
+	"setting_traceSceneObjects": "Allow SceneObject",
+	"setting_useEditorUtilityWhenSearchDependencies": "Use EditorUtility in search",
+	"setting_language": "Language"
+}
