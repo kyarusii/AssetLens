@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace RV
 		private Object selected = default;
 		private Object previous = default;
 
-		private RefData data = default;
+		// private RefData data = default;
 
 		private Object[] dependencies = Array.Empty<Object>();
 		private Object[] referenced = Array.Empty<Object>();
@@ -131,11 +132,6 @@ namespace RV
 
 				isLocked = EditorGUILayout.Toggle("Lock", isLocked);
 			}
-
-			if (ReferenceSetting.DisplayIndexerVersion && data != null)
-			{
-				EditorGUILayout.LabelField("Indexer Version", data.version.ToString());
-			}
 		}
 
 		private bool RefreshSelectedTarget()
@@ -163,6 +159,11 @@ namespace RV
 			return !ReferenceEquals(previous, selected) || isDirty;
 		}
 
+		private string objectType;
+		private string objectName;
+		private string objectPath;
+		private string version;
+
 		private void CollectData()
 		{
 			if (selected)
@@ -172,7 +173,18 @@ namespace RV
 				string path = AssetDatabase.GetAssetPath(selected);
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
-				data = RefData.Get(guid);
+				// directory
+				if (Directory.Exists(path))
+				{
+					return;
+				}
+
+				RefData data = RefData.Get(guid);
+				
+				objectType = data.objectType;
+				objectName = data.objectName;
+				objectPath = data.objectPath;
+				version = data.version.ToString();
 
 				List<string> referedByGuids = data.referedByGuids;
 				referenced = new Object[referedByGuids.Count];
@@ -208,6 +220,11 @@ namespace RV
 			{
 				dependencies = Array.Empty<Object>();
 				referenced = Array.Empty<Object>();
+				
+				objectType = string.Empty;
+				objectName = string.Empty;
+				objectPath = string.Empty;
+				version = string.Empty;
 			}
 
 			isDirty = false;
@@ -218,6 +235,42 @@ namespace RV
 			EditorGUILayout.Space(4);
 
 			EditorGUILayout.ObjectField($"Selected", selected, typeof(Object), true, Array.Empty<GUILayoutOption>());
+
+			// display indexer version
+			if (ReferenceSetting.DisplayIndexerVersion)
+			{
+				bool typeAndVersion = !string.IsNullOrWhiteSpace(objectType) && !string.IsNullOrWhiteSpace(version);
+				bool nameAndPath = !string.IsNullOrWhiteSpace(objectName) && !string.IsNullOrWhiteSpace(objectPath);
+
+				if (typeAndVersion || nameAndPath)
+				{
+					EditorGUILayout.BeginVertical("HelpBox");
+				}
+				
+				if (typeAndVersion)
+				{
+					using (new EditorGUILayout.HorizontalScope())
+					{
+						EditorGUILayout.LabelField(version);
+						EditorGUILayout.LabelField(objectType);
+					}
+				}
+				
+				if (nameAndPath)
+				{
+					using (new EditorGUILayout.HorizontalScope())
+					{
+						EditorGUILayout.LabelField(objectName);
+						EditorGUILayout.LabelField(objectPath);
+					}
+				}
+
+				if (typeAndVersion || nameAndPath)
+				{
+					EditorGUILayout.EndVertical();
+				}
+			}
+
 			EditorGUILayout.Space(5);
 
 			if (dependencies.Length > 0)
@@ -324,40 +377,6 @@ namespace RV
 		private void OnInspectorUpdate()
 		{
 			Repaint();
-		}
-
-		private void OnEnable()
-		{
-			// if (!useUIElement) return;
-			//
-			// VisualElement root = rootVisualElement;
-			//
-			// Toggle useUIElementsToggle = new Toggle("Use UI Elements");
-			//
-			// useUIElementsToggle.RegisterValueChangedCallback((evt =>
-			// {
-			// 	useUIElement = evt.newValue;
-			// }));
-			//
-			// root.Add(useUIElementsToggle);
-			//
-			// Toggle lockToggle = new Toggle("Lock");
-			// lockToggle.RegisterValueChangedCallback(evt =>
-			// {
-			// 	isLocked = evt.newValue;
-			// });
-			//
-			// root.Add(lockToggle);
-			//
-			// ObjectField selectedObject = new ObjectField("Selected");
-			// root.Add(selectedObject);
-
-
-			// var myButton = new Button() { text = "New Button" };
-			// myButton.style.width = 160;
-			// myButton.style.height = 60;
-			//
-			// root.Add(myButton);
 		}
 	}
 }

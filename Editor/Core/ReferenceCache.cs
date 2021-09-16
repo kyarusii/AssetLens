@@ -55,6 +55,11 @@ namespace RV
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
+					// RefData data = RefData.New(key);
+					//
+					// data.referedByGuids = guidRefByMap[key].ToList();
+					// dataMap[key] = data;
+					
 					dataMap[key] = new RefData(key)
 					{
 						guid = key,
@@ -66,6 +71,7 @@ namespace RV
 				{
 					if (!dataMap.TryGetValue(key, out RefData asset))
 					{
+						// asset = RefData.New(key);
 						asset = new RefData(key)
 						{
 							guid = key

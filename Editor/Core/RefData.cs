@@ -1,14 +1,35 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace RV
 {
 	internal class RefData
 	{
+		/// <summary>
+		/// from file name
+		/// </summary>
 		public string guid;
+		
+		/// <summary>
+		/// from unity object type
+		/// </summary>
+		public string objectType;
+		
+		/// <summary>
+		/// from unity object name
+		/// </summary>
+		public string objectName;
+
+		/// <summary>
+		/// from asset database path
+		/// </summary>
+		public string objectPath;
 
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
@@ -19,6 +40,30 @@ namespace RV
 		public RefData(string guid)
 		{
 			this.guid = guid;
+
+			try
+			{
+				objectPath = AssetDatabase.GUIDToAssetPath(guid);
+				if (string.IsNullOrWhiteSpace(objectPath))
+				{
+					objectType = "INVALID";
+					objectPath = "NO_PATH_DATA";
+					objectName = "NO_PATH_DATA";
+				}
+				else
+				{
+					Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(objectPath);
+				
+					objectType = obj == null ? "NULL" : obj.GetType().FullName;
+					objectName = obj == null ? "NULL" : obj.name;
+				}	
+			}
+			catch (Exception e)
+			{
+#if DEBUG_REFERENCE
+				Debug.LogException(e);
+#endif
+			}
 		}
 
 		public void Save()
@@ -29,7 +74,11 @@ namespace RV
 
 			// version for integration
 			version = ReferenceSetting.INDEX_VERSION;
+			
 			w.Write(version);
+			w.Write(objectType);
+			w.Write(objectName);
+			w.Write(objectPath);
 
 			int ownCount = ownGuids.Count;
 			w.Write(ownCount);
@@ -58,12 +107,15 @@ namespace RV
 
 		public static RefData Get(string guid)
 		{
-			RefData asset = new RefData(guid);
 			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			
 			if (!File.Exists(path))
 			{
-				return asset;
+				// 없으면 새로 만듦
+				return New(guid);
 			}
+
+			RefData asset = new RefData(guid);
 
 			asset.ownGuids ??= new List<string>();
 			asset.referedByGuids ??= new List<string>();
@@ -71,6 +123,9 @@ namespace RV
 			BinaryReader r = new BinaryReader(File.OpenRead(path));
 
 			asset.version = r.ReadUInt32();
+			asset.objectType = r.ReadString();
+			asset.objectName = r.ReadString();
+			asset.objectPath = r.ReadString();
 
 			int ownCount = r.ReadInt32();
 			for (int i = 0; i < ownCount; i++)
@@ -120,6 +175,16 @@ namespace RV
 
 			asset.ownGuids = owningGuids;
 			asset.version = ReferenceSetting.INDEX_VERSION;
+
+			// if (string.IsNullOrWhiteSpace(assetPath))
+			// {
+			// 	asset.objectType = "WHITESPACE";
+			// }
+			// else
+			// {
+			// 	Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+			// 	asset.objectType = obj == null ? "NULL" : obj.GetType().FullName;	
+			// }
 
 			return asset;
 		}
