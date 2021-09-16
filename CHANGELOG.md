@@ -8,7 +8,7 @@
 
 ### 0.0.3
 - bug fix  
-- initialize helpbox  
+- initialize help box  
 
 ### 0.0.4
 - object context menu  
@@ -16,7 +16,7 @@
 
 ### 0.0.5
 - lock  
-- scrollview  
+- scroll view  
 
 ### 0.0.6
 - explicit search tool (sr4dev)  
@@ -38,3 +38,7 @@
 ### 0.0.11
 - add an option about using UnityEditor.EditorUtility.CollectDependencies.
 - fix an issue that unity editor throws null reference exception with an object has missing script.
+
+### 0.1.0
+- indexing version
+- ui elements integration

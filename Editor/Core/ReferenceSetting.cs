@@ -8,6 +8,8 @@ namespace RV
 {
 	internal sealed class ReferenceSetting : ScriptableObject
 	{
+		public const uint INDEX_VERSION = 100;
+		
 		private static ReferenceSetting instance = default;
 		private const string k_editorCustomSettingsPath = "Assets/Editor Default Resources/Reference Setting.asset";
 
@@ -39,6 +41,7 @@ namespace RV
 		public static bool UseEditorUtilityWhenSearchDependencies {
 			get => GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
 		}
+
 
 		private static ReferenceSetting GetOrCreateSettings()
 		{

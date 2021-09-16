@@ -8,10 +8,39 @@ namespace RV
 {
 	internal class RefData
 	{
+		internal struct Version
+		{
+			// 010000
+			public uint major;
+			// 0100
+			public uint minor;
+			// 01
+			public uint maintenance;
+
+			public Version(uint version)
+			{
+				this.major = version / 10000;
+				this.minor = version % 10000 / 100;
+				this.maintenance = version % 100;
+			}
+
+			public static implicit operator uint(Version version)
+			{
+				return version.major * 10000 + version.minor * 100 + version.maintenance;
+			}
+
+			public static implicit operator Version(uint version)
+			{
+				return new Version(version);
+			}
+		}
+		
 		public string guid;
 		
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
+
+		private Version version;
 
 		public RefData(string guid)
 		{
@@ -38,6 +67,9 @@ namespace RV
 			{
 				w.Write(referedByGuids[i]);
 			}
+
+			// 맨 앞에 인덱싱 해야하는데... 방법을 고민
+			w.Write(version);
 					
 			w.Close();
 		}
@@ -72,6 +104,18 @@ namespace RV
 			for (int i = 0; i < byCount; i++)
 			{
 				asset.referedByGuids.Add(r.ReadString());
+			}
+
+			bool isEndOfStream = r.BaseStream.Position == r.BaseStream.Length;
+			if (isEndOfStream)
+			{
+				// 0.0.x 버전
+				asset.version = 0;
+			}
+			else
+			{
+				// 버전 파싱
+				asset.version = r.ReadUInt32();
 			}
 			
 			r.Close();
@@ -109,6 +153,7 @@ namespace RV
 			}
 			
 			asset.ownGuids = owningGuids;
+			asset.version = ReferenceSetting.INDEX_VERSION;
 
 			return asset;
 		}
