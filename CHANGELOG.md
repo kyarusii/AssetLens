@@ -40,5 +40,6 @@
 - fix an issue that unity editor throws null reference exception with an object has missing script.
 
 ### 0.1.0
-- indexing version
-- ui elements integration
+- change indexing convention to manage version
+- localization
+- setting menu

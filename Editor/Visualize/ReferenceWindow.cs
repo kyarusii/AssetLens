@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace RV
@@ -14,6 +12,8 @@ namespace RV
 		
 		private Object selected = default;
 		private Object previous = default;
+
+		private RefData data = default;
 
 		private Object[] dependencies = Array.Empty<Object>();
 		private Object[] referenced = Array.Empty<Object>();
@@ -120,6 +120,11 @@ namespace RV
 
 				isLocked = EditorGUILayout.Toggle("Lock", isLocked);
 			}
+
+			if (ReferenceSetting.DisplayIndexerVersion && data != null)
+			{
+				EditorGUILayout.LabelField("Indexer Version" , data.version.ToString());
+			}
 		}
 
 		private bool RefreshSelectedTarget()
@@ -156,7 +161,7 @@ namespace RV
 				string path = AssetDatabase.GetAssetPath(selected);
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
-				RefData data = RefData.Get(guid);
+				data = RefData.Get(guid);
 
 				var referedByGuids = data.referedByGuids;
 				referenced = new Object[referedByGuids.Count];

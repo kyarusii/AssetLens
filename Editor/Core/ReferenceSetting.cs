@@ -16,6 +16,7 @@ namespace RV
 		[SerializeField] private bool pauseInPlaymode = true;
 		[SerializeField] private bool traceSceneObject = false;
 		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
+		[SerializeField] private bool displayIndexerVersion = false;
 
 		[SerializeField] private string localization = "English";
 
@@ -41,6 +42,11 @@ namespace RV
 
 		public static bool UseEditorUtilityWhenSearchDependencies {
 			get => GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
+		}
+
+
+		public static bool DisplayIndexerVersion {
+			get => GetOrCreateSettings().displayIndexerVersion;
 		}
 
 		public static Localize LoadLocalization {

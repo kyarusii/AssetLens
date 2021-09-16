@@ -13,6 +13,7 @@ namespace RV
 		private SerializedProperty pauseInPlaymode = default;
 		private SerializedProperty traceSceneObject = default;
 		private SerializedProperty useEditorUtilityWhenSearchDependencies = default;
+		private SerializedProperty displayIndexerVersion = default;
 		private SerializedProperty localization = default;
 
 		private bool unlockDangerZone = false;
@@ -24,6 +25,7 @@ namespace RV
 			pauseInPlaymode = serializedObject.FindProperty(nameof(pauseInPlaymode));
 			traceSceneObject = serializedObject.FindProperty(nameof(traceSceneObject));
 			useEditorUtilityWhenSearchDependencies = serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
+			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
 		}
 
@@ -46,6 +48,7 @@ namespace RV
 
 					EditorGUILayout.PropertyField(pauseInPlaymode, new GUIContent(Localize.Inst.setting_pauseInPlaymode));
 					EditorGUILayout.PropertyField(traceSceneObject, new GUIContent(Localize.Inst.setting_traceSceneObjects));
+					EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
 					EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies, new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
 					EditorGUILayout.EndVertical();
 					
