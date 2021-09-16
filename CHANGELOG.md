@@ -59,3 +59,9 @@
 ### 0.1.1
 
 - fixed an issue that unity editor throws null reference exception with material sub editor drawing unity default resource.
+
+### 0.1.2
+
+- fixed an issue that unity editor throws null reference exception drawing default asset
+- refactored directory
+- try-catch to catch unhandled exception in dev mode 
