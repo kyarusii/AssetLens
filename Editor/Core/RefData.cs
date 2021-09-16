@@ -1,31 +1,88 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace RV
 {
 	internal class RefData
 	{
+		/// <summary>
+		/// from file name
+		/// </summary>
 		public string guid;
 		
+		/// <summary>
+		/// from unity object type
+		/// </summary>
+		public string objectType;
+		
+		/// <summary>
+		/// from unity object name
+		/// </summary>
+		public string objectName;
+
+		/// <summary>
+		/// from asset database path
+		/// </summary>
+		public string objectPath;
+
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
+
+		public Version version { get; protected set; }
+
 
 		public RefData(string guid)
 		{
 			this.guid = guid;
+
+			try
+			{
+				objectPath = AssetDatabase.GUIDToAssetPath(guid);
+				if (string.IsNullOrWhiteSpace(objectPath))
+				{
+					objectType = "INVALID";
+					objectPath = "NO_PATH_DATA";
+					objectName = "NO_PATH_DATA";
+				}
+				else
+				{
+					Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(objectPath);
+				
+					objectType = obj == null ? "NULL" : obj.GetType().FullName;
+					objectName = obj == null ? "NULL" : obj.name;
+				}	
+			}
+			catch (Exception e)
+			{
+#if DEBUG_REFERENCE
+				Debug.LogException(e);
+#endif
+			}
 		}
-		
+
 		public void Save()
 		{
 			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
-			
+
 			BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
+
+			// version for integration
+			version = ReferenceSetting.INDEX_VERSION;
+			
+			w.Write(version);
+			w.Write(objectType);
+			w.Write(objectName);
+			w.Write(objectPath);
+
 			int ownCount = ownGuids.Count;
 			w.Write(ownCount);
-					
+
 			for (int i = 0; i < ownCount; i++)
 			{
 				w.Write(ownGuids[i]);
@@ -33,12 +90,12 @@ namespace RV
 
 			int byCount = referedByGuids.Count;
 			w.Write(byCount);
-					
+
 			for (int i = 0; i < byCount; i++)
 			{
 				w.Write(referedByGuids[i]);
 			}
-					
+
 			w.Close();
 		}
 
@@ -50,30 +107,38 @@ namespace RV
 
 		public static RefData Get(string guid)
 		{
-			RefData asset = new RefData(guid);
 			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			
 			if (!File.Exists(path))
 			{
-				return asset;
+				// 없으면 새로 만듦
+				return New(guid);
 			}
+
+			RefData asset = new RefData(guid);
 
 			asset.ownGuids ??= new List<string>();
 			asset.referedByGuids ??= new List<string>();
 
 			BinaryReader r = new BinaryReader(File.OpenRead(path));
-			
+
+			asset.version = r.ReadUInt32();
+			asset.objectType = r.ReadString();
+			asset.objectName = r.ReadString();
+			asset.objectPath = r.ReadString();
+
 			int ownCount = r.ReadInt32();
 			for (int i = 0; i < ownCount; i++)
 			{
 				asset.ownGuids.Add(r.ReadString());
 			}
-				
+
 			int byCount = r.ReadInt32();
 			for (int i = 0; i < byCount; i++)
 			{
 				asset.referedByGuids.Add(r.ReadString());
 			}
-			
+
 			r.Close();
 
 			return asset;
@@ -82,11 +147,11 @@ namespace RV
 		public static RefData New(string guid)
 		{
 			RefData asset = new RefData(guid);
-			
+
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
 			string assetContent = File.ReadAllText(assetPath);
 
-			var owningGuids = ParseOwnGuids(assetContent);
+			List<string> owningGuids = ParseOwnGuids(assetContent);
 
 			// 보유한 에셋에다 레퍼런스 밀어넣기
 			foreach (string owningGuid in owningGuids)
@@ -107,16 +172,27 @@ namespace RV
 					ownAsset.Save();
 				}
 			}
-			
+
 			asset.ownGuids = owningGuids;
+			asset.version = ReferenceSetting.INDEX_VERSION;
+
+			// if (string.IsNullOrWhiteSpace(assetPath))
+			// {
+			// 	asset.objectType = "WHITESPACE";
+			// }
+			// else
+			// {
+			// 	Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
+			// 	asset.objectType = obj == null ? "NULL" : obj.GetType().FullName;	
+			// }
 
 			return asset;
 		}
 
 		public static List<string> ParseOwnGuids(string assetContent)
 		{
-			var owningGuids = new HashSet<string>();
-			
+			HashSet<string> owningGuids = new HashSet<string>();
+
 			// 정규식으로 보유한 에셋 검색
 			Regex guidRegx = new Regex("guid:\\s?([a-fA-F0-9]+)");
 			MatchCollection matches = guidRegx.Matches(assetContent);
@@ -125,7 +201,7 @@ namespace RV
 				if (match.Success)
 				{
 					owningGuids.Add(match.Groups[1].Value);
-				}	
+				}
 			}
 
 			return owningGuids.ToList();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace RV
@@ -14,26 +15,27 @@ namespace RV
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
-			
-			var assets = AssetDatabase.FindAssets("", new[] { "Assets" })
+
+			IEnumerable<string> assets = AssetDatabase.FindAssets("", new[] { "Assets" })
 				.Select(AssetDatabase.GUIDToAssetPath)
 				.Where(File.Exists);
-			
-			var queue = new Queue<string>(assets);
+
+			Queue<string> queue = new Queue<string>(assets);
 			int allCount = queue.Count;
-			
+
 			string msg = await ReadWork(20);
-			
+
 			Debug.Log(msg);
+			EditorPrefs.SetInt($"{Application.productName}.Reference.Version", (int)ReferenceSetting.INDEX_VERSION);
 
 			async Task<string> ReadWork(int threadCount)
 			{
 				// file-text contents
-				var fileMap = new Dictionary<string, string>(allCount);
+				Dictionary<string, string> fileMap = new Dictionary<string, string>(allCount);
 				// guid-reference guids
-				var guidRefOwnerMap = new Dictionary<string, HashSet<string>>();
-				var guidRefByMap = new Dictionary<string, HashSet<string>>();
-				
+				Dictionary<string, HashSet<string>> guidRefOwnerMap = new Dictionary<string, HashSet<string>>();
+				Dictionary<string, HashSet<string>> guidRefByMap = new Dictionary<string, HashSet<string>>();
+
 				for (int i = 0; i < threadCount; i++)
 				{
 					Indexing();
@@ -41,32 +43,38 @@ namespace RV
 
 				while (fileMap.Keys.Count != allCount)
 				{
-					EditorUtility.DisplayProgressBar("인덱싱...", 
+					EditorUtility.DisplayProgressBar("인덱싱...",
 						$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
-					
+
 					// refresh rate
 					await Task.Delay(10);
 				}
-				
+
 				SetGuidMap();
-				
+
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
+					// RefData data = RefData.New(key);
+					//
+					// data.referedByGuids = guidRefByMap[key].ToList();
+					// dataMap[key] = data;
+					
 					dataMap[key] = new RefData(key)
 					{
 						guid = key,
-						referedByGuids = guidRefByMap[key].ToList(),
+						referedByGuids = guidRefByMap[key].ToList()
 					};
 				}
 
 				foreach (string key in guidRefOwnerMap.Keys)
 				{
-					if (!dataMap.TryGetValue(key, out var asset))
+					if (!dataMap.TryGetValue(key, out RefData asset))
 					{
+						// asset = RefData.New(key);
 						asset = new RefData(key)
 						{
-							guid = key,
+							guid = key
 						};
 					}
 
@@ -83,7 +91,7 @@ namespace RV
 
 				stopwatch.Stop();
 				EditorUtility.ClearProgressBar();
-				
+
 				async void Indexing()
 				{
 					while (queue.Count > 0)
@@ -92,13 +100,13 @@ namespace RV
 						StreamReader reader = new StreamReader(File.OpenRead(path));
 						string value = await reader.ReadToEndAsync();
 						reader.Close();
-						
+
 						fileMap[path] = value;
 
 						// 가지고있는 레퍼런스 저장
 						string guid = AssetDatabase.AssetPathToGUID(path);
 
-						var owningGuids = RefData.ParseOwnGuids(value);
+						List<string> owningGuids = RefData.ParseOwnGuids(value);
 						guidRefOwnerMap[guid] = new HashSet<string>(owningGuids);
 					}
 				}
@@ -107,13 +115,13 @@ namespace RV
 				{
 					int guidCount = guidRefOwnerMap.Count;
 					int currentCount = 0;
-					
+
 					foreach (string guidOwner in guidRefOwnerMap.Keys)
 					{
-						var referenceGuids = guidRefOwnerMap[guidOwner];
+						HashSet<string> referenceGuids = guidRefOwnerMap[guidOwner];
 						foreach (string referedGuid in referenceGuids)
 						{
-							if (!guidRefByMap.TryGetValue(referedGuid, out var hashSet))
+							if (!guidRefByMap.TryGetValue(referedGuid, out HashSet<string> hashSet))
 							{
 								hashSet = new HashSet<string>();
 							}
@@ -123,14 +131,27 @@ namespace RV
 						}
 
 						currentCount++;
-						
-						EditorUtility.DisplayProgressBar("CreateGuidMap...", 
+
+						EditorUtility.DisplayProgressBar("CreateGuidMap...",
 							$"({currentCount}/{guidCount})", currentCount / (float)guidCount);
 					}
 				}
 
-				return ($"{allCount} files in Assets ({stopwatch.ElapsedMilliseconds * 0.001f:N1}s)");
+				return $"{allCount} files in Assets ({stopwatch.ElapsedMilliseconds * 0.001f:N1}s)";
 			}
+		}
+
+		public static async Task<int> CleanUpAssets()
+		{
+			await Task.Delay(10);
+
+			string[] cacheFiles = Directory.GetFiles(FileSystem.CacheDirectory, "*.ref");
+			foreach (string cacheFile in cacheFiles)
+			{
+				File.Delete(cacheFile);
+			}
+
+			return cacheFiles.Length;
 		}
 	}
 }

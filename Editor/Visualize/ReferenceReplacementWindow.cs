@@ -2,8 +2,5 @@
 
 namespace RV
 {
-	internal class ReferenceReplacementWindow : EditorWindow
-	{
-		
-	}
+	internal class ReferenceReplacementWindow : EditorWindow { }
 }

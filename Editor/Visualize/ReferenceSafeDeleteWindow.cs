@@ -2,8 +2,5 @@
 
 namespace RV
 {
-	internal class ReferenceSafeDeleteWindow : EditorWindow
-	{
-		
-	}
+	internal class ReferenceSafeDeleteWindow : EditorWindow { }
 }
