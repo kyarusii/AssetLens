@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace RV
@@ -51,6 +52,11 @@ namespace RV
 		{
 			if (target == null) return false;
 			return !string.IsNullOrWhiteSpace(target.scene.name);
+		}
+
+		public static bool IsPersistent(this UnityEngine.Object target)
+		{
+			return !EditorUtility.IsPersistent(target);
 		}
 	}
 }

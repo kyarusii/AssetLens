@@ -8,7 +8,7 @@ This plugin generate both dependency map of the asset and which asset is referen
 ```json
 {
     "dependencies": {
-        "kr.seonghwan.reference": "0.0.10"
+        "kr.seonghwan.reference": "0.0.11"
     }
 }
 ```

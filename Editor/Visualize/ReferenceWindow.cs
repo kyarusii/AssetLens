@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace RV
@@ -14,13 +16,22 @@ namespace RV
 		private Object[] dependencies = Array.Empty<Object>();
 		private Object[] referenced = Array.Empty<Object>();
 
+		private string[] dependencyPaths = Array.Empty<string>();
+		private string[] dependencyGuids = Array.Empty<string>();
+
 		private Vector2 dependencyScrollPos = default;
 		private Vector2 referenceScrollPos = default;
 
 		private bool isLocked = false;
+		public static bool isDirty = false;
+
+		// private bool useUIElement = true;
 
 		private void OnGUI()
 		{
+			// if (useUIElement) return;
+			// useUIElement = EditorGUILayout.Toggle("Use UI Elements", useUIElement);
+			
 			if (!ReferenceSetting.IsEnabled)
 			{
 				EditorGUILayout.HelpBox("Reference is not initialized!", MessageType.Error);
@@ -69,14 +80,12 @@ namespace RV
 				selected = current;
 			}
 			
-			if (!ReferenceEquals(previous, selected))
+			if (!ReferenceEquals(previous, selected) || isDirty)
 			{
 				if (selected)
 				{
 					Object[] target = new[] { selected };
 				
-					dependencies = EditorUtility.CollectDependencies(target);
-
 					string path = AssetDatabase.GetAssetPath(selected);
 					string guid = AssetDatabase.AssetPathToGUID(path);
 					
@@ -91,12 +100,34 @@ namespace RV
 						string referedPath = AssetDatabase.GUIDToAssetPath(referedByGuid);
 						referenced[i] = AssetDatabase.LoadAssetAtPath<Object>(referedPath);
 					}
+					
+					if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+					{
+						dependencies = EditorUtility.CollectDependencies(target);
+					}
+					else
+					{
+						int count = data.ownGuids.Count;
+						
+						dependencies = new Object[count];
+						dependencyGuids = new string[count];
+						dependencyPaths = new string[count];
+
+						for (int i = 0; i < count; i++)
+						{
+							dependencyGuids[i] = data.ownGuids[i];
+							dependencyPaths[i] = AssetDatabase.GUIDToAssetPath(dependencyGuids[i]);
+							dependencies[i] = AssetDatabase.LoadAssetAtPath<Object>(dependencyPaths[i]);
+						}
+					}
 				}
 				else
 				{
 					dependencies = Array.Empty<Object>();
 					referenced = Array.Empty<Object>();
 				}
+
+				isDirty = false;
 			}
 
 			EditorGUILayout.Space(4);
@@ -116,12 +147,50 @@ namespace RV
 					EditorGUILayout.BeginVertical();
 					dependencyScrollPos = EditorGUILayout.BeginScrollView(dependencyScrollPos,  GUILayout.Height(160));
 				}
-				
-				foreach (Object dependency in dependencies)
+
+				bool drawedHelpBox = false;
+				for (int i = 0; i < dependencies.Length; i++)
 				{
-					EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
+					Object dependency = dependencies[i];
+					if (dependency == null)
+					{
+						if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+						{
+							// cannot trace what was that
+							if (!drawedHelpBox)
+							{
+								EditorGUILayout.HelpBox(
+									"Missing object cannot be tracked in EditorUtility dependency mode.\nTurn off EditorUtilityOnSearch option in ProjectSetting/Reference",
+									MessageType.Info);
+								
+								drawedHelpBox = true;
+							}
+							
+							EditorGUILayout.LabelField("Missing Object");
+						}
+						else
+						{
+							var guid = dependencyGuids[i];
+							var path = dependencyPaths[i];
+
+							if (string.IsNullOrWhiteSpace(path))
+							{
+								EditorGUILayout.LabelField($"guid",guid);
+							}
+							else
+							{
+								EditorGUILayout.LabelField($"Missing Object",path);
+							}
+							
+						}
+					}
+					else
+					{
+						EditorGUILayout.ObjectField(dependency, dependency.GetType(), true,
+							Array.Empty<GUILayoutOption>());
+					}
 				}
-				
+
 				if (dependencies.Length > 8)
 				{
 					EditorGUILayout.EndScrollView();
@@ -157,7 +226,6 @@ namespace RV
 					EditorGUILayout.EndVertical();
 				}
 
-
 				EditorGUI.indentLevel--;
 			}
 			
@@ -167,6 +235,40 @@ namespace RV
 		private void OnInspectorUpdate()
 		{
 			Repaint();
+		}
+
+		private void OnEnable()
+		{
+			// if (!useUIElement) return;
+			//
+			// VisualElement root = rootVisualElement;
+			//
+			// Toggle useUIElementsToggle = new Toggle("Use UI Elements");
+			//
+			// useUIElementsToggle.RegisterValueChangedCallback((evt =>
+			// {
+			// 	useUIElement = evt.newValue;
+			// }));
+			//
+			// root.Add(useUIElementsToggle);
+			//
+			// Toggle lockToggle = new Toggle("Lock");
+			// lockToggle.RegisterValueChangedCallback(evt =>
+			// {
+			// 	isLocked = evt.newValue;
+			// });
+			//
+			// root.Add(lockToggle);
+			//
+			// ObjectField selectedObject = new ObjectField("Selected");
+			// root.Add(selectedObject);
+
+
+			// var myButton = new Button() { text = "New Button" };
+			// myButton.style.width = 160;
+			// myButton.style.height = 60;
+			//
+			// root.Add(myButton);
 		}
 	}
 }

@@ -32,7 +32,16 @@ namespace RV
 				RefData refData = RefData.Get(guid);
 
 				var usedBy = refData.referedByGuids;
-				GUILayout.Label($"{usedBy.Count} assets are using this asset.");
+				
+				Rect totalRect = EditorGUILayout.GetControlRect();
+				Rect controlRect = EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent($"{usedBy.Count} usage"));
+
+				// if (EditorGUI.LinkButton(controlRect, guid))
+				// {
+					// Debug.Log("Copied");
+				// }
+				
+				EditorGUI.SelectableLabel(controlRect, guid);
 			}
 		}
 	}

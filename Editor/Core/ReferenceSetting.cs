@@ -12,8 +12,9 @@ namespace RV
 		private const string k_editorCustomSettingsPath = "Assets/Editor Default Resources/Reference Setting.asset";
 
 		[SerializeField] private bool enabled = false;
-		[SerializeField] public bool pauseInPlaymode = true;
-		[SerializeField] public bool traceSceneObject = false;
+		[SerializeField] private bool pauseInPlaymode = true;
+		[SerializeField] private bool traceSceneObject = false;
+		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
 
 		public static bool IsEnabled {
 			get
@@ -33,6 +34,10 @@ namespace RV
 		
 		public static bool TraceSceneObject {
 			get => GetOrCreateSettings().traceSceneObject;
+		}
+
+		public static bool UseEditorUtilityWhenSearchDependencies {
+			get => GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
 		}
 
 		private static ReferenceSetting GetOrCreateSettings()

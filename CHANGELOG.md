@@ -34,3 +34,7 @@
 ### 0.0.10
 - add an option whether to collect dependencies in playmode or not.
 - add an option whether to collect scene object or not.
+
+### 0.0.11
+- add an option about using UnityEditor.EditorUtility.CollectDependencies.
+- fix an issue that unity editor throws null reference exception with an object has missing script.
