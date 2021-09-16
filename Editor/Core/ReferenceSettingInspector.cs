@@ -5,13 +5,6 @@ namespace RV
 	[CustomEditor(typeof(ReferenceSetting))]
 	internal sealed class ReferenceSettingInspector : Editor
 	{
-		/*
-		[SerializeField] private bool enabled = false;
-		[SerializeField] private bool pauseInPlaymode = true;
-		[SerializeField] private bool traceSceneObject = false;
-		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
-		 */
-		
 		private SerializedProperty enabled = default;
 		private SerializedProperty pauseInPlaymode = default;
 		private SerializedProperty traceSceneObject = default;
@@ -30,13 +23,18 @@ namespace RV
 			EditorGUI.BeginChangeCheck();
 			
 			EditorGUILayout.PropertyField(enabled);
-			EditorGUI.indentLevel++;
+			
+			EditorGUI.BeginDisabledGroup(!enabled.boolValue);
 			{
-				EditorGUILayout.PropertyField(pauseInPlaymode);
-				EditorGUILayout.PropertyField(traceSceneObject);
-				EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies);
+				EditorGUI.indentLevel++;
+				{
+					EditorGUILayout.PropertyField(pauseInPlaymode);
+					EditorGUILayout.PropertyField(traceSceneObject);
+					EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies);
+				}
+				EditorGUI.indentLevel--;
 			}
-			EditorGUI.indentLevel--;
+			EditorGUI.EndDisabledGroup();
 
 			if (EditorGUI.EndChangeCheck())
 			{

@@ -10,6 +10,8 @@ namespace RV
 {
 	public sealed class ReferenceWindow : EditorWindow
 	{
+		public static bool isDirty = false;
+		
 		private Object selected = default;
 		private Object previous = default;
 
@@ -23,15 +25,28 @@ namespace RV
 		private Vector2 referenceScrollPos = default;
 
 		private bool isLocked = false;
-		public static bool isDirty = false;
-
-		// private bool useUIElement = true;
 
 		private void OnGUI()
 		{
-			// if (useUIElement) return;
-			// useUIElement = EditorGUILayout.Toggle("Use UI Elements", useUIElement);
-			
+			if (!ValidateEnabled()) return;
+			if (!ValidateAllowInPlaymode()) return;
+
+			DrawHeaderIMGUI();
+
+			if (!RefreshSelectedTarget()) return;
+
+			if (NeedCollectData())
+			{
+				CollectData();
+			}
+
+			DrawIMGUI();
+
+			previous = selected;
+		}
+
+		private bool ValidateEnabled()
+		{
 			if (!ReferenceSetting.IsEnabled)
 			{
 				EditorGUILayout.HelpBox("Reference is not initialized!", MessageType.Error);
@@ -41,111 +56,165 @@ namespace RV
 				{
 					if (!EditorUtility.DisplayDialog("주의", "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?", "계속", "취소"))
 					{
-						return;
+						return false;
 					}
 
 					Task indexAssets = ReferenceCache.IndexAssets();
 					ReferenceSetting.IsEnabled = true;
 				}
 
-				return;
+				return false;
 			}
 
+			return true;
+		}
+
+		private bool ValidateAllowInPlaymode()
+		{
 			if (Application.isPlaying && ReferenceSetting.PauseInPlaymode)
 			{
 				EditorGUILayout.HelpBox("Disabled in Playmode.", MessageType.Info);
-				
-				return;
+
+				return false;
 			}
 
+			return true;
+		}
+
+		private void DrawHeaderIMGUI()
+		{
 			using (new EditorGUILayout.HorizontalScope())
 			{
+				if (GUILayout.Button("Select by guid in clipboard"))
+				{
+					string buffer = EditorGUIUtility.systemCopyBuffer;
+					
+					if (ReferenceUtil.IsGuid(buffer))
+					{
+						string path = AssetDatabase.GUIDToAssetPath(buffer);
+
+						if (string.IsNullOrWhiteSpace(path))
+						{
+							Debug.Log($"Cannot find an asset from guid:{buffer}");
+						}
+						else
+						{
+							var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
+							if (obj == null)
+							{
+								Debug.Log($"Cannot find an asset from guid:{buffer}, path:{path}");
+							}
+							else
+							{
+								Selection.objects = new[] { obj };
+							}
+						}
+					}
+					else
+					{
+						Debug.Log($"{buffer} is not guid!");
+					}
+				}
+
 				GUILayout.FlexibleSpace();
 
 				isLocked = EditorGUILayout.Toggle("Lock", isLocked);
 			}
+		}
 
+		private bool RefreshSelectedTarget()
+		{
 			if (!isLocked)
 			{
-				Object current  = Selection.activeObject;
+				Object current = Selection.activeObject;
 				if (!ReferenceSetting.TraceSceneObject && current is GameObject go)
 				{
 					if (go.IsSceneObject())
 					{
 						EditorGUILayout.HelpBox("Disabled on Scene Object.", MessageType.Info);
-						return;
-					}					
+						return false;
+					}
 				}
 
 				selected = current;
 			}
-			
-			if (!ReferenceEquals(previous, selected) || isDirty)
+
+			return true;
+		}
+
+		private bool NeedCollectData()
+		{
+			return !ReferenceEquals(previous, selected) || isDirty;
+		}
+
+		private void CollectData()
+		{
+			if (selected)
 			{
-				if (selected)
+				Object[] target = new[] { selected };
+
+				string path = AssetDatabase.GetAssetPath(selected);
+				string guid = AssetDatabase.AssetPathToGUID(path);
+
+				RefData data = RefData.Get(guid);
+
+				var referedByGuids = data.referedByGuids;
+				referenced = new Object[referedByGuids.Count];
+
+				for (int i = 0; i < referedByGuids.Count; i++)
 				{
-					Object[] target = new[] { selected };
-				
-					string path = AssetDatabase.GetAssetPath(selected);
-					string guid = AssetDatabase.AssetPathToGUID(path);
-					
-					RefData data = RefData.Get(guid);
-					
-					var referedByGuids = data.referedByGuids;
-					referenced = new Object[referedByGuids.Count];
+					string referedByGuid = referedByGuids[i];
+					string referedPath = AssetDatabase.GUIDToAssetPath(referedByGuid);
+					referenced[i] = AssetDatabase.LoadAssetAtPath<Object>(referedPath);
+				}
 
-					for (int i = 0; i < referedByGuids.Count; i++)
-					{
-						string referedByGuid = referedByGuids[i];
-						string referedPath = AssetDatabase.GUIDToAssetPath(referedByGuid);
-						referenced[i] = AssetDatabase.LoadAssetAtPath<Object>(referedPath);
-					}
-					
-					if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
-					{
-						dependencies = EditorUtility.CollectDependencies(target);
-					}
-					else
-					{
-						int count = data.ownGuids.Count;
-						
-						dependencies = new Object[count];
-						dependencyGuids = new string[count];
-						dependencyPaths = new string[count];
-
-						for (int i = 0; i < count; i++)
-						{
-							dependencyGuids[i] = data.ownGuids[i];
-							dependencyPaths[i] = AssetDatabase.GUIDToAssetPath(dependencyGuids[i]);
-							dependencies[i] = AssetDatabase.LoadAssetAtPath<Object>(dependencyPaths[i]);
-						}
-					}
+				if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+				{
+					dependencies = EditorUtility.CollectDependencies(target);
 				}
 				else
 				{
-					dependencies = Array.Empty<Object>();
-					referenced = Array.Empty<Object>();
-				}
+					int count = data.ownGuids.Count;
 
-				isDirty = false;
+					dependencies = new Object[count];
+					dependencyGuids = new string[count];
+					dependencyPaths = new string[count];
+
+					for (int i = 0; i < count; i++)
+					{
+						dependencyGuids[i] = data.ownGuids[i];
+						dependencyPaths[i] = AssetDatabase.GUIDToAssetPath(dependencyGuids[i]);
+						dependencies[i] = AssetDatabase.LoadAssetAtPath<Object>(dependencyPaths[i]);
+					}
+				}
+			}
+			else
+			{
+				dependencies = Array.Empty<Object>();
+				referenced = Array.Empty<Object>();
 			}
 
+			isDirty = false;
+		}
+
+		private void DrawIMGUI()
+		{
 			EditorGUILayout.Space(4);
-			
+
 			EditorGUILayout.ObjectField($"Selected", selected, typeof(Object), true, Array.Empty<GUILayoutOption>());
 			EditorGUILayout.Space(5);
-			
+
 			if (dependencies.Length > 0)
 			{
 				EditorGUILayout.LabelField($"Dependencies : {dependencies.Length}", EditorStyles.boldLabel);
 				EditorGUILayout.Space(2);
-				
+
 				EditorGUI.indentLevel++;
-				
+
 				if (dependencies.Length > 8)
 				{
 					EditorGUILayout.BeginVertical();
-					dependencyScrollPos = EditorGUILayout.BeginScrollView(dependencyScrollPos,  GUILayout.Height(160));
+					dependencyScrollPos = EditorGUILayout.BeginScrollView(dependencyScrollPos, GUILayout.Height(160));
 				}
 
 				bool drawedHelpBox = false;
@@ -162,10 +231,10 @@ namespace RV
 								EditorGUILayout.HelpBox(
 									"Missing object cannot be tracked in EditorUtility dependency mode.\nTurn off EditorUtilityOnSearch option in ProjectSetting/Reference",
 									MessageType.Info);
-								
+
 								drawedHelpBox = true;
 							}
-							
+
 							EditorGUILayout.LabelField("Missing Object");
 						}
 						else
@@ -175,13 +244,19 @@ namespace RV
 
 							if (string.IsNullOrWhiteSpace(path))
 							{
-								EditorGUILayout.LabelField($"guid",guid);
+								EditorGUILayout.LabelField($"guid", guid);
 							}
 							else
 							{
-								EditorGUILayout.LabelField($"Missing Object",path);
+								if (string.CompareOrdinal(path, "Library/unity default resources") == 0)
+								{
+									EditorGUILayout.LabelField($"Built-in Resources", path);
+								}
+								else
+								{
+									EditorGUILayout.LabelField("Missing Object", path);
+								}
 							}
-							
 						}
 					}
 					else
@@ -206,20 +281,20 @@ namespace RV
 			{
 				EditorGUILayout.LabelField($"Referenced By : {referenced.Length}", EditorStyles.boldLabel);
 				EditorGUILayout.Space(2);
-				
+
 				EditorGUI.indentLevel++;
-				
+
 				if (referenced.Length > 8)
 				{
 					EditorGUILayout.BeginVertical();
-					referenceScrollPos = EditorGUILayout.BeginScrollView(referenceScrollPos,  GUILayout.Height(160));
+					referenceScrollPos = EditorGUILayout.BeginScrollView(referenceScrollPos, GUILayout.Height(160));
 				}
-				
+
 				foreach (Object dependency in referenced)
 				{
 					EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
 				}
-				
+
 				if (referenced.Length > 8)
 				{
 					EditorGUILayout.EndScrollView();
@@ -228,8 +303,6 @@ namespace RV
 
 				EditorGUI.indentLevel--;
 			}
-			
-			previous = selected;
 		}
 
 		private void OnInspectorUpdate()
