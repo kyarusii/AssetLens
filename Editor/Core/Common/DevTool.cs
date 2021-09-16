@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
+﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace RV
 {
@@ -16,31 +13,31 @@ namespace RV
 			Localize ctx = new Localize();
 			
 			string json = JsonUtility.ToJson(ctx, true);
-			File.WriteAllText(Path.GetFullPath($"Packages/kr.seonghwan.reference/Languages/newLanguage.json"), json);
+			string selectedPath = EditorUtility.SaveFilePanel("Create Localization", FileSystem.PackageDirectory + "/Languages",
+				"NewLanguage.json",
+				"json");
+
+			if (!string.IsNullOrWhiteSpace(selectedPath))
+			{
+				File.WriteAllText(selectedPath, json);
+			}
 		}
 
+		/// <summary>
+		/// Localize 클래스의 필드에 따라 값이 없는 데이터만 밀어 넣어줍니다.
+		/// </summary>
 		[MenuItem(Constants.TOOL + "DEV/Update LocalizeContext")]
 		private static void UpdateLocalizeContext()
 		{
-			Type tLocal = typeof(Localize);
-			
-			Assert.IsNotNull(tLocal);
-
-			var fields = tLocal.GetFields();
-			foreach (FieldInfo field in fields)
-			{
-				Debug.Log(field.Name);
-			}
-
-			var languagesRoot = FileSystem.PackageDirectory + "/Languages";
-			var files = Directory.GetFiles(languagesRoot, "*.json");
+			string languagesRoot = FileSystem.PackageDirectory + "/Languages";
+			string[] files = Directory.GetFiles(languagesRoot, "*.json");
 
 			foreach (string file in files)
 			{
 				string json = File.ReadAllText(file);
 				Localize obj = JsonUtility.FromJson<Localize>(json);
 				
-				json = JsonUtility.ToJson(json, true);
+				json = JsonUtility.ToJson(obj, true);
 				
 				File.WriteAllText(file, json);
 			}

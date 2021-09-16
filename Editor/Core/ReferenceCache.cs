@@ -132,5 +132,18 @@ namespace RV
 				return ($"{allCount} files in Assets ({stopwatch.ElapsedMilliseconds * 0.001f:N1}s)");
 			}
 		}
+
+		public static async Task<int> CleanUpAssets()
+		{
+			await Task.Delay(2000);
+
+			string[] cacheFiles = Directory.GetFiles(FileSystem.CacheDirectory, "*.ref");
+			foreach (string cacheFile in cacheFiles)
+			{
+				File.Delete(cacheFile);
+			}
+
+			return cacheFiles.Length;
+		}
 	}
 }

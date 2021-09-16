@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -48,7 +47,7 @@ namespace RV
 			get
 			{
 				string locale = GetOrCreateSettings().localization;
-				string fullPath = Path.GetFullPath($"Packages/kr.seonghwan.reference/Languages/{locale}.json");
+				string fullPath = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages/{locale}.json");
 
 				var json = File.ReadAllText(fullPath);
 				return JsonUtility.FromJson<Localize>(json);
@@ -62,7 +61,6 @@ namespace RV
 				EditorUtility.SetDirty(GetOrCreateSettings());
 			}
 		}
-
 
 		private static ReferenceSetting GetOrCreateSettings()
 		{

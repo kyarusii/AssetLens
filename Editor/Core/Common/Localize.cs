@@ -34,5 +34,10 @@ namespace RV
 		public string setting_traceSceneObjects = nameof(setting_traceSceneObjects);
 		public string setting_useEditorUtilityWhenSearchDependencies = nameof(setting_useEditorUtilityWhenSearchDependencies);
 		public string setting_language = nameof(setting_language);
+		public string setting_workflow = nameof(setting_workflow);
+		public string setting_miscellaneous = nameof(setting_miscellaneous);
+		public string setting_unlockDangerzone = nameof(setting_unlockDangerzone);
+		public string setting_dangerzone = nameof(setting_dangerzone);
+		public string setting_cleanUpCache = nameof(setting_cleanUpCache);
 	}
 }
