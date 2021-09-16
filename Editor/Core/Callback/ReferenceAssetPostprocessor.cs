@@ -25,33 +25,86 @@ namespace RV
 				return;
 			}
 
+
 			try
 			{
 				foreach (string asset in importedAssets)
 				{
-					OnAssetImport(asset);
+#if DEBUG_REFERENCE
+					try
+					{
+#endif
+						OnAssetImport(asset);
+
+#if DEBUG_REFERENCE
+					}
+					catch (Exception e)
+					{
+						Debug.LogError(asset);
+						Debug.LogException(e);
+					}
+#endif
 				}
 
 				foreach (string asset in deletedAssets)
 				{
-					OnAssetDelete(asset);
+#if DEBUG_REFERENCE
+					try
+					{
+#endif
+						OnAssetDelete(asset);
+
+#if DEBUG_REFERENCE
+					}
+					catch (Exception e)
+					{
+						Debug.LogError(asset);
+						Debug.LogException(e);
+					}
+#endif
 				}
 
 				foreach (string asset in movedAssets)
 				{
-					// 에셋 이동은 guid 변경과 큰 관계가 없음
-					OnAssetMoved(asset);
+#if DEBUG_REFERENCE
+					try
+					{
+#endif
+						// 에셋 이동은 guid 변경과 큰 관계가 없음
+						OnAssetMoved(asset);
+#if DEBUG_REFERENCE
+					}
+					catch (Exception e)
+					{
+						Debug.LogError(asset);
+						Debug.LogException(e);
+					}
+#endif
 				}
 
 				foreach (string asset in movedFromAssetPaths)
 				{
-					// 에셋 이동은 guid 변경과 큰 관계가 없음
-					OnAssetMoved(asset);
+#if DEBUG_REFERENCE
+					try
+					{
+#endif
+						// 에셋 이동은 guid 변경과 큰 관계가 없음
+						OnAssetMoved(asset);
+#if DEBUG_REFERENCE
+					}
+					catch (Exception e)
+					{
+						Debug.LogError(asset);
+						Debug.LogException(e);
+					}
+#endif
 				}
 			}
 			catch (Exception e)
 			{
+#if DEBUG_REFERENCE
 				Debug.LogException(e);
+#endif
 			}
 		}
 
