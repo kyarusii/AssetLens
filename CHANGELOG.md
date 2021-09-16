@@ -65,3 +65,7 @@
 - fixed an issue that unity editor throws null reference exception drawing default asset
 - refactored directory
 - try-catch to catch unhandled exception in dev mode 
+
+### 0.1.3
+
+- fixed an issue that cache directory exception in library folder
