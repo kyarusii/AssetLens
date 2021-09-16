@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace RV
 		/// <param name="pattern">patterns (*.prefab)</param>
 		/// <param name="guid">target guid to search</param>
 		/// <returns></returns>
-		public static IEnumerable<string> ExplicitSearchGuid(string root, string pattern, string guid)
+		internal static IEnumerable<string> ExplicitSearchGuid(string root, string pattern, string guid)
 		{
 			return Directory.EnumerateFiles(root, pattern, SearchOption.AllDirectories)
 				.AsParallel()
@@ -43,12 +42,12 @@ namespace RV
 		/// </summary>
 		/// <param name="guid"></param>
 		/// <returns></returns>
-		public static IEnumerable<string> ExplicitSearchInPrefab(string guid)
+		internal static IEnumerable<string> ExplicitSearchInPrefab(string guid)
 		{
 			return ExplicitSearchGuid(Application.dataPath, "*.prefab", guid);
 		}
 
-		public static bool IsSceneObject(this GameObject target)
+		internal static bool IsSceneObject(this GameObject target)
 		{
 			if (target == null)
 			{
@@ -58,12 +57,12 @@ namespace RV
 			return !string.IsNullOrWhiteSpace(target.scene.name);
 		}
 
-		public static bool IsPersistent(this UnityEngine.Object target)
+		internal static bool IsPersistent(this UnityEngine.Object target)
 		{
 			return !EditorUtility.IsPersistent(target);
 		}
 
-		public static bool IsGuid(string text)
+		internal static bool IsGuid(string text)
 		{
 			for (int i = 0; i < text.Length; i++)
 			{

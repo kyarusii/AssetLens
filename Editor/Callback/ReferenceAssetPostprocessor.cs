@@ -20,11 +20,10 @@ namespace RV
 				return;
 			}
 
-			if (EditorApplication.timeSinceStartup < 30)
+			if (EditorApplication.timeSinceStartup < 60)
 			{
 				return;
 			}
-
 
 			try
 			{
