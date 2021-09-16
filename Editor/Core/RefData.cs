@@ -9,7 +9,7 @@ namespace RV
 	internal class RefData
 	{
 		public string guid;
-		
+
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
 
@@ -20,20 +20,20 @@ namespace RV
 		{
 			this.guid = guid;
 		}
-		
+
 		public void Save()
 		{
 			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
-			
+
 			BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
-			
+
 			// version for integration
 			version = ReferenceSetting.INDEX_VERSION;
 			w.Write(version);
-			
+
 			int ownCount = ownGuids.Count;
 			w.Write(ownCount);
-					
+
 			for (int i = 0; i < ownCount; i++)
 			{
 				w.Write(ownGuids[i]);
@@ -41,12 +41,12 @@ namespace RV
 
 			int byCount = referedByGuids.Count;
 			w.Write(byCount);
-					
+
 			for (int i = 0; i < byCount; i++)
 			{
 				w.Write(referedByGuids[i]);
 			}
-					
+
 			w.Close();
 		}
 
@@ -69,21 +69,21 @@ namespace RV
 			asset.referedByGuids ??= new List<string>();
 
 			BinaryReader r = new BinaryReader(File.OpenRead(path));
-			
+
 			asset.version = r.ReadUInt32();
-			
+
 			int ownCount = r.ReadInt32();
 			for (int i = 0; i < ownCount; i++)
 			{
 				asset.ownGuids.Add(r.ReadString());
 			}
-				
+
 			int byCount = r.ReadInt32();
 			for (int i = 0; i < byCount; i++)
 			{
 				asset.referedByGuids.Add(r.ReadString());
 			}
-			
+
 			r.Close();
 
 			return asset;
@@ -92,11 +92,11 @@ namespace RV
 		public static RefData New(string guid)
 		{
 			RefData asset = new RefData(guid);
-			
+
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
 			string assetContent = File.ReadAllText(assetPath);
 
-			var owningGuids = ParseOwnGuids(assetContent);
+			List<string> owningGuids = ParseOwnGuids(assetContent);
 
 			// 보유한 에셋에다 레퍼런스 밀어넣기
 			foreach (string owningGuid in owningGuids)
@@ -117,7 +117,7 @@ namespace RV
 					ownAsset.Save();
 				}
 			}
-			
+
 			asset.ownGuids = owningGuids;
 			asset.version = ReferenceSetting.INDEX_VERSION;
 
@@ -126,8 +126,8 @@ namespace RV
 
 		public static List<string> ParseOwnGuids(string assetContent)
 		{
-			var owningGuids = new HashSet<string>();
-			
+			HashSet<string> owningGuids = new HashSet<string>();
+
 			// 정규식으로 보유한 에셋 검색
 			Regex guidRegx = new Regex("guid:\\s?([a-fA-F0-9]+)");
 			MatchCollection matches = guidRegx.Matches(assetContent);
@@ -136,7 +136,7 @@ namespace RV
 				if (match.Success)
 				{
 					owningGuids.Add(match.Groups[1].Value);
-				}	
+				}
 			}
 
 			return owningGuids.ToList();

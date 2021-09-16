@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace RV
@@ -13,8 +14,11 @@ namespace RV
 
 		private static void EditorOnfinishedDefaultHeaderGUI(Editor editor)
 		{
-			if (!ReferenceSetting.IsEnabled) return;
-			
+			if (!ReferenceSetting.IsEnabled)
+			{
+				return;
+			}
+
 			if (editor.targets.Length == 1)
 			{
 				Object target = editor.target;
@@ -28,19 +32,20 @@ namespace RV
 
 				string path = AssetDatabase.GetAssetPath(target);
 				string guid = AssetDatabase.AssetPathToGUID(path);
-				
+
 				RefData refData = RefData.Get(guid);
 
-				var usedBy = refData.referedByGuids;
-				
+				List<string> usedBy = refData.referedByGuids;
+
 				Rect totalRect = EditorGUILayout.GetControlRect();
-				Rect controlRect = EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent($"{usedBy.Count} usage"));
+				Rect controlRect =
+					EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent($"{usedBy.Count} usage"));
 
 				// if (EditorGUI.LinkButton(controlRect, guid))
 				// {
-					// Debug.Log("Copied");
+				// Debug.Log("Copied");
 				// }
-				
+
 				EditorGUI.SelectableLabel(controlRect, guid);
 			}
 		}

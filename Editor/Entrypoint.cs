@@ -1,31 +1,53 @@
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace RV
 {
-    internal static class Entrypoint
-    {
-        [InitializeOnLoadMethod]
-        private static async void InitializeOnLoadMethod()
-        {
-            DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.CacheDirectory);
-            if (!rootDirectory.Exists)
-            {
-                rootDirectory.Create();
+	internal static class Entrypoint
+	{
+		[InitializeOnLoadMethod]
+		private static async void InitializeOnLoadMethod()
+		{
+			int version = EditorPrefs.GetInt($"{Application.productName}.Reference.Version", 0);
+			if (version < 100)
+			{
+				const string title = "Reference";
+				if (EditorUtility.DisplayDialog(title,
+					Localize.Inst.dialog_indexedAssetExpired,
+					Localize.Inst.dialog_enablePlugin,
+					Localize.Inst.dialog_disablePlugin))
+				{
+					await ReferenceCache.CleanUpAssets();
+					await ReferenceCache.IndexAssets();
+					ReferenceSetting.IsEnabled = true;
+				}
+				else
+				{
+					ReferenceSetting.IsEnabled = false;
+				}
+			}
 
-                const string title = "Reference";
-                const string content = "인덱싱 데이터가 없습니다. 생성할까요?";
-                
-                if (EditorUtility.DisplayDialog(title, content, "생성", "스킵"))
-                {
-                    await ReferenceCache.IndexAssets();
-                    ReferenceSetting.IsEnabled = true;
-                }
-                else
-                {
-                    ReferenceSetting.IsEnabled = false;
-                }
-            }
-        }
-    }
+			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.CacheDirectory);
+			if (!rootDirectory.Exists)
+			{ 
+				rootDirectory.Create();
+
+				const string title = "Reference";
+
+				if (EditorUtility.DisplayDialog(title,
+					Localize.Inst.dialog_noIndexedData,
+					Localize.Inst.dialog_enablePlugin,
+					Localize.Inst.dialog_disablePlugin))
+				{
+					await ReferenceCache.IndexAssets();
+					ReferenceSetting.IsEnabled = true;
+				}
+				else
+				{
+					ReferenceSetting.IsEnabled = false;
+				}
+			}
+		}
+	}
 }

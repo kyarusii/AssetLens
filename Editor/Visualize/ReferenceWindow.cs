@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace RV
 	public sealed class ReferenceWindow : EditorWindow
 	{
 		public static bool isDirty = false;
-		
+
 		private Object selected = default;
 		private Object previous = default;
 
@@ -28,12 +29,22 @@ namespace RV
 
 		private void OnGUI()
 		{
-			if (!ValidateEnabled()) return;
-			if (!ValidateAllowInPlaymode()) return;
+			if (!ValidateEnabled())
+			{
+				return;
+			}
+
+			if (!ValidateAllowInPlaymode())
+			{
+				return;
+			}
 
 			DrawHeaderIMGUI();
 
-			if (!RefreshSelectedTarget()) return;
+			if (!RefreshSelectedTarget())
+			{
+				return;
+			}
 
 			if (NeedCollectData())
 			{
@@ -88,7 +99,7 @@ namespace RV
 				if (GUILayout.Button("Select by guid in clipboard"))
 				{
 					string buffer = EditorGUIUtility.systemCopyBuffer;
-					
+
 					if (ReferenceUtil.IsGuid(buffer))
 					{
 						string path = AssetDatabase.GUIDToAssetPath(buffer);
@@ -99,7 +110,7 @@ namespace RV
 						}
 						else
 						{
-							var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
+							Object obj = AssetDatabase.LoadAssetAtPath<Object>(path);
 							if (obj == null)
 							{
 								Debug.Log($"Cannot find an asset from guid:{buffer}, path:{path}");
@@ -123,7 +134,7 @@ namespace RV
 
 			if (ReferenceSetting.DisplayIndexerVersion && data != null)
 			{
-				EditorGUILayout.LabelField("Indexer Version" , data.version.ToString());
+				EditorGUILayout.LabelField("Indexer Version", data.version.ToString());
 			}
 		}
 
@@ -163,7 +174,7 @@ namespace RV
 
 				data = RefData.Get(guid);
 
-				var referedByGuids = data.referedByGuids;
+				List<string> referedByGuids = data.referedByGuids;
 				referenced = new Object[referedByGuids.Count];
 
 				for (int i = 0; i < referedByGuids.Count; i++)
@@ -244,8 +255,8 @@ namespace RV
 						}
 						else
 						{
-							var guid = dependencyGuids[i];
-							var path = dependencyPaths[i];
+							string guid = dependencyGuids[i];
+							string path = dependencyPaths[i];
 
 							if (string.IsNullOrWhiteSpace(path))
 							{

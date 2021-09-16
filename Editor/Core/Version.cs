@@ -4,16 +4,18 @@
 	{
 		// 010000
 		public uint major;
+
 		// 0100
 		public uint minor;
+
 		// 01
 		public uint maintenance;
 
 		public Version(uint version)
 		{
-			this.major = version / 10000;
-			this.minor = version % 10000 / 100;
-			this.maintenance = version % 100;
+			major = version / 10000;
+			minor = version % 10000 / 100;
+			maintenance = version % 100;
 		}
 
 		public static implicit operator uint(Version version)

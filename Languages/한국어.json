@@ -13,5 +13,9 @@
     "setting_miscellaneous": "기타",
     "setting_unlockDangerzone": "위험 메뉴 잠금 해제",
     "setting_dangerzone": "위험 메뉴",
-    "setting_cleanUpCache": "캐시 비우기"
+    "setting_cleanUpCache": "캐시 비우기",
+    "dialog_noIndexedData": "인덱싱 데이터가 없습니다. 생성할까요?",
+    "dialog_indexedAssetExpired": "dialog_indexedAssetExpired",
+    "dialog_enablePlugin": "생성",
+    "dialog_disablePlugin": "스킵"
 }

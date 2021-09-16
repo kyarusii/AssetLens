@@ -22,7 +22,7 @@
     "type": "git",
     "url": "ssh://git@github.com:seonghwan-dev/Reference.git"
   },
-  "license":"MIT",
+  "license": "MIT",
   "keywords": [
     "utility",
     "unity"

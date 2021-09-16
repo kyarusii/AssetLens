@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,7 +23,8 @@ namespace RV
 			enabled = serializedObject.FindProperty(nameof(enabled));
 			pauseInPlaymode = serializedObject.FindProperty(nameof(pauseInPlaymode));
 			traceSceneObject = serializedObject.FindProperty(nameof(traceSceneObject));
-			useEditorUtilityWhenSearchDependencies = serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
+			useEditorUtilityWhenSearchDependencies =
+				serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
 			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
 		}
@@ -32,13 +32,13 @@ namespace RV
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
-			
+
 			EditorGUI.BeginChangeCheck();
-			
+
 			EditorGUILayout.PropertyField(enabled, new GUIContent(Localize.Inst.setting_enabled));
 			EditorGUILayout.Space(12);
 
-			
+
 			EditorGUI.BeginDisabledGroup(!enabled.boolValue);
 			{
 				// EditorGUI.indentLevel++;
@@ -46,51 +46,54 @@ namespace RV
 					EditorGUILayout.LabelField(Localize.Inst.setting_workflow, EditorStyles.boldLabel);
 					EditorGUILayout.BeginVertical("HelpBox");
 
-					EditorGUILayout.PropertyField(pauseInPlaymode, new GUIContent(Localize.Inst.setting_pauseInPlaymode));
-					EditorGUILayout.PropertyField(traceSceneObject, new GUIContent(Localize.Inst.setting_traceSceneObjects));
+					EditorGUILayout.PropertyField(pauseInPlaymode,
+						new GUIContent(Localize.Inst.setting_pauseInPlaymode));
+					EditorGUILayout.PropertyField(traceSceneObject,
+						new GUIContent(Localize.Inst.setting_traceSceneObjects));
 					EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
-					EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies, new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
+					EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies,
+						new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
 					EditorGUILayout.EndVertical();
-					
+
 					EditorGUILayout.Space(10);
-					
-					EditorGUILayout.LabelField(Localize.Inst.setting_miscellaneous, EditorStyles.boldLabel);
-					EditorGUILayout.BeginVertical("HelpBox");
-					
-					var root = Path.GetFullPath($"Packages/kr.seonghwan.reference/Languages");
-					var currentLocale = localization.stringValue;
-
-					var localNames = new List<string>();
-					var languageFiles = Directory.GetFiles(root, "*.json");
-					foreach (string file in languageFiles)
-					{
-						var fi = new FileInfo(file);
-						localNames.Add(fi.Name.Replace(".json",""));
-					}
-
-					int selected = localNames.IndexOf(currentLocale);
-					int changed = EditorGUILayout.Popup(Localize.Inst.setting_language, selected, localNames.ToArray());
-
-					if (selected != changed)
-					{
-						ReferenceSetting.Localization = localNames[changed];
-						Localize.Inst = ReferenceSetting.LoadLocalization;
-					}
-					EditorGUILayout.EndVertical();
 				}
 				// EditorGUI.indentLevel--;
 			}
 			EditorGUI.EndDisabledGroup();
 			
+			EditorGUILayout.LabelField(Localize.Inst.setting_miscellaneous, EditorStyles.boldLabel);
+			EditorGUILayout.BeginVertical("HelpBox");
+
+			string root = Path.GetFullPath($"Packages/kr.seonghwan.reference/Languages");
+			string currentLocale = localization.stringValue;
+
+			List<string> localNames = new List<string>();
+			string[] languageFiles = Directory.GetFiles(root, "*.json");
+			foreach (string file in languageFiles)
+			{
+				FileInfo fi = new FileInfo(file);
+				localNames.Add(fi.Name.Replace(".json", ""));
+			}
+
+			int selected = localNames.IndexOf(currentLocale);
+			int changed = EditorGUILayout.Popup(Localize.Inst.setting_language, selected, localNames.ToArray());
+
+			if (selected != changed)
+			{
+				ReferenceSetting.Localization = localNames[changed];
+				Localize.Inst = ReferenceSetting.LoadLocalization;
+			}
+
+			EditorGUILayout.EndVertical();
+
 			EditorGUILayout.Space(20);
-			
+
 			using (new EditorGUILayout.HorizontalScope(GUILayout.Height(26)))
 			{
 				GUILayout.FlexibleSpace();
 
 				if (!unlockDangerZone)
 				{
-
 					if (GUILayout.Button(Localize.Inst.setting_unlockDangerzone, new GUILayoutOption[]
 					{
 						GUILayout.Width(200), GUILayout.Height(24)
@@ -106,7 +109,7 @@ namespace RV
 
 				GUILayout.FlexibleSpace();
 			}
-			
+
 			using (new EditorGUILayout.VerticalScope("HelpBox"))
 			{
 				EditorGUILayout.Space(4);
@@ -118,10 +121,11 @@ namespace RV
 					{
 						Debug.Log("Delete...");
 						isInProgress = true;
-						
+
 						CleanUpCache();
 					}
-				}	
+				}
+
 				EditorGUILayout.Space(4);
 			}
 
@@ -129,7 +133,7 @@ namespace RV
 			{
 				ReferenceWindow.isDirty = true;
 			}
-			
+
 			serializedObject.ApplyModifiedProperties();
 		}
 

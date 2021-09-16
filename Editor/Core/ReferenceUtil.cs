@@ -24,9 +24,9 @@ namespace RV
 				.AsParallel()
 				.Where(path =>
 				{
-					using (var sr = new StreamReader(path))
+					using (StreamReader sr = new StreamReader(path))
 					{
-						var line = sr.ReadToEnd();
+						string line = sr.ReadToEnd();
 
 						if (line.IndexOf(guid, StringComparison.OrdinalIgnoreCase) >= 0)
 						{
@@ -50,7 +50,11 @@ namespace RV
 
 		public static bool IsSceneObject(this GameObject target)
 		{
-			if (target == null) return false;
+			if (target == null)
+			{
+				return false;
+			}
+
 			return !string.IsNullOrWhiteSpace(target.scene.name);
 		}
 
@@ -58,17 +62,19 @@ namespace RV
 		{
 			return !EditorUtility.IsPersistent(target);
 		}
-		
+
 		public static bool IsGuid(string text)
 		{
 			for (int i = 0; i < text.Length; i++)
 			{
 				char c = text[i];
 				if (
-					!((c >= '0' && c <= '9') ||
-					  (c >= 'a' && c <= 'z'))
+					!(c >= '0' && c <= '9' ||
+					  c >= 'a' && c <= 'z')
 				)
+				{
 					return false;
+				}
 			}
 
 			return true;

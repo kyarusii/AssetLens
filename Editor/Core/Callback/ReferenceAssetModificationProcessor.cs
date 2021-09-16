@@ -9,7 +9,10 @@ namespace RV
 	{
 		private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
 		{
-			if (!ReferenceSetting.IsEnabled) return AssetDeleteResult.DidNotDelete;
+			if (!ReferenceSetting.IsEnabled)
+			{
+				return AssetDeleteResult.DidNotDelete;
+			}
 
 			try
 			{
@@ -19,7 +22,7 @@ namespace RV
 				if (assetReference.referedByGuids.Count > 0)
 				{
 					StringBuilder sb = new StringBuilder();
-				
+
 					sb.AppendLine("이 에셋은 다음 에셋으로부터 사용되고 있습니다.");
 					sb.AppendLine("그래도 삭제하시겠습니까?");
 					sb.AppendLine();
@@ -36,7 +39,7 @@ namespace RV
 						Debug.Log("삭제가 취소되었습니다.");
 						return AssetDeleteResult.DidDelete;
 					}
-				}	
+				}
 			}
 			catch (Exception e)
 			{

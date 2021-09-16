@@ -13,5 +13,9 @@
     "setting_miscellaneous": "setting_miscellaneous",
     "setting_unlockDangerzone": "setting_unlockDangerzone",
     "setting_dangerzone": "setting_dangerzone",
-    "setting_cleanUpCache": "setting_cleanUpCache"
+    "setting_cleanUpCache": "setting_cleanUpCache",
+    "dialog_noIndexedData": "dialog_noIndexedData",
+    "dialog_indexedAssetExpired": "indexed caches are expired. generate again?",
+    "dialog_enablePlugin": "dialog_enablePlugin",
+    "dialog_disablePlugin": "dialog_disablePlugin"
 }
