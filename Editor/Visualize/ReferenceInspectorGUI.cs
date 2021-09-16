@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -35,6 +36,9 @@ namespace RV
 				if (!ReferenceEquals(Selection.activeObject, target)) return;
 				
 				string path = AssetDatabase.GetAssetPath(target);
+				
+				// Exclude folder
+				if (Directory.Exists(path)) return;
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
 				try
