@@ -55,3 +55,7 @@
 - change indexing convention to manage version
 - localization
 - setting menu
+
+### 0.1.1
+
+- fixed an issue that unity editor throws null reference exception with material sub editor drawing unity default resource.

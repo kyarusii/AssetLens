@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace RV
 {
@@ -30,23 +32,29 @@ namespace RV
 					}
 				}
 
+				if (!ReferenceEquals(Selection.activeObject, target)) return;
+				
 				string path = AssetDatabase.GetAssetPath(target);
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
-				RefData refData = RefData.Get(guid);
-
-				List<string> usedBy = refData.referedByGuids;
-
-				Rect totalRect = EditorGUILayout.GetControlRect();
-				Rect controlRect =
-					EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent($"{usedBy.Count} usage"));
-
-				// if (EditorGUI.LinkButton(controlRect, guid))
-				// {
-				// Debug.Log("Copied");
-				// }
-
-				EditorGUI.SelectableLabel(controlRect, guid);
+				try
+				{
+					RefData refData = RefData.Get(guid);
+				
+					List<string> usedBy = refData.referedByGuids;
+				
+					Rect totalRect = EditorGUILayout.GetControlRect();
+					Rect controlRect =
+						EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent($"{usedBy.Count} usage"));
+				
+					EditorGUI.SelectableLabel(controlRect, guid);	
+				}
+				catch (Exception e)
+				{
+#if DEBUG_REFERENCE
+					Debug.LogError(e.Message, target);
+#endif
+				}
 			}
 		}
 	}
