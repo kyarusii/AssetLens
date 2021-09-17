@@ -14,6 +14,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 > From `0.1.x`, plugin will update automatically in future.  
 
 ### Tested in
+- Unity 2019.4 LTS Windows
 - Unity 2020.3 LTS Windows
 - Unity 2021.1f Windows
 - Unity 2021.2b Windows
@@ -24,7 +25,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 ```json
 {
     "dependencies": {
-        "kr.seonghwan.reference": "0.1.4"
+        "kr.seonghwan.reference": "0.1.5"
     }
 }
 ```
