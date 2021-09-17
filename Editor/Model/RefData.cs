@@ -117,8 +117,15 @@ namespace RV
 
 			RefData asset = new RefData(guid);
 
-			asset.ownGuids ??= new List<string>();
-			asset.referedByGuids ??= new List<string>();
+			if (asset.ownGuids == null)
+			{
+				asset.ownGuids = new List<string>();
+			}
+
+			if (asset.referedByGuids == null)
+			{
+				asset.referedByGuids = new List<string>();
+			}
 
 			BinaryReader r = new BinaryReader(File.OpenRead(path));
 
