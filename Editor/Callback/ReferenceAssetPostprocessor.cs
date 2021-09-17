@@ -33,6 +33,7 @@ namespace RV
 					try
 					{
 #endif
+						if (asset.Contains("ProjectSettings")) continue;
 						OnAssetImport(asset);
 
 #if DEBUG_REFERENCE

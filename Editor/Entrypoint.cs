@@ -15,7 +15,7 @@ namespace RV
 				rootDirectory.Create();
 				const string title = "Reference";
 
-				int version = EditorPrefs.GetInt($"{Application.productName}.Reference.Version", 0);
+				int version = ReferenceSerializer.GetLocalVersion();
 				if (version < 100)
 				{
 					if (EditorUtility.DisplayDialog(title,

@@ -38,8 +38,12 @@ namespace RV
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
 
-		public Version version { get; protected set; }
+		private Version version;
 
+		public string GetVersion()
+		{
+			return version.ToString();
+		}
 
 		public RefData(string guid)
 		{
@@ -186,16 +190,6 @@ namespace RV
 
 			asset.ownGuids = owningGuids;
 			asset.version = ReferenceSetting.INDEX_VERSION;
-
-			// if (string.IsNullOrWhiteSpace(assetPath))
-			// {
-			// 	asset.objectType = "WHITESPACE";
-			// }
-			// else
-			// {
-			// 	Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
-			// 	asset.objectType = obj == null ? "NULL" : obj.GetType().FullName;	
-			// }
 
 			return asset;
 		}

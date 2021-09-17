@@ -143,5 +143,11 @@ namespace RV
 
 			isInProgress = false;
 		}
+
+		private async void CleanUninstall()
+		{
+			Directory.Delete(FileSystem.CacheDirectory);
+			
+		}
 	}
 }

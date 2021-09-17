@@ -35,7 +35,8 @@ namespace RV
 			string msg = await ReadWork(taskCount);
 
 			Debug.Log(msg);
-			EditorPrefs.SetInt($"{Application.productName}.Reference.Version", (int)ReferenceSetting.INDEX_VERSION);
+			
+			ReferenceSerializer.SetLocalVersion((int)ReferenceSetting.INDEX_VERSION);
 
 			async Task<string> ReadWork(int threadCount)
 			{
