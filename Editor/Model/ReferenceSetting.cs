@@ -11,7 +11,7 @@ namespace RV
 
 		private static ReferenceSetting instance = default;
 		private const string k_editorCustomSettingsRoot = "Assets/Editor Default Resources";
-		private const string k_editorCustomSettingsPath = k_editorCustomSettingsRoot + "Reference Setting.asset";
+		private const string k_editorCustomSettingsPath = k_editorCustomSettingsRoot + "/Reference Setting.asset";
 
 		[SerializeField] private bool enabled = false;
 		[SerializeField] private bool pauseInPlaymode = true;
