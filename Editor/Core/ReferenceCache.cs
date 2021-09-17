@@ -11,19 +11,28 @@ namespace RV
 {
 	internal static class ReferenceCache
 	{
-		internal static async Task IndexAssets()
+		internal static async Task IndexAssets(bool indexCustomPackages = true, int taskCount = 20)
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			IEnumerable<string> assets = AssetDatabase.FindAssets("", new[] { "Assets" })
+			var assets = AssetDatabase.FindAssets("", new[] { "Assets" })
 				.Select(AssetDatabase.GUIDToAssetPath)
-				.Where(File.Exists);
+				.Where(File.Exists).ToList();
+
+			if (indexCustomPackages)
+			{
+				assets.AddRange(AssetDatabase.FindAssets("", new[] { "Packages" })
+					.Select(AssetDatabase.GUIDToAssetPath)
+					// 실제 패키지 경로에 있는 경우만
+					.Where(path => !path.IsReadOnlyPackage())
+					.Where(File.Exists));
+			}
 
 			Queue<string> queue = new Queue<string>(assets);
 			int allCount = queue.Count;
 
-			string msg = await ReadWork(20);
+			string msg = await ReadWork(taskCount);
 
 			Debug.Log(msg);
 			EditorPrefs.SetInt($"{Application.productName}.Reference.Version", (int)ReferenceSetting.INDEX_VERSION);
@@ -55,11 +64,6 @@ namespace RV
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
-					// RefData data = RefData.New(key);
-					//
-					// data.referedByGuids = guidRefByMap[key].ToList();
-					// dataMap[key] = data;
-					
 					dataMap[key] = new RefData(key)
 					{
 						guid = key,

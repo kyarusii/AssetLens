@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,6 +44,27 @@ namespace RV
 
 				File.WriteAllText(file, json);
 			}
+		}
+
+		[MenuItem(Constants.TOOL + "_DEV/Find Assets In Packages")]
+		private static void FindAssetsInPackages()
+		{
+			IEnumerable<string> assets = AssetDatabase.FindAssets("", new[] { "Packages" })
+				.Select(AssetDatabase.GUIDToAssetPath)
+				// 실제 패키지 경로에 있는 경우만
+				.Where(path => !Path.GetFullPath(path).Contains("PackageCache"))
+				.Where(File.Exists);
+
+			foreach (string asset in assets)
+			{
+				Debug.Log(asset);
+			}
+		}
+		
+		[MenuItem(Constants.TOOL + "_DEV/Index Include Packages")]
+		private static void IndexingIncludePackages()
+		{
+			var indexAssets = ReferenceCache.IndexAssets();
 		}
 	}
 #endif
