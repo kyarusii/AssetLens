@@ -7,6 +7,10 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#if !DEBUG_REFERENCE
+#pragma warning disable CS0168
+#endif
+
 namespace RV
 {
 	internal class RefData
@@ -221,3 +225,7 @@ namespace RV
 		}
 	}
 }
+
+#if !DEBUG_REFERENCE
+#pragma warning restore CS0168
+#endif
