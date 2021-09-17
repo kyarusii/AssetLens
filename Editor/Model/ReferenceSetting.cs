@@ -72,12 +72,12 @@ namespace RV
 				instance = CreateInstance<ReferenceSetting>();
 				instance.enabled = false;
 
-				// 예전 경로에 존재
-				if (!Directory.Exists(k_editorCustomSettingsPath))
-				{
-					Directory.CreateDirectory(k_editorCustomSettingsPath);
-					AssetDatabase.ImportAsset(k_editorCustomSettingsPath);
-				}
+				// // 예전 경로에 존재
+				// if (!Directory.Exists(k_editorCustomSettingsPath))
+				// {
+				// 	Directory.CreateDirectory(k_editorCustomSettingsPath);
+				// 	AssetDatabase.ImportAsset(k_editorCustomSettingsPath);
+				// }
 
 				AssetDatabase.CreateAsset(instance, k_editorCustomSettingsPath);
 				AssetDatabase.SaveAssets();
