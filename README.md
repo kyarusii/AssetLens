@@ -17,6 +17,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 - Unity 2020.3 LTS Windows
 - Unity 2021.1f Windows
 - Unity 2021.2b Windows
+- Unity 2022.1a Windows
 
 ## Installation
 ### Unity Package Manager
