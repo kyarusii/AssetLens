@@ -1,9 +1,9 @@
 {
     "name": "한국어",
-    "indexing_title": "Warning!",
+    "indexing_title": "경고",
     "indexing_message": "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?",
-    "indexing_proceed": "indexing_proceed",
-    "indexing_cancel": "indexing_cancel",
+    "indexing_proceed": "계속",
+    "indexing_cancel": "작업 취소",
     "setting_enabled": "활성화",
     "setting_pauseInPlaymode": "플레이모드에서 멈춤",
     "setting_traceSceneObjects": "씬 오브젝트 추적",
@@ -15,7 +15,7 @@
     "setting_dangerzone": "위험 메뉴",
     "setting_cleanUpCache": "캐시 비우기",
     "dialog_noIndexedData": "인덱싱 데이터가 없습니다. 생성할까요?",
-    "dialog_indexedAssetExpired": "dialog_indexedAssetExpired",
+    "dialog_indexedAssetExpired": "캐시 데이터가 만료되었습니다. \n새로 생성할까요?",
     "dialog_enablePlugin": "생성",
     "dialog_disablePlugin": "스킵"
 }

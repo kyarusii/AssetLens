@@ -53,7 +53,7 @@ namespace RV
 
 				while (fileMap.Keys.Count != allCount)
 				{
-					EditorUtility.DisplayProgressBar("인덱싱...",
+					EditorUtility.DisplayProgressBar(Localize.Inst.processing_title,
 						$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
 
 					// refresh rate
