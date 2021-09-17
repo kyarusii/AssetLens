@@ -7,6 +7,10 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#if !DEBUG_REFERENCE
+#pragma warning disable CS0168
+#endif
+
 namespace RV
 {
 	internal class RefData
@@ -117,8 +121,15 @@ namespace RV
 
 			RefData asset = new RefData(guid);
 
-			asset.ownGuids ??= new List<string>();
-			asset.referedByGuids ??= new List<string>();
+			if (asset.ownGuids == null)
+			{
+				asset.ownGuids = new List<string>();
+			}
+
+			if (asset.referedByGuids == null)
+			{
+				asset.referedByGuids = new List<string>();
+			}
 
 			BinaryReader r = new BinaryReader(File.OpenRead(path));
 
@@ -214,3 +225,7 @@ namespace RV
 		}
 	}
 }
+
+#if !DEBUG_REFERENCE
+#pragma warning restore CS0168
+#endif
