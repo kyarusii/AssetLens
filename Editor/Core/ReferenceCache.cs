@@ -65,7 +65,7 @@ namespace RV
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
-					dataMap[key] = new RefData(key)
+					dataMap[key] = new RefData(key, ReferenceSetting.INDEX_VERSION)
 					{
 						guid = key,
 						referedByGuids = guidRefByMap[key].ToList()
@@ -77,7 +77,7 @@ namespace RV
 					if (!dataMap.TryGetValue(key, out RefData asset))
 					{
 						// asset = RefData.New(key);
-						asset = new RefData(key)
+						asset = new RefData(key, ReferenceSetting.INDEX_VERSION)
 						{
 							guid = key
 						};

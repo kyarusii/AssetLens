@@ -3,6 +3,8 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+#pragma warning disable CS1998
+
 namespace RV
 {
 	[CustomEditor(typeof(ReferenceSetting))]
@@ -151,3 +153,5 @@ namespace RV
 		}
 	}
 }
+
+#pragma warning restore CS1998
