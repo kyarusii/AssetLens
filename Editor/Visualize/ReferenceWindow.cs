@@ -317,7 +317,8 @@ namespace RV
 							}
 							else
 							{
-								if (string.CompareOrdinal(path, "Library/unity default resources") == 0)
+								if (string.CompareOrdinal(path, "Library/unity default resources") == 0
+								|| string.CompareOrdinal(path, "Resources/unity_builtin_extra") == 0)
 								{
 									EditorGUILayout.LabelField($"Built-in Resources", path);
 								}
