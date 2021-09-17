@@ -78,5 +78,10 @@ namespace RV
 
 			return true;
 		}
+
+		internal static bool IsReadOnlyPackage(this string path)
+		{
+			return Path.GetFullPath(path).Contains("PackageCache");
+		}
 	}
 }

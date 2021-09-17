@@ -157,14 +157,16 @@ namespace RV
 
 		private static void OnAssetCreate(string path, string guid)
 		{
-			if (path.Contains("Packages/Reference"))
-			{
-				return;
-			}
-
-#if !DEBUG_REFERENCE
-			if (path.Contains("Packages/")) return;
-#endif
+			// @TODO :: 커스텀 패키지도 관리되게 
+			
+// 			if (path.Contains("Packages/Reference"))
+// 			{
+// 				return;
+// 			}
+//
+// #if !DEBUG_REFERENCE
+// 			if (path.Contains("Packages/")) return;
+// #endif
 
 			// 새로 만들었으면 이 에셋을 레퍼런스된게 있을 수 없으므로 그냥 프로필만 생성 ctrl-z로 복구하는거면 문제생길수있음...
 			if (string.IsNullOrWhiteSpace(path))

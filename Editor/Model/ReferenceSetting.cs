@@ -10,7 +10,8 @@ namespace RV
 		public const uint INDEX_VERSION = 100;
 
 		private static ReferenceSetting instance = default;
-		private const string k_editorCustomSettingsPath = "Assets/Editor Default Resources/Reference Setting.asset";
+		private const string k_editorCustomSettingsRoot = "Assets/Editor Default Resources";
+		private const string k_editorCustomSettingsPath = k_editorCustomSettingsRoot + "/Reference Setting.asset";
 
 		[SerializeField] private bool enabled = false;
 		[SerializeField] private bool pauseInPlaymode = true;
@@ -72,11 +73,10 @@ namespace RV
 				instance = CreateInstance<ReferenceSetting>();
 				instance.enabled = false;
 
-				// 예전 경로에 존재
-				if (!Directory.Exists(k_editorCustomSettingsPath))
+				if (!Directory.Exists(k_editorCustomSettingsRoot))
 				{
-					Directory.CreateDirectory(k_editorCustomSettingsPath);
-					AssetDatabase.ImportAsset(k_editorCustomSettingsPath);
+					Directory.CreateDirectory(k_editorCustomSettingsRoot);
+					AssetDatabase.ImportAsset(k_editorCustomSettingsRoot);
 				}
 
 				AssetDatabase.CreateAsset(instance, k_editorCustomSettingsPath);

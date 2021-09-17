@@ -69,3 +69,7 @@
 ### 0.1.3
 
 - fixed an issue that cache directory exception in library folder
+
+### 0.1.4
+
+- support custom packages.
