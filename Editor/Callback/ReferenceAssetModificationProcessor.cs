@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RV
 {
-	internal sealed class ReferenceAssetModificationProcessor : AssetModificationProcessor
+	internal sealed class ReferenceAssetModificationProcessor : UnityEditor.AssetModificationProcessor
 	{
 		private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
 		{
