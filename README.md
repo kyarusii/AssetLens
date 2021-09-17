@@ -6,13 +6,13 @@ Reference is a dependency tracking plugin for UnityEditor that provides addition
 This plugin is based on pre-cached complementary guid map to trace which asset has dependencies to specific asset. 
 The pain point that mainly considered with Unity is that when we delete an asset, we don't know which asset is using it. 
 
-This plugin generate both dependency map of the asset and which asset is referencing the asset.  
-
-> 0.0.x 버전으로 인덱싱 된 경우 0.1.x 버전에서 다시 인덱싱을 진행해야합니다. 이후 버전에서는 버전을 통해 자동으로 업데이트 됩니다.
 
 ## Requirements
 
 - All assets must be serialized as force-text option in ProjectSetting/Editor
+> Indexed in `0.0.x` version caches are not compatible with above `0.1.x`.  
+> You must generate indices again if you update plugin from `0.0.x` to above `0.1.x`.  
+> From `0.1.x`, plugin will update automatically in future.  
 
 ### Tested in
 - Unity 2020.3 LTS Windows
@@ -42,36 +42,43 @@ This plugin generate both dependency map of the asset and which asset is referen
     ]
 }
 ```
+### FileSystem
+- Move to `ProjectRoot\Packages`  
+- Run command in terminal.  
+`git clone https://github.com/seonghwan-dev/Reference`  
 
 ## QuickStart
 - Execute `Tools/Reference/Index All Assets` in MenuItem and wait until complete.  
 - Configure `Reference` settings in `Edit/Project Settings...` in MenuItem.
-- Select an asset you want to know which asset references it and select `Find References In Project` context menu.
+- Select an asset you want to know which asset references it and run `Find References In Project` context menu.
 
 ## Fundamentals
-- [RefData.cs](Editor/Model/RefData.cs)
-- [ReferenceAssetPostprocessor.cs](Editor/Callback/ReferenceAssetPostprocessor.cs)
+- Create a cache file per a asset file, see also [RefData.cs](Editor/Model/RefData.cs)
+- Detect asset changes from `AssetPostprocessor`, see also [ReferenceAssetPostprocessor.cs](Editor/Callback/ReferenceAssetPostprocessor.cs)
+- Detect an attempt to delete an asset from `AssetModificationProcessor`, see also [ReferenceAssetModificationProcessor.cs](Editor/Callback/ReferenceAssetModificationProcessor.cs)
 
 ## Features
 - Display asset usage count in inspector.
 - Find References In Project
-- Find
 
-## TO-DO List
-- Safer Asset Delete ([#8](/../../issues/8))
-- Reference replacement wizard ([#9](/../../issues/9))
-- Reference dependency map visualizer
+## Roadmap
+- Safer Asset Delete ([#8](/../../issues/8))  
+- Reference replacement wizard ([#9](/../../issues/9))  
+- Reference dependency map visualizer  
+- Detect references indexed in [Addressable](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)  
 
 ## Contributes
 - Fork and clone at `ProjectName\Packages`
 - Add an Scripting Define Symbol `DEBUG_REFERENCE` at ProjectSettings/Player.
-- Execute `Tools/Reference_DEV/Add New Language` to create a new localization profile.
-- Execute `Tools/Reference_DEV/Update Language profiles` to add field after edit `Localize` class.
-
+- Run `Tools/Reference_DEV/Add New Language` to create a new localization profile.
+- Run `Tools/Reference_DEV/Update Language profiles` to add field after edit `Localize` class.
 
 
 ## 한국어 가이드
-레퍼런스 하고 있는 에셋과, 이 에셋을 레퍼런스 하고 있는 에셋을 상호 저장함으로써 레퍼런스 링크를 생성합니다. 파일시스템을 기반으로 바이너리로 각 guid 별로 쪼개어 저장합니다.  
+레퍼런스 하고 있는 에셋과, 이 에셋을 레퍼런스 하고 있는 에셋을 상호 저장함으로써 레퍼런스 링크를 생성합니다. 
+파일시스템을 기반으로 바이너리로 각 guid 별로 쪼개어 저장합니다.  
+
+> 0.0.x 버전으로 인덱싱 된 경우 0.1.x 버전에서 다시 인덱싱을 진행해야합니다. 이후 버전에서는 버전을 통해 자동으로 업데이트 됩니다.
 
 ### 사용법
 - `Tools/Reference/Index All Assets` 메뉴로 현재 에셋들을 모두 인덱싱합니다. (프로젝트 크기에 따라 시간 소요)
