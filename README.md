@@ -1,9 +1,9 @@
-# Reference
+# Asset Lens
 
 [<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)  
 
 
-## About Reference
+## About Lens
 Reference is a dependency tracking plugin for UnityEditor that provides additional information such as the number of usage.
 
 This plugin is based on pre-cached complementary guid map to trace which asset has dependencies to specific asset. 
@@ -58,8 +58,8 @@ openupm add com.calci.assetlens
 ```
 
 ## QuickStart
-- Execute `Tools/Reference/Index All Assets` in MenuItem and wait until complete.  
-- Configure `Reference` settings in `Edit/Project Settings...` in MenuItem.
+- Execute `Tools/Asset Lens/Index All Assets` in MenuItem and wait until complete.  
+- Configure `Asset Lens` settings in `Edit/Project Settings...` in MenuItem.
 - Select an asset you want to know which asset references it and run `Find References In Project` context menu.
 
 ## Fundamentals
@@ -80,8 +80,8 @@ openupm add com.calci.assetlens
 ## Contributes
 - Fork and clone at `ProjectName\Packages`
 - Add an Scripting Define Symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
-- Run `Tools/Reference_DEV/Add New Language` to create a new localization profile.
-- Run `Tools/Reference_DEV/Update Language profiles` to add field after edit `Localize` class.
+- Run `Tools/Asset Lens_DEV/Add New Language` to create a new localization profile.
+- Run `Tools/Asset Lens_DEV/Update Language profiles` to add field after edit `Localize` class.
 - Create PR.
 
 ![image](https://user-images.githubusercontent.com/79823287/131787910-1cc009e6-d483-4a87-afb0-a6ac31d3cf0d.png)  
@@ -97,7 +97,7 @@ openupm add com.calci.assetlens
 > 이후 버전에서는 버전을 통해 자동으로 업데이트 됩니다.
 
 ### 사용법
-- `Tools/Reference/Index All Assets` 메뉴로 현재 에셋들을 모두 인덱싱합니다. (프로젝트 크기에 따라 시간 소요)
+- `Tools/Asset Lens/Index All Assets` 메뉴로 현재 에셋들을 모두 인덱싱합니다. (프로젝트 크기에 따라 시간 소요)
 - 인스펙터에 선택한 에셋을 사용중인 다른 에셋의 수가 표기됩니다. (씬, 프리팹 포함)
 - <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>R</kbd> 키를 눌러 콘솔창에 연결된 에셋을 프린트 할 수 있습니다. (누르면 선택됨)
 - `Window/Reference View` 윈도우를 열어 선택된 오브젝트와 연결된 에셋을 확인할 수 있습니다.
