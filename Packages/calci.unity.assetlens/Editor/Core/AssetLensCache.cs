@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace RV
+namespace AssetLens
 {
-	internal static class ReferenceCache
+	internal static class AssetLensCache
 	{
 		internal static async Task IndexAssets(bool indexCustomPackages = true, int taskCount = 20)
 		{
@@ -36,7 +36,7 @@ namespace RV
 
 			Debug.Log(msg);
 			
-			ReferenceSerializer.SetLocalVersion((int)ReferenceSetting.INDEX_VERSION);
+			AssetLensSerializer.SetLocalVersion((int)AssetLensSetting.INDEX_VERSION);
 
 			async Task<string> ReadWork(int threadCount)
 			{
@@ -65,7 +65,7 @@ namespace RV
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
-					dataMap[key] = new RefData(key, ReferenceSetting.INDEX_VERSION)
+					dataMap[key] = new RefData(key, AssetLensSetting.INDEX_VERSION)
 					{
 						guid = key,
 						referedByGuids = guidRefByMap[key].ToList()
@@ -77,7 +77,7 @@ namespace RV
 					if (!dataMap.TryGetValue(key, out RefData asset))
 					{
 						// asset = RefData.New(key);
-						asset = new RefData(key, ReferenceSetting.INDEX_VERSION)
+						asset = new RefData(key, AssetLensSetting.INDEX_VERSION)
 						{
 							guid = key
 						};

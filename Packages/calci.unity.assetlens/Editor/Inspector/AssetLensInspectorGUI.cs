@@ -9,19 +9,19 @@ using Object = UnityEngine.Object;
 #pragma warning disable CS0168
 #endif
 
-namespace RV
+namespace AssetLens
 {
 	[InitializeOnLoad]
-	internal static class ReferenceInspectorGUI
+	internal static class AssetLensInspectorGUI
 	{
-		static ReferenceInspectorGUI()
+		static AssetLensInspectorGUI()
 		{
 			Editor.finishedDefaultHeaderGUI += EditorOnfinishedDefaultHeaderGUI;
 		}
 
 		private static void EditorOnfinishedDefaultHeaderGUI(Editor editor)
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!AssetLensSetting.IsEnabled)
 			{
 				return;
 			}
@@ -29,7 +29,7 @@ namespace RV
 			if (editor.targets.Length == 1)
 			{
 				Object target = editor.target;
-				if (!ReferenceSetting.TraceSceneObject && target is GameObject go)
+				if (!AssetLensSetting.TraceSceneObject && target is GameObject go)
 				{
 					if (go.IsSceneObject())
 					{

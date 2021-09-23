@@ -1,4 +1,4 @@
-﻿namespace RV
+﻿namespace AssetLens
 {
 	internal struct Version
 	{

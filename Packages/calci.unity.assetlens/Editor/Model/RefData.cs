@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 #pragma warning disable CS0168
 #endif
 
-namespace RV
+namespace AssetLens
 {
 	internal class RefData
 	{
@@ -82,7 +82,7 @@ namespace RV
 
 		public void Save()
 		{
-			ReferenceSerializer.Serialize(this);
+			AssetLensSerializer.Serialize(this);
 			
 			// string path = FileSystem.CacheDirectory + $"/{guid}.ref";
 			//
@@ -131,7 +131,7 @@ namespace RV
 				return New(guid);
 			}
 
-			return ReferenceSerializer.Deseriallize(guid);
+			return AssetLensSerializer.Deseriallize(guid);
 
 			// RefData asset = new RefData(guid);
 			//
@@ -171,7 +171,7 @@ namespace RV
 
 		public static RefData New(string guid)
 		{
-			RefData asset = new RefData(guid, ReferenceSetting.INDEX_VERSION);
+			RefData asset = new RefData(guid, AssetLensSetting.INDEX_VERSION);
 
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
 			string assetContent = File.ReadAllText(assetPath);

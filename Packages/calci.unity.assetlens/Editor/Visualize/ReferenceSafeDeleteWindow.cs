@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace RV
+namespace AssetLens
 {
 	internal class ReferenceSafeDeleteWindow : EditorWindow { }
 }

@@ -5,9 +5,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace RV
+namespace AssetLens
 {
-	internal static class ReferenceUtil
+	internal static class AssetLensUtil
 	{
 		/// <see href="https://gist.github.com/sr4dev/20958d4d102ffb05479afc8e01aef416"/>
 		/// <summary>

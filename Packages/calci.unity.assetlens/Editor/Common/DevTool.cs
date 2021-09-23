@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace RV
+namespace AssetLens
 {
 #if DEBUG_ASSETLENS
 	internal class DevTool
@@ -64,7 +64,7 @@ namespace RV
 		[MenuItem(LanguageConstants.TOOL + "_DEV/Index Include Packages")]
 		private static void IndexingIncludePackages()
 		{
-			var indexAssets = ReferenceCache.IndexAssets();
+			var indexAssets = AssetLensCache.IndexAssets();
 		}
 	}
 #endif

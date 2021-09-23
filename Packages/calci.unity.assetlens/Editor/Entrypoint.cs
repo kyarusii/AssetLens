@@ -2,7 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace RV
+namespace AssetLens
 {
 	internal static class Entrypoint
 	{
@@ -16,9 +16,9 @@ namespace RV
 				rootDirectory.Create();
 
 				// force re-indexing
-				if (ReferenceSerializer.HasLocalVersion())
+				if (AssetLensSerializer.HasLocalVersion())
 				{
-					int version = ReferenceSerializer.GetLocalVersion();
+					int version = AssetLensSerializer.GetLocalVersion();
 					if (version < 100)
 					{
 						if (EditorUtility.DisplayDialog(
@@ -27,14 +27,14 @@ namespace RV
 							Localize.Inst.dialog_enablePlugin,
 							Localize.Inst.dialog_disablePlugin))
 						{
-							await ReferenceCache.CleanUpAssets();
-							await ReferenceCache.IndexAssets();
+							await AssetLensCache.CleanUpAssets();
+							await AssetLensCache.IndexAssets();
 						
-							ReferenceSetting.IsEnabled = true;
+							AssetLensSetting.IsEnabled = true;
 						}
 						else
 						{
-							ReferenceSetting.IsEnabled = false;
+							AssetLensSetting.IsEnabled = false;
 						}
 					}
 					
@@ -42,7 +42,7 @@ namespace RV
 				}
 
 				// first indexing
-				await ReferenceDialog.OpenIndexAllAssetDialog();
+				await AssetLensDialog.OpenIndexAllAssetDialog();
 			}
 		}
 	}

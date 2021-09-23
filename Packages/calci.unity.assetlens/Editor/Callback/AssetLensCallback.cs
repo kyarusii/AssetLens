@@ -1,21 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using System.Collections.Generic;
 
-#pragma warning disable CS0168
-
-namespace RV
+namespace AssetLens
 {
-	internal sealed class ReferenceAssetPostprocessor : AssetPostprocessor
+	internal static class AssetLensCallback
 	{
-		private static void OnPostprocessAllAssets(
+		internal static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
+		{
+			if (!AssetLensSetting.IsEnabled)
+			{
+				return AssetDeleteResult.DidNotDelete;
+			}
+
+			try
+			{
+				string guid = AssetDatabase.AssetPathToGUID(assetPath);
+
+				RefData assetReference = RefData.Get(guid);
+				if (assetReference.referedByGuids.Count > 0)
+				{
+					StringBuilder sb = new StringBuilder();
+
+					sb.AppendLine("이 에셋은 다음 에셋으로부터 사용되고 있습니다.");
+					sb.AppendLine("그래도 삭제하시겠습니까?");
+					sb.AppendLine();
+
+					foreach (string referedGuid in assetReference.referedByGuids)
+					{
+						string referedAssetPath = AssetDatabase.GUIDToAssetPath(referedGuid);
+						sb.AppendLine(referedAssetPath);
+					}
+
+					bool allowDelete = EditorUtility.DisplayDialog("경고!", sb.ToString(), "삭제", "취소");
+					if (!allowDelete)
+					{
+						Debug.Log("삭제가 취소되었습니다.");
+						return AssetDeleteResult.DidDelete;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Debug.LogException(e);
+				return AssetDeleteResult.FailedDelete;
+			}
+
+			return AssetDeleteResult.DidNotDelete;
+		}
+
+		internal static void OnPostprocessAllAssets(
 			string[] importedAssets, string[] deletedAssets,
 			string[] movedAssets, string[] movedFromAssetPaths)
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!AssetLensSetting.IsEnabled)
 			{
 				return;
 			}
@@ -127,7 +169,7 @@ namespace RV
 			}
 		}
 
-		internal static void OnAssetDelete(string path)
+		private static void OnAssetDelete(string path)
 		{
 			string guid = AssetDatabase.AssetPathToGUID(path);
 			RefData refAsset = RefData.Get(guid);
@@ -154,7 +196,7 @@ namespace RV
 			refAsset.Remove();
 		}
 
-		internal static void OnAssetMoved(string path) { }
+		private static void OnAssetMoved(string path) { }
 
 		private static void OnAssetCreate(string path, string guid)
 		{
@@ -251,5 +293,3 @@ namespace RV
 		}
 	}
 }
-
-#pragma warning restore CS0168

@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace RV
+namespace AssetLens
 {
 	internal static class MenuItems
 	{
@@ -22,8 +22,8 @@ namespace RV
 				return;
 			}
 
-			Task indexAssets = ReferenceCache.IndexAssets();
-			ReferenceSetting.IsEnabled = true;
+			Task indexAssets = AssetLensCache.IndexAssets();
+			AssetLensSetting.IsEnabled = true;
 		}
 
 		[MenuItem(LanguageConstants.MENU_LOG_REFERENCE + " %&r")]
@@ -99,7 +99,7 @@ namespace RV
 			string path = AssetDatabase.GetAssetPath(obj);
 			string guid = AssetDatabase.AssetPathToGUID(path);
 
-			string[] foundPaths = ReferenceUtil.ExplicitSearchGuid(Application.dataPath, "*.*", guid).ToArray();
+			string[] foundPaths = AssetLensUtil.ExplicitSearchGuid(Application.dataPath, "*.*", guid).ToArray();
 
 			sw.Stop();
 

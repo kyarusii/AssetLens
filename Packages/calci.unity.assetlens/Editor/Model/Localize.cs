@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RV
+namespace AssetLens
 {
 	[Serializable]
 	public class Localize
@@ -12,7 +12,7 @@ namespace RV
 			{
 				if (_context == null)
 				{
-					_context = ReferenceSetting.LoadLocalization;
+					_context = AssetLensSetting.LoadLocalization;
 				}
 
 				return _context;

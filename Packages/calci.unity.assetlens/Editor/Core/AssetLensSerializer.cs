@@ -2,9 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace RV
+namespace AssetLens
 {
-	internal static class ReferenceSerializer
+	internal static class AssetLensSerializer
 	{
 		private static readonly string VERSION_KEY = $"{Application.productName}.Reference.Version";
 
@@ -79,7 +79,7 @@ namespace RV
 			
 			BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
 			
-			SerializeBody(data, ref w, ReferenceSetting.INDEX_VERSION);
+			SerializeBody(data, ref w, AssetLensSetting.INDEX_VERSION);
 			w.Close();
 		}
 

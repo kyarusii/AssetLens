@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using UnityEditor;
 
-namespace RV
+namespace AssetLens
 {
-	internal static class ReferenceDialog
+	internal static class AssetLensDialog
 	{
 		internal static async Task OpenIndexAllAssetDialog()
 		{
@@ -13,13 +13,13 @@ namespace RV
 				Localize.Inst.dialog_enablePlugin,
 				Localize.Inst.dialog_disablePlugin))
 			{
-				await ReferenceCache.IndexAssets();
+				await AssetLensCache.IndexAssets();
 					
-				ReferenceSetting.IsEnabled = true;
+				AssetLensSetting.IsEnabled = true;
 			}
 			else
 			{
-				ReferenceSetting.IsEnabled = false;
+				AssetLensSetting.IsEnabled = false;
 			}
 		}
 	}

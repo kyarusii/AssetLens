@@ -5,10 +5,10 @@ using UnityEngine;
 
 #pragma warning disable CS1998
 
-namespace RV
+namespace AssetLens
 {
-	[CustomEditor(typeof(ReferenceSetting))]
-	internal sealed class ReferenceSettingInspector : Editor
+	[CustomEditor(typeof(AssetLensSetting))]
+	internal sealed class AssetLensSettingInspector : Editor
 	{
 		private SerializedProperty enabled = default;
 		private SerializedProperty pauseInPlaymode = default;
@@ -81,8 +81,8 @@ namespace RV
 
 			if (selected != changed)
 			{
-				ReferenceSetting.Localization = localNames[changed];
-				Localize.Inst = ReferenceSetting.LoadLocalization;
+				AssetLensSetting.Localization = localNames[changed];
+				Localize.Inst = AssetLensSetting.LoadLocalization;
 			}
 
 			EditorGUILayout.EndVertical();
@@ -140,7 +140,7 @@ namespace RV
 
 		private async void CleanUpCache()
 		{
-			int processedAssetCount = await ReferenceCache.CleanUpAssets();
+			int processedAssetCount = await AssetLensCache.CleanUpAssets();
 			Debug.Log($"{processedAssetCount} asset caches removed!");
 
 			isInProgress = false;

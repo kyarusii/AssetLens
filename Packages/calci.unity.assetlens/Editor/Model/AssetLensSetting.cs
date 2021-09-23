@@ -3,13 +3,13 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace RV
+namespace AssetLens
 {
-	internal sealed class ReferenceSetting : ScriptableObject
+	internal sealed class AssetLensSetting : ScriptableObject
 	{
 		public const uint INDEX_VERSION = 100;
 
-		private static ReferenceSetting instance = default;
+		private static AssetLensSetting instance = default;
 		private const string k_editorCustomSettingsRoot = "Assets/Editor Default Resources";
 		private const string k_editorCustomSettingsPath = k_editorCustomSettingsRoot + "/AssetLens Setting.asset";
 
@@ -59,18 +59,18 @@ namespace RV
 			}
 		}
 
-		private static ReferenceSetting GetOrCreateSettings()
+		private static AssetLensSetting GetOrCreateSettings()
 		{
 			if (instance != null)
 			{
 				return instance;
 			}
 
-			instance = EditorGUIUtility.Load(k_editorCustomSettingsPath) as ReferenceSetting;
+			instance = EditorGUIUtility.Load(k_editorCustomSettingsPath) as AssetLensSetting;
 
 			if (instance == null)
 			{
-				instance = CreateInstance<ReferenceSetting>();
+				instance = CreateInstance<AssetLensSetting>();
 				instance.enabled = false;
 
 				if (!Directory.Exists(k_editorCustomSettingsRoot))

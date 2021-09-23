@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace RV
+namespace AssetLens
 {
 	public sealed class ReferenceWindow : EditorWindow
 	{
@@ -59,7 +59,7 @@ namespace RV
 
 		private bool ValidateEnabled()
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!AssetLensSetting.IsEnabled)
 			{
 				EditorGUILayout.HelpBox("Reference is not initialized!", MessageType.Error);
 				EditorGUILayout.Space(10);
@@ -71,8 +71,8 @@ namespace RV
 						return false;
 					}
 
-					Task indexAssets = ReferenceCache.IndexAssets();
-					ReferenceSetting.IsEnabled = true;
+					Task indexAssets = AssetLensCache.IndexAssets();
+					AssetLensSetting.IsEnabled = true;
 				}
 
 				return false;
@@ -83,7 +83,7 @@ namespace RV
 
 		private bool ValidateAllowInPlaymode()
 		{
-			if (Application.isPlaying && ReferenceSetting.PauseInPlaymode)
+			if (Application.isPlaying && AssetLensSetting.PauseInPlaymode)
 			{
 				EditorGUILayout.HelpBox("Disabled in Playmode.", MessageType.Info);
 
@@ -101,7 +101,7 @@ namespace RV
 				{
 					string buffer = EditorGUIUtility.systemCopyBuffer;
 
-					if (ReferenceUtil.IsGuid(buffer))
+					if (AssetLensUtil.IsGuid(buffer))
 					{
 						string path = AssetDatabase.GUIDToAssetPath(buffer);
 
@@ -139,7 +139,7 @@ namespace RV
 			if (!isLocked)
 			{
 				Object current = Selection.activeObject;
-				if (!ReferenceSetting.TraceSceneObject && current is GameObject go)
+				if (!AssetLensSetting.TraceSceneObject && current is GameObject go)
 				{
 					if (go.IsSceneObject())
 					{
@@ -196,7 +196,7 @@ namespace RV
 					referenced[i] = AssetDatabase.LoadAssetAtPath<Object>(referedPath);
 				}
 
-				if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+				if (AssetLensSetting.UseEditorUtilityWhenSearchDependencies)
 				{
 					dependencies = EditorUtility.CollectDependencies(target);
 				}
@@ -237,7 +237,7 @@ namespace RV
 			EditorGUILayout.ObjectField($"Selected", selected, typeof(Object), true, Array.Empty<GUILayoutOption>());
 
 			// display indexer version
-			if (ReferenceSetting.DisplayIndexerVersion)
+			if (AssetLensSetting.DisplayIndexerVersion)
 			{
 				bool typeAndVersion = !string.IsNullOrWhiteSpace(objectType) && !string.IsNullOrWhiteSpace(version);
 				bool nameAndPath = !string.IsNullOrWhiteSpace(objectName) && !string.IsNullOrWhiteSpace(objectPath);
@@ -292,7 +292,7 @@ namespace RV
 					Object dependency = dependencies[i];
 					if (dependency == null)
 					{
-						if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+						if (AssetLensSetting.UseEditorUtilityWhenSearchDependencies)
 						{
 							// cannot trace what was that
 							if (!drawedHelpBox)
