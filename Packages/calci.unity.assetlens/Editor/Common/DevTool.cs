@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace RV
 {
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 	internal class DevTool
 	{
-		[MenuItem(Constants.TOOL + "_DEV/Add New Language")]
+		[MenuItem(LanguageConstants.TOOL + "_DEV/Add New Language")]
 		private static void CreateLocalizeProfile()
 		{
 			Localize ctx = new Localize();
@@ -29,7 +29,7 @@ namespace RV
 		/// <summary>
 		/// Localize 클래스의 필드에 따라 값이 없는 데이터만 밀어 넣어줍니다.
 		/// </summary>
-		[MenuItem(Constants.TOOL + "_DEV/Update Language profiles")]
+		[MenuItem(LanguageConstants.TOOL + "_DEV/Update Language profiles")]
 		private static void UpdateLocalizeContext()
 		{
 			string languagesRoot = FileSystem.PackageDirectory + "/Languages";
@@ -46,7 +46,7 @@ namespace RV
 			}
 		}
 
-		[MenuItem(Constants.TOOL + "_DEV/Find Assets In Packages")]
+		[MenuItem(LanguageConstants.TOOL + "_DEV/Find Assets In Packages")]
 		private static void FindAssetsInPackages()
 		{
 			IEnumerable<string> assets = AssetDatabase.FindAssets("", new[] { "Packages" })
@@ -61,7 +61,7 @@ namespace RV
 			}
 		}
 		
-		[MenuItem(Constants.TOOL + "_DEV/Index Include Packages")]
+		[MenuItem(LanguageConstants.TOOL + "_DEV/Index Include Packages")]
 		private static void IndexingIncludePackages()
 		{
 			var indexAssets = ReferenceCache.IndexAssets();

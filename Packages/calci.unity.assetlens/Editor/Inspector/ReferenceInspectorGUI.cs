@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-#if !DEBUG_REFERENCE
+#if !DEBUG_ASSETLENS
 #pragma warning disable CS0168
 #endif
 
@@ -59,7 +59,7 @@ namespace RV
 				}
 				catch (Exception e)
 				{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					Debug.LogError(e.Message, target);
 #endif
 				}
@@ -68,6 +68,6 @@ namespace RV
 	}
 }
 
-#if !DEBUG_REFERENCE
+#if !DEBUG_ASSETLENS
 #pragma warning restore CS0168
 #endif

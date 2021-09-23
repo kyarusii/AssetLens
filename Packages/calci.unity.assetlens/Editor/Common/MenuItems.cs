@@ -10,7 +10,7 @@ namespace RV
 {
 	internal static class MenuItems
 	{
-		[MenuItem(Constants.MENU_INDEX_ALL_ASSETS)]
+		[MenuItem(LanguageConstants.MENU_INDEX_ALL_ASSETS)]
 		private static void IndexAllAssets()
 		{
 			if (!EditorUtility.DisplayDialog(
@@ -26,7 +26,7 @@ namespace RV
 			ReferenceSetting.IsEnabled = true;
 		}
 
-		[MenuItem(Constants.MENU_LOG_REFERENCE + " %&r")]
+		[MenuItem(LanguageConstants.MENU_LOG_REFERENCE + " %&r")]
 		private static void LogReferences()
 		{
 			Object obj = Selection.activeObject;
@@ -57,7 +57,7 @@ namespace RV
 			}
 		}
 
-		[MenuItem(Constants.WINDOW_VIEWER)]
+		[MenuItem(LanguageConstants.WINDOW_VIEWER)]
 		private static void Init()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
@@ -68,7 +68,7 @@ namespace RV
 
 		private const int order = 28;
 
-		[MenuItem(Constants.ASSETMENU_FindReferenceIn, false, order)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindReferenceIn, false, order)]
 		private static void FindInProjects()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
@@ -77,14 +77,14 @@ namespace RV
 			window.Show();
 		}
 
-		[MenuItem(Constants.ASSETMENU_FindExplicitReferenceInProject, true, order + 1)]
-		[MenuItem(Constants.ASSETMENU_FindReferenceIn, true, order)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindExplicitReferenceInProject, true, order + 1)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindReferenceIn, true, order)]
 		private static bool ValidateFindInProject()
 		{
 			return Selection.activeObject != null && Selection.objects.Length == 1;
 		}
 
-		[MenuItem(Constants.ASSETMENU_FindExplicitReferenceInProject, false, order + 1)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindExplicitReferenceInProject, false, order + 1)]
 		private static void FindInProjectsExplicit()
 		{
 			Stopwatch sw = new Stopwatch();

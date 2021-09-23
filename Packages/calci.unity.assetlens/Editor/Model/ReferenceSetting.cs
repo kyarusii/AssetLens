@@ -11,7 +11,7 @@ namespace RV
 
 		private static ReferenceSetting instance = default;
 		private const string k_editorCustomSettingsRoot = "Assets/Editor Default Resources";
-		private const string k_editorCustomSettingsPath = k_editorCustomSettingsRoot + "/Reference Setting.asset";
+		private const string k_editorCustomSettingsPath = k_editorCustomSettingsRoot + "/AssetLens Setting.asset";
 
 		[SerializeField] private bool enabled = false;
 		[SerializeField] private bool pauseInPlaymode = true;
@@ -92,9 +92,10 @@ namespace RV
 			public static SettingsProvider CreateFromSettingsObject()
 			{
 				Object settingsObj = EditorGUIUtility.Load(k_editorCustomSettingsPath);
-
+ 
+				
 				AssetSettingsProvider provider =
-					AssetSettingsProvider.CreateProviderFromObject("Project/Reference", settingsObj);
+					AssetSettingsProvider.CreateProviderFromObject($"Project/{Constants.DisplayName}", settingsObj);
 
 				provider.keywords =
 					SettingsProvider.GetSearchKeywordsFromSerializedObject(

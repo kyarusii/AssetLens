@@ -1,6 +1,6 @@
 ﻿namespace RV
 {
-	internal static class Constants
+	internal static class LanguageConstants
 	{
 #if LANGUAGE_KR
 		internal const string TOOL = "Tools/레퍼런스";

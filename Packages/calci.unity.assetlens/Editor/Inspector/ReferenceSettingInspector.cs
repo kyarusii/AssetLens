@@ -65,7 +65,7 @@ namespace RV
 			EditorGUILayout.LabelField(Localize.Inst.setting_miscellaneous, EditorStyles.boldLabel);
 			EditorGUILayout.BeginVertical("HelpBox");
 
-			string root = Path.GetFullPath($"Packages/kr.seonghwan.reference/Languages");
+			string root = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages");
 			string currentLocale = localization.stringValue;
 
 			List<string> localNames = new List<string>();

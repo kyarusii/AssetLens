@@ -29,14 +29,14 @@ namespace RV
 			{
 				foreach (string asset in importedAssets)
 				{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					try
 					{
 #endif
 						if (asset.Contains("ProjectSettings")) continue;
 						OnAssetImport(asset);
 
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					}
 					catch (Exception e)
 					{
@@ -48,13 +48,13 @@ namespace RV
 
 				foreach (string asset in deletedAssets)
 				{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					try
 					{
 #endif
 						OnAssetDelete(asset);
 
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					}
 					catch (Exception e)
 					{
@@ -66,13 +66,13 @@ namespace RV
 
 				foreach (string asset in movedAssets)
 				{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					try
 					{
 #endif
 						// 에셋 이동은 guid 변경과 큰 관계가 없음
 						OnAssetMoved(asset);
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					}
 					catch (Exception e)
 					{
@@ -84,13 +84,13 @@ namespace RV
 
 				foreach (string asset in movedFromAssetPaths)
 				{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					try
 					{
 #endif
 						// 에셋 이동은 guid 변경과 큰 관계가 없음
 						OnAssetMoved(asset);
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 					}
 					catch (Exception e)
 					{
@@ -102,7 +102,7 @@ namespace RV
 			}
 			catch (Exception e)
 			{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 				Debug.LogException(e);
 #endif
 			}
@@ -165,14 +165,14 @@ namespace RV
 // 				return;
 // 			}
 //
-// #if !DEBUG_REFERENCE
+// #if !DEBUG_ASSETLENS
 // 			if (path.Contains("Packages/")) return;
 // #endif
 
 			// 새로 만들었으면 이 에셋을 레퍼런스된게 있을 수 없으므로 그냥 프로필만 생성 ctrl-z로 복구하는거면 문제생길수있음...
 			if (string.IsNullOrWhiteSpace(path))
 			{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 				Debug.LogError($"Something wrong in OnAssetCreate : ({path}, guid:{guid})");
 #endif
 				return;
@@ -180,13 +180,13 @@ namespace RV
 
 			if (!File.Exists(path))
 			{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 				Debug.LogError($"Something wrong in OnAssetCreate : ({path}, guid:{guid})");
 #endif
 				return;
 			}
 
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 			string tempPath = AssetDatabase.GUIDToAssetPath(guid);
 			if (tempPath != path)
 			{
@@ -200,7 +200,7 @@ namespace RV
 			}
 			catch (Exception e)
 			{
-#if DEBUG_REFERENCE
+#if DEBUG_ASSETLENS
 				Debug.LogError(tempPath);
 				Debug.LogError(path);
 

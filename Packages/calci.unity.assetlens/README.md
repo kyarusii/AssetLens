@@ -72,7 +72,7 @@ git clone https://github.com/seonghwan-dev/Reference
 
 ## Contributes
 - Fork and clone at `ProjectName\Packages`
-- Add an Scripting Define Symbol `DEBUG_REFERENCE` at ProjectSettings/Player.
+- Add an Scripting Define Symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
 - Run `Tools/Reference_DEV/Add New Language` to create a new localization profile.
 - Run `Tools/Reference_DEV/Update Language profiles` to add field after edit `Localize` class.
 - Create PR.
