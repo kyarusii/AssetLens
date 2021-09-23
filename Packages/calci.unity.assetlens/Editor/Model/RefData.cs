@@ -83,36 +83,6 @@ namespace AssetLens
 		public void Save()
 		{
 			AssetLensSerializer.Serialize(this);
-			
-			// string path = FileSystem.CacheDirectory + $"/{guid}.ref";
-			//
-			// BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
-			//
-			// // version for integration
-			// version = ReferenceSetting.INDEX_VERSION;
-			//
-			// w.Write(version);
-			// w.Write(objectType);
-			// w.Write(objectName);
-			// w.Write(objectPath);
-			//
-			// int ownCount = ownGuids.Count;
-			// w.Write(ownCount);
-			//
-			// for (int i = 0; i < ownCount; i++)
-			// {
-			// 	w.Write(ownGuids[i]);
-			// }
-			//
-			// int byCount = referedByGuids.Count;
-			// w.Write(byCount);
-			//
-			// for (int i = 0; i < byCount; i++)
-			// {
-			// 	w.Write(referedByGuids[i]);
-			// }
-			//
-			// w.Close();
 		}
 
 		public void Remove()
@@ -132,41 +102,6 @@ namespace AssetLens
 			}
 
 			return AssetLensSerializer.Deseriallize(guid);
-
-			// RefData asset = new RefData(guid);
-			//
-			// if (asset.ownGuids == null)
-			// {
-			// 	asset.ownGuids = new List<string>();
-			// }
-			//
-			// if (asset.referedByGuids == null)
-			// {
-			// 	asset.referedByGuids = new List<string>();
-			// }
-			//
-			// BinaryReader r = new BinaryReader(File.OpenRead(path));
-			//
-			// asset.version = r.ReadUInt32();
-			// asset.objectType = r.ReadString();
-			// asset.objectName = r.ReadString();
-			// asset.objectPath = r.ReadString();
-			//
-			// int ownCount = r.ReadInt32();
-			// for (int i = 0; i < ownCount; i++)
-			// {
-			// 	asset.ownGuids.Add(r.ReadString());
-			// }
-			//
-			// int byCount = r.ReadInt32();
-			// for (int i = 0; i < byCount; i++)
-			// {
-			// 	asset.referedByGuids.Add(r.ReadString());
-			// }
-			//
-			// r.Close();
-			//
-			// return asset;
 		}
 
 		public static RefData New(string guid)

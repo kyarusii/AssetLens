@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.PackageManager;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 #pragma warning disable CS1998
@@ -120,10 +122,19 @@ namespace AssetLens
 					if (GUILayout.Button(Localize.Inst.setting_cleanUpCache,
 						new[] { GUILayout.Height(30) }))
 					{
-						Debug.Log("Delete...");
+						AssetLensConsole.Log("Delete...");
 						isInProgress = true;
 
 						CleanUpCache();
+					}
+					
+					if (GUILayout.Button(Localize.Inst.setting_uninstall,
+						new[] { GUILayout.Height(30) }))
+					{
+						AssetLensConsole.Log("Uninstall...");
+						isInProgress = true;
+
+						CleanUninstall();
 					}
 				}
 
@@ -141,7 +152,7 @@ namespace AssetLens
 		private async void CleanUpCache()
 		{
 			int processedAssetCount = await AssetLensCache.CleanUpAssets();
-			Debug.Log($"{processedAssetCount} asset caches removed!");
+			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
 
 			isInProgress = false;
 		}
@@ -149,7 +160,35 @@ namespace AssetLens
 		private async void CleanUninstall()
 		{
 			Directory.Delete(FileSystem.CacheDirectory);
+
+#if DEBUG_ASSETLENS
 			
+			string projectManifest = File.ReadAllText(FileSystem.Manifest);
+			if (!projectManifest.Contains(Constants.PackageName))
+			{
+				AssetLensConsole.Log("Cannot be uninstalled under development.");
+				return;
+			}
+#endif
+
+			RemoveRequest request = Client.Remove(Constants.PackageName);
+			EditorApplication.update += RemoveProgress;
+
+			void RemoveProgress()
+			{
+				if (request.IsCompleted)
+				{
+					if (request.Status == StatusCode.Success)
+					{
+						Debug.Log("Removed: " + request.PackageIdOrName);
+					}
+					else if (request.Status >= StatusCode.Failure) {
+						Debug.Log(request.Error.message);
+					}
+					
+					EditorApplication.update -= RemoveProgress;
+				}
+			}
 		}
 	}
 }

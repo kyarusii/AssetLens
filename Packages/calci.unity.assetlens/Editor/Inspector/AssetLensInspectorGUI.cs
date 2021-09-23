@@ -50,11 +50,16 @@ namespace AssetLens
 					RefData refData = RefData.Get(guid);
 				
 					List<string> usedBy = refData.referedByGuids;
-				
+					
+					// usage or usages in default
+					string textContent = usedBy.Count < 2
+						? string.Format(Localize.Inst.fmt_inspector_usageCount_singular, usedBy.Count)
+						: string.Format(Localize.Inst.fmt_inspectro_usageCount_multiple, usedBy.Count);
+					
 					Rect totalRect = EditorGUILayout.GetControlRect();
-					Rect controlRect =
-						EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent($"{usedBy.Count} usage"));
-				
+					// @TODO :: convert to button like prefab
+					Rect controlRect = EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent(textContent));
+
 					EditorGUI.SelectableLabel(controlRect, guid);	
 				}
 				catch (Exception e)

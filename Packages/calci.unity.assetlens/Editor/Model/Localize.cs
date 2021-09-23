@@ -42,11 +42,15 @@ namespace AssetLens
 		public string setting_unlockDangerzone = nameof(setting_unlockDangerzone);
 		public string setting_dangerzone = nameof(setting_dangerzone);
 		public string setting_cleanUpCache = nameof(setting_cleanUpCache);
+		public string setting_uninstall = nameof(setting_uninstall);
 
 		public string dialog_titleContent = nameof(dialog_titleContent);
 		public string dialog_noIndexedData = nameof(dialog_noIndexedData);
 		public string dialog_indexedAssetExpired = nameof(dialog_indexedAssetExpired);
 		public string dialog_enablePlugin = nameof(dialog_enablePlugin);
 		public string dialog_disablePlugin = nameof(dialog_disablePlugin);
+
+		public string fmt_inspector_usageCount_singular = "{0} usage";
+		public string fmt_inspectro_usageCount_multiple = "{0} usages";
 	}
 }

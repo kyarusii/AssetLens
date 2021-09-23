@@ -39,7 +39,7 @@ namespace AssetLens
 					bool allowDelete = EditorUtility.DisplayDialog("경고!", sb.ToString(), "삭제", "취소");
 					if (!allowDelete)
 					{
-						Debug.Log("삭제가 취소되었습니다.");
+						AssetLensConsole.Log("삭제가 취소되었습니다.");
 						return AssetDeleteResult.DidDelete;
 					}
 				}
