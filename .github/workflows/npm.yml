@@ -23,6 +23,9 @@ jobs:
    - run: yarn install
    
    # Publish to npm
-   - run: npm publish --access public
+   - run: |
+        cd Packages/calci.assetlens
+
+        npm publish --access public
      env:
        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
