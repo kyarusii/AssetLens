@@ -6,8 +6,8 @@
   "unity": "2019.4",
   "unityRelease": "0f1",
   "documentationUrl": "https://github.com/seonghwan-dev/assetlens/wiki",
-  "changelogUrl": "https://github.com/seonghwan-dev/assetlens/blob/main/CHANGELOG.md",
-  "licenseUrl": "https://github.com/seonghwan-dev/assetlens/blob/main/LICENSE",
+  "changelogUrl": "https://github.com/seonghwan-dev/assetlens/blob/main/Packages/calci.unity.assetlens/CHANGELOG.md",
+  "licenseUrl": "https://github.com/seonghwan-dev/assetlens/blob/main/Packages/calci.unity.assetlens/LICENSE",
   "author": {
     "name": "Seonghwan",
     "email": "seonghwan@pm.me",

@@ -76,4 +76,12 @@
 
 ### 0.1.5
 - support 2019.4
-- 
+
+### 0.1.6
+
+- Dialog Localization
+
+### 0.2.0
+
+- Rename Package name to `Asset Lens` from `Reference`
+- Change registry

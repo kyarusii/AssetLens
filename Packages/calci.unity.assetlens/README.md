@@ -1,5 +1,8 @@
 # Reference
 
+[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)  
+
+
 ## About Reference
 Reference is a dependency tracking plugin for UnityEditor that provides additional information such as the number of usage.
 
@@ -7,25 +10,23 @@ This plugin is based on pre-cached complementary guid map to trace which asset h
 The pain point that mainly considered with Unity is that when we delete an asset, we don't know which asset is using it. 
 
 ## Requirements
-
 - All assets must be serialized as force-text option in ProjectSetting/Editor
-> Indexed in `0.0.x` version caches are not compatible with above `0.1.x`.  
-> You must generate indices again if you update plugin from `0.0.x` to above `0.1.x`.  
-> From `0.1.x`, plugin will update automatically in future.  
 
-### Tested in
-- Unity 2019.4 LTS Windows
-- Unity 2020.3 LTS Windows
-- Unity 2021.1f Windows
-- Unity 2021.2b Windows
-- Unity 2022.1a Windows
+### Compatibility
+<p align="center">
+<img src="https://img.shields.io/badge/unity-2019.4f_LTS-brightgreen.svg?style=flat-square&logo=unity">
+<img src="https://img.shields.io/badge/unity-2020.3f_LTS-brightgreen.svg?style=flat-square&logo=unity">
+<img src="https://img.shields.io/badge/unity-2021.1f_LTS-brightgreen.svg?style=flat-square&logo=unity">
+<img src="https://img.shields.io/badge/unity-2021.2b_LTS-brightgreen.svg?style=flat-square&logo=unity">
+<img src="https://img.shields.io/badge/unity-2022.1a_LTS-brightgreen.svg?style=flat-square&logo=unity">
+</p>
 
 ## Installation
 ### Unity Package Manager
 ```json
 {
     "dependencies": {
-        "kr.seonghwan.reference": "0.1.5"
+        "calci.unity.assetlens": "0.2.0"
     }
 }
 ```
@@ -34,21 +35,27 @@ The pain point that mainly considered with Unity is that when we delete an asset
 {
     "scopedRegistries": [
         {
-            "name": "npm-seonghwan",
+            "name": "npm",
             "url": "https://registry.npmjs.org",
             "scopes": [
-                "kr.seonghwan"
+                "calci"
             ]
         }
     ]
 }
 ```
+
 ### FileSystem
 - Move to `ProjectRoot\Packages`  
 - Run command in terminal.  
 ```bash
-git clone https://github.com/seonghwan-dev/Reference
+git clone https://github.com/seonghwan-dev/AssetLens
 ```  
+
+### OpenUPM
+```bash
+openupm add calci.unity.assetlens
+```
 
 ## QuickStart
 - Execute `Tools/Reference/Index All Assets` in MenuItem and wait until complete.  
@@ -57,8 +64,8 @@ git clone https://github.com/seonghwan-dev/Reference
 
 ## Fundamentals
 - Create a cache file per a asset file, see also [RefData.cs](Editor/Model/RefData.cs)
-- Detect asset changes from `AssetPostprocessor`, see also [ReferenceAssetPostprocessor.cs](Editor/Callback/ReferenceAssetPostprocessor.cs)
-- Detect an attempt to delete an asset from `AssetModificationProcessor`, see also [ReferenceAssetModificationProcessor.cs](Editor/Callback/ReferenceAssetModificationProcessor.cs)
+- Detect asset changes from `AssetPostprocessor`, see also [AssetLensPostprocessor.cs](Editor/Callback/AssetLensPostprocessor.cs)
+- Detect an attempt to delete an asset from `AssetModificationProcessor`, see also [AssetLensModification.cs](Editor/Callback/AssetLensModification.cs)
 
 ## Features
 - Display asset usage count in inspector.
