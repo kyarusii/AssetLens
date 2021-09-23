@@ -76,6 +76,8 @@ namespace AssetLens
 					{
 #endif
 						if (asset.Contains("ProjectSettings")) continue;
+						if (asset.Contains(Constants.PackageName)) continue;
+						
 						OnAssetImport(asset);
 
 #if DEBUG_ASSETLENS
