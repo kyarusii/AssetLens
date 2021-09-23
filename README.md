@@ -3,7 +3,7 @@
 [<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)  
 
 
-## About Lens
+## About **Asset Lens**
 Reference is a dependency tracking plugin for UnityEditor that provides additional information such as the number of usage.
 
 This plugin is based on pre-cached complementary guid map to trace which asset has dependencies to specific asset. 
