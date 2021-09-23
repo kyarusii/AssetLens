@@ -43,7 +43,7 @@
 
 		internal const string WINDOW = "Window/Asset Lens";
 		internal const string WINDOW_VIEWER = WINDOW + "/Reference Viewer";
-		internal const string WINDOW_SAFE_DELETE = WINDOW + "/Safe Deleter";
+		internal const string WINDOW_SAFE_DELETE = WINDOW + "/Reference Safe Deleter";
 		internal const string WINDOW_REFERENCE_REPLACE = WINDOW + "/Reference Replacer";
 
 		internal const string ASSETMENU_FindReferenceIn = "Assets/Find References In Project";

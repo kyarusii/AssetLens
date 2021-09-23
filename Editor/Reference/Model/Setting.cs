@@ -5,12 +5,13 @@ using Object = UnityEngine.Object;
 
 namespace AssetLens.Reference
 {
-	internal sealed class ReferenceSetting : ScriptableObject
+	internal sealed class Setting : ScriptableObject
 	{
 		public const uint INDEX_VERSION = 100;
 
-		private static ReferenceSetting instance = default;
-		private const string k_editorCustomSettingsPath = FileSystem.SettingDirectory + "/AssetLens.Reference.asset";
+		private static Setting instance = default;
+		
+		private const string k_editorCustomSettingsPath = FileSystem.SettingDirectory + "/AssetLensSetting.asset";
 
 		[SerializeField] private bool enabled = false;
 		[SerializeField] private bool pauseInPlaymode = true;
@@ -20,7 +21,7 @@ namespace AssetLens.Reference
 
 		[SerializeField] private string localization = "English";
 		
-		internal static ReferenceSetting Inst {
+		internal static Setting Inst {
 			get => GetOrCreateSettings();
 		}
 
@@ -62,18 +63,27 @@ namespace AssetLens.Reference
 			}
 		}
 
-		private static ReferenceSetting GetOrCreateSettings()
+		private static Setting GetOrCreateSettings()
 		{
 			if (instance != null)
 			{
 				return instance;
 			}
 
-			instance = EditorGUIUtility.Load(k_editorCustomSettingsPath) as ReferenceSetting;
+			instance = EditorGUIUtility.Load(FileSystem.SettingDirectory + "/ReferenceSetting.asset") as Setting;
+			if (instance != null)
+			{
+				AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(instance), k_editorCustomSettingsPath);
+				AssetDatabase.SaveAssets();
+				
+				return instance;
+			}
+
+			instance = EditorGUIUtility.Load(k_editorCustomSettingsPath) as Setting;
 
 			if (instance == null)
 			{
-				instance = CreateInstance<ReferenceSetting>();
+				instance = CreateInstance<Setting>();
 				instance.enabled = false;
 
 				if (!Directory.Exists(FileSystem.SettingDirectory))
@@ -97,7 +107,7 @@ namespace AssetLens.Reference
 				Object settingsObj = GetOrCreateSettings();
 				
 				AssetSettingsProvider provider =
-					AssetSettingsProvider.CreateProviderFromObject($"Project/Asset Lens/Reference", settingsObj);
+					AssetSettingsProvider.CreateProviderFromObject($"Project/Asset Lens", settingsObj);
 
 				provider.keywords =
 					SettingsProvider.GetSearchKeywordsFromSerializedObject(

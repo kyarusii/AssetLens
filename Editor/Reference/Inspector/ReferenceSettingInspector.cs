@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace AssetLens.Reference
 {
-	[CustomEditor(typeof(ReferenceSetting))]
+	[CustomEditor(typeof(Setting))]
 	internal sealed class ReferenceSettingInspector : Editor
 	{
 		private SerializedProperty enabled = default;
@@ -83,8 +83,8 @@ namespace AssetLens.Reference
 
 			if (selected != changed)
 			{
-				ReferenceSetting.Localization = localNames[changed];
-				Localize.Inst = ReferenceSetting.LoadLocalization;
+				Setting.Localization = localNames[changed];
+				Localize.Inst = Setting.LoadLocalization;
 			}
 
 			EditorGUILayout.EndVertical();
@@ -122,7 +122,7 @@ namespace AssetLens.Reference
 					if (GUILayout.Button(Localize.Inst.setting_cleanUpCache,
 						new[] { GUILayout.Height(30) }))
 					{
-						ReferenceConsole.Log("Delete...");
+						AssetLensConsole.Log("Delete...");
 						isInProgress = true;
 
 						CleanUpCache();
@@ -131,7 +131,7 @@ namespace AssetLens.Reference
 					if (GUILayout.Button(Localize.Inst.setting_uninstall,
 						new[] { GUILayout.Height(30) }))
 					{
-						ReferenceConsole.Log("Uninstall...");
+						AssetLensConsole.Log("Uninstall...");
 						isInProgress = true;
 
 						CleanUninstall();
@@ -152,17 +152,17 @@ namespace AssetLens.Reference
 		private async void CleanUpCache()
 		{
 			int processedAssetCount = await AssetLensCache.CleanUpAssets();
-			ReferenceConsole.Log($"{processedAssetCount} asset caches removed!");
+			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
 
 			isInProgress = false;
 		}
 
 		private async void CleanUninstall()
 		{
-			ReferenceSetting.IsEnabled = false;
+			Setting.IsEnabled = false;
 			
 			int processedAssetCount = await AssetLensCache.CleanUpAssets();
-			ReferenceConsole.Log($"{processedAssetCount} asset caches removed!");
+			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
 			
 			Directory.Delete(FileSystem.ReferenceCacheDirectory);
 
@@ -171,30 +171,14 @@ namespace AssetLens.Reference
 			string projectManifest = File.ReadAllText(FileSystem.Manifest);
 			if (!projectManifest.Contains(Constants.PackageName))
 			{
-				ReferenceConsole.Log("Cannot be uninstalled under development.");
+				AssetLensConsole.Log("Cannot be uninstalled under development.");
 				return;
 			}
 #endif
 
-			RemoveRequest request = Client.Remove(Constants.PackageName);
-			EditorApplication.update += RemoveProgress;
-
-			void RemoveProgress()
-			{
-				if (request.IsCompleted)
-				{
-					if (request.Status == StatusCode.Success)
-					{
-						Debug.Log("Removed: " + request.PackageIdOrName);
-					}
-					else if (request.Status >= StatusCode.Failure) {
-						Debug.Log(request.Error.message);
-					}
-
-					isInProgress = false;
-					EditorApplication.update -= RemoveProgress;
-				}
-			}
+			// @TODO :: NEED TEST
+			string resultMessage = await PackageSystem.Uninstall();
+			Debug.Log(resultMessage);
 		}
 	}
 }

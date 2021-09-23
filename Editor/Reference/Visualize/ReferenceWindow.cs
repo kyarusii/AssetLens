@@ -57,7 +57,7 @@ namespace AssetLens.Reference
 
 		private bool ValidateEnabled()
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!Setting.IsEnabled)
 			{
 				EditorGUILayout.HelpBox(Localize.Inst.inspector_notInitializeHelpBox, MessageType.Error);
 				EditorGUILayout.Space(10);
@@ -75,13 +75,13 @@ namespace AssetLens.Reference
 			async void OpenDialog()
 			{
 				await ReferenceDialog.OpenIndexAllAssetDialog();
-				ReferenceSetting.IsEnabled = true;
+				Setting.IsEnabled = true;
 			}
 		}
 
 		private bool ValidateAllowInPlaymode()
 		{
-			if (Application.isPlaying && ReferenceSetting.PauseInPlaymode)
+			if (Application.isPlaying && Setting.PauseInPlaymode)
 			{
 				EditorGUILayout.HelpBox(Localize.Inst.inspector_playmodeHelpBox, MessageType.Info);
 
@@ -123,7 +123,7 @@ namespace AssetLens.Reference
 					}
 					else
 					{
-						ReferenceConsole.Log($"{buffer} is not guid!");
+						AssetLensConsole.Log($"{buffer} is not guid!");
 					}
 				}
 #endif
@@ -138,7 +138,7 @@ namespace AssetLens.Reference
 			if (!isLocked)
 			{
 				Object current = Selection.activeObject;
-				if (!ReferenceSetting.TraceSceneObject && current is GameObject go)
+				if (!Setting.TraceSceneObject && current is GameObject go)
 				{
 					if (go.IsSceneObject())
 					{
@@ -195,7 +195,7 @@ namespace AssetLens.Reference
 					referenced[i] = AssetDatabase.LoadAssetAtPath<Object>(referedPath);
 				}
 
-				if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+				if (Setting.UseEditorUtilityWhenSearchDependencies)
 				{
 					dependencies = EditorUtility.CollectDependencies(target);
 				}
@@ -243,7 +243,7 @@ namespace AssetLens.Reference
 			}
 
 			// display indexer version
-			if (ReferenceSetting.DisplayIndexerVersion)
+			if (Setting.DisplayIndexerVersion)
 			{
 				bool typeAndVersion = !string.IsNullOrWhiteSpace(objectType) && !string.IsNullOrWhiteSpace(version);
 				bool nameAndPath = !string.IsNullOrWhiteSpace(objectName) && !string.IsNullOrWhiteSpace(objectPath);
@@ -298,7 +298,7 @@ namespace AssetLens.Reference
 					Object dependency = dependencies[i];
 					if (dependency == null)
 					{
-						if (ReferenceSetting.UseEditorUtilityWhenSearchDependencies)
+						if (Setting.UseEditorUtilityWhenSearchDependencies)
 						{
 							// cannot trace what was that
 							if (!drawedHelpBox)

@@ -106,7 +106,7 @@ namespace AssetLens.Reference
 
 		public static RefData New(string guid)
 		{
-			RefData asset = new RefData(guid, ReferenceSetting.INDEX_VERSION);
+			RefData asset = new RefData(guid, Setting.INDEX_VERSION);
 
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
 			string assetContent = File.ReadAllText(assetPath);

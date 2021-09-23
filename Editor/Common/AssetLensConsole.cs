@@ -2,12 +2,12 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace AssetLens.Reference
+namespace AssetLens
 {
 	[InitializeOnLoad]
-	internal static class ReferenceConsole
+	internal static class AssetLensConsole
 	{
-		static ReferenceConsole()
+		static AssetLensConsole()
 		{
 #if DEBUG_ASSETLENS
 			Log += Debug.Log;

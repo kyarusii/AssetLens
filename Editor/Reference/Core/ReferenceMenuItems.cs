@@ -23,7 +23,7 @@ namespace AssetLens.Reference
 			}
 
 			Task indexAssets = AssetLensCache.IndexAssets();
-			ReferenceSetting.IsEnabled = true;
+			Setting.IsEnabled = true;
 		}
 
 		[MenuItem(ReferenceMenuName.MENU_LOG_REFERENCE + " %&r")]

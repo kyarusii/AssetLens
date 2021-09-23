@@ -36,7 +36,7 @@ namespace AssetLens.Reference
 
 			Debug.Log(msg);
 			
-			ReferenceSerializer.SetLocalVersion((int)ReferenceSetting.INDEX_VERSION);
+			ReferenceSerializer.SetLocalVersion((int)Setting.INDEX_VERSION);
 
 			async Task<string> ReadWork(int threadCount)
 			{
@@ -65,7 +65,7 @@ namespace AssetLens.Reference
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
-					dataMap[key] = new RefData(key, ReferenceSetting.INDEX_VERSION)
+					dataMap[key] = new RefData(key, Setting.INDEX_VERSION)
 					{
 						guid = key,
 						referedByGuids = guidRefByMap[key].ToList()
@@ -77,7 +77,7 @@ namespace AssetLens.Reference
 					if (!dataMap.TryGetValue(key, out RefData asset))
 					{
 						// asset = RefData.New(key);
-						asset = new RefData(key, ReferenceSetting.INDEX_VERSION)
+						asset = new RefData(key, Setting.INDEX_VERSION)
 						{
 							guid = key
 						};

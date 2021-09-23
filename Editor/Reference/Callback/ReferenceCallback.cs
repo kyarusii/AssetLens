@@ -14,7 +14,7 @@ namespace AssetLens.Reference
 	{
 		internal static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!Setting.IsEnabled)
 			{
 				return AssetDeleteResult.DidNotDelete;
 			}
@@ -41,7 +41,7 @@ namespace AssetLens.Reference
 					bool allowDelete = EditorUtility.DisplayDialog("경고!", sb.ToString(), "삭제", "취소");
 					if (!allowDelete)
 					{
-						ReferenceConsole.Log("삭제가 취소되었습니다.");
+						AssetLensConsole.Log("삭제가 취소되었습니다.");
 						return AssetDeleteResult.DidDelete;
 					}
 				}
@@ -59,7 +59,7 @@ namespace AssetLens.Reference
 			string[] importedAssets, string[] deletedAssets,
 			string[] movedAssets, string[] movedFromAssetPaths)
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!Setting.IsEnabled)
 			{
 				return;
 			}

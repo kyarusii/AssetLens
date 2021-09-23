@@ -21,7 +21,7 @@ namespace AssetLens.Reference
 
 		private static void EditorOnfinishedDefaultHeaderGUI(Editor editor)
 		{
-			if (!ReferenceSetting.IsEnabled)
+			if (!Setting.IsEnabled)
 			{
 				return;
 			}
@@ -29,7 +29,7 @@ namespace AssetLens.Reference
 			if (editor.targets.Length == 1)
 			{
 				Object target = editor.target;
-				if (!ReferenceSetting.TraceSceneObject && target is GameObject go)
+				if (!Setting.TraceSceneObject && target is GameObject go)
 				{
 					if (go.IsSceneObject())
 					{

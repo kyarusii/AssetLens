@@ -79,7 +79,7 @@ namespace AssetLens.Reference
 			
 			BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
 			
-			SerializeBody(data, ref w, ReferenceSetting.INDEX_VERSION);
+			SerializeBody(data, ref w, Setting.INDEX_VERSION);
 			w.Close();
 		}
 

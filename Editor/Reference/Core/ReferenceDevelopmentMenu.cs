@@ -66,6 +66,13 @@ namespace AssetLens.Reference
 		{
 			var indexAssets = AssetLensCache.IndexAssets();
 		}
+
+		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Get Version")]
+		private static async void GetVersion()
+		{
+			string result = await PackageSystem.GetVersion();
+			Debug.Log(result);
+		}
 	}
 #endif
 }

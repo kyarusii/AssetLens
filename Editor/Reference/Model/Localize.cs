@@ -12,7 +12,7 @@ namespace AssetLens.Reference
 			{
 				if (_context == null)
 				{
-					_context = ReferenceSetting.LoadLocalization;
+					_context = Setting.LoadLocalization;
 				}
 
 				return _context;

@@ -29,11 +29,11 @@ namespace AssetLens.Reference
 							await AssetLensCache.CleanUpAssets();
 							await AssetLensCache.IndexAssets();
 						
-							ReferenceSetting.IsEnabled = true;
+							Setting.IsEnabled = true;
 						}
 						else
 						{
-							ReferenceSetting.IsEnabled = false;
+							Setting.IsEnabled = false;
 						}
 					}
 					
