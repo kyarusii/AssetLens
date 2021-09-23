@@ -11,7 +11,7 @@ namespace AssetLens.Reference
 
 		private static Setting instance = default;
 		
-		private const string k_editorCustomSettingsPath = FileSystem.SettingDirectory + "/AssetLensSetting.asset";
+		private const string k_editorCustomSettingsPath = FileSystem.SettingDirectory + "/AssetLens Setting.asset";
 
 		[SerializeField] private bool enabled = false;
 		[SerializeField] private bool pauseInPlaymode = true;
