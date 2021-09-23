@@ -1,0 +1,21 @@
+{
+    "name": "English",
+    "indexing_title": "Warning!",
+    "indexing_message": "This process might require a long time. Continue?",
+    "indexing_proceed": "Continue",
+    "indexing_cancel": "Cancel",
+    "setting_enabled": "Activated",
+    "setting_pauseInPlaymode": "EditMode Only",
+    "setting_traceSceneObjects": "Allow SceneObject",
+    "setting_useEditorUtilityWhenSearchDependencies": "Use EditorUtility in search",
+    "setting_language": "Language",
+    "setting_workflow": "Workflows",
+    "setting_miscellaneous": "Etc",
+    "setting_unlockDangerzone": "Unlock Dangerous Zone",
+    "setting_dangerzone": "Dangerous Zone",
+    "setting_cleanUpCache": "Clean up Cache",
+    "dialog_noIndexedData": "There is no indexed data. Generate?",
+    "dialog_indexedAssetExpired": "indexed caches are expired. generate again?",
+    "dialog_enablePlugin": "Generate",
+    "dialog_disablePlugin": "Disable Plugin"
+}

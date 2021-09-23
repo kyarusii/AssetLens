@@ -1,0 +1,29 @@
+{
+  "name": "calci.unity.assetlens",
+  "version": "0.2.0",
+  "displayName": "Asset Lens",
+  "description": "This package helps to view references between assets in project.",
+  "unity": "2019.4",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/seonghwan-dev/assetlens/wiki",
+  "changelogUrl": "https://github.com/seonghwan-dev/assetlens/blob/main/Packages/calci.unity.assetlens/CHANGELOG.md",
+  "licenseUrl": "https://github.com/seonghwan-dev/assetlens/blob/main/Packages/calci.unity.assetlens/LICENSE",
+  "author": {
+    "name": "Seonghwan",
+    "email": "seonghwan@pm.me",
+    "url": "https://github.com/seonghwan-dev"
+  },
+  "homepage": "https://github.com/seonghwan-dev/assetlens",
+  "bugs": {
+    "url": "https://github.com/seonghwan-dev/assetlens/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:seonghwan-dev/assetlens.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "utility",
+    "unity"
+  ]
+}
