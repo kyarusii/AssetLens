@@ -159,6 +159,11 @@ namespace AssetLens
 
 		private async void CleanUninstall()
 		{
+			AssetLensSetting.IsEnabled = false;
+			
+			int processedAssetCount = await AssetLensCache.CleanUpAssets();
+			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
+			
 			Directory.Delete(FileSystem.CacheDirectory);
 
 #if DEBUG_ASSETLENS
@@ -185,7 +190,8 @@ namespace AssetLens
 					else if (request.Status >= StatusCode.Failure) {
 						Debug.Log(request.Error.message);
 					}
-					
+
+					isInProgress = false;
 					EditorApplication.update -= RemoveProgress;
 				}
 			}

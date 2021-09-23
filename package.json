@@ -1,5 +1,5 @@
 {
-  "name": "calci.unity.assetlens",
+  "name": "com.calci.assetlens",
   "version": "0.2.0",
   "displayName": "Asset Lens",
   "description": "This package helps to view references between assets in project.",

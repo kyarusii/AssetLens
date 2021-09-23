@@ -26,7 +26,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 ```json
 {
     "dependencies": {
-        "calci.unity.assetlens": "0.2.0"
+        "com.calci.assetlens": "0.2.0"
     }
 }
 ```
@@ -38,7 +38,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
             "name": "npm",
             "url": "https://registry.npmjs.org",
             "scopes": [
-                "calci"
+                "com.calci"
             ]
         }
     ]
