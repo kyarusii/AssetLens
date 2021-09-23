@@ -71,6 +71,15 @@ openupm add com.calci.assetlens
 - Display asset usage count in inspector.
 - Find References In Project
 
+### Reference Viewer Window
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79823287/134523257-28173dc7-4fd5-406e-8ac9-56b148debedb.png" width="460">
+</p>
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79823287/134523437-166bf30b-ccdd-42ea-90ae-3084e0f013f6.png" width="460">
+</p>
+
+
 ## Roadmap
 - Safer Asset Delete ([#8](/../../issues/8))  
 - Reference replacement wizard ([#9](/../../issues/9))  
