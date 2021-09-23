@@ -4,8 +4,8 @@ namespace AssetLens
 {
 	internal static class FileSystem
 	{
-		internal static readonly string CacheDirectory =
-			Application.dataPath.Replace("Assets", "Library/" + Constants.DisplayName + "Cache");
+		internal static readonly string ReferenceCacheDirectory =
+			Application.dataPath.Replace("Assets", "Library/ReferenceCache");
 		
 		internal const string PackageDirectory = "Packages/" + Constants.PackageName;
 

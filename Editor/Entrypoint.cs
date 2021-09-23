@@ -10,7 +10,7 @@ namespace AssetLens
 		private static async void InitializeOnLoadMethod()
 		{
 			// when there is no directory for cached object.
-			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.CacheDirectory);
+			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.ReferenceCacheDirectory);
 			if (!rootDirectory.Exists)
 			{ 
 				rootDirectory.Create();

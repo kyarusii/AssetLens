@@ -164,7 +164,7 @@ namespace AssetLens
 			int processedAssetCount = await AssetLensCache.CleanUpAssets();
 			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
 			
-			Directory.Delete(FileSystem.CacheDirectory);
+			Directory.Delete(FileSystem.ReferenceCacheDirectory);
 
 #if DEBUG_ASSETLENS
 			

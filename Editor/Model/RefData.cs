@@ -87,13 +87,13 @@ namespace AssetLens
 
 		public void Remove()
 		{
-			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 			File.Delete(path);
 		}
 
 		public static RefData Get(string guid)
 		{
-			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 			
 			if (!File.Exists(path))
 			{
@@ -158,7 +158,7 @@ namespace AssetLens
 
 		public static bool Exist(string guid)
 		{
-			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 			return File.Exists(path);
 		}
 	}

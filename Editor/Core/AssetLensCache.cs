@@ -150,7 +150,7 @@ namespace AssetLens
 		{
 			await Task.Delay(10);
 
-			string[] cacheFiles = Directory.GetFiles(FileSystem.CacheDirectory, "*.ref");
+			string[] cacheFiles = Directory.GetFiles(FileSystem.ReferenceCacheDirectory, "*.ref");
 			foreach (string cacheFile in cacheFiles)
 			{
 				File.Delete(cacheFile);

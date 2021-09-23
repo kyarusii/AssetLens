@@ -30,7 +30,7 @@ namespace AssetLens
 
 		internal static RefData Deseriallize(string guid)
 		{
-			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 		
 			BinaryReader r = new BinaryReader(File.OpenRead(path));
 			uint version = r.ReadUInt32();
@@ -75,7 +75,7 @@ namespace AssetLens
 
 		internal static void Serialize(RefData data)
 		{
-			string path = FileSystem.CacheDirectory + $"/{data.guid}.ref";
+			string path = FileSystem.ReferenceCacheDirectory + $"/{data.guid}.ref";
 			
 			BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
 			
