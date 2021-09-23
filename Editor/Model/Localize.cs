@@ -27,6 +27,8 @@ namespace RV
 		public string indexing_proceed = nameof(indexing_proceed);
 		public string indexing_cancel = nameof(indexing_cancel);
 
+		public string processing_title = nameof(processing_title);
+
 		public string setting_enabled = nameof(setting_enabled);
 		public string setting_pauseInPlaymode = nameof(setting_pauseInPlaymode);
 		public string setting_traceSceneObjects = nameof(setting_traceSceneObjects);
@@ -41,6 +43,7 @@ namespace RV
 		public string setting_dangerzone = nameof(setting_dangerzone);
 		public string setting_cleanUpCache = nameof(setting_cleanUpCache);
 
+		public string dialog_titleContent = nameof(dialog_titleContent);
 		public string dialog_noIndexedData = nameof(dialog_noIndexedData);
 		public string dialog_indexedAssetExpired = nameof(dialog_indexedAssetExpired);
 		public string dialog_enablePlugin = nameof(dialog_enablePlugin);

@@ -9,42 +9,40 @@ namespace RV
 		[InitializeOnLoadMethod]
 		private static async void InitializeOnLoadMethod()
 		{
+			// when there is no directory for cached object.
 			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.CacheDirectory);
 			if (!rootDirectory.Exists)
 			{ 
 				rootDirectory.Create();
-				const string title = "Reference";
 
-				int version = EditorPrefs.GetInt($"{Application.productName}.Reference.Version", 0);
-				if (version < 100)
+				// force re-indexing
+				if (ReferenceSerializer.HasLocalVersion())
 				{
-					if (EditorUtility.DisplayDialog(title,
-						Localize.Inst.dialog_indexedAssetExpired,
-						Localize.Inst.dialog_enablePlugin,
-						Localize.Inst.dialog_disablePlugin))
+					int version = ReferenceSerializer.GetLocalVersion();
+					if (version < 100)
 					{
-						await ReferenceCache.CleanUpAssets();
-						await ReferenceCache.IndexAssets();
-						ReferenceSetting.IsEnabled = true;
+						if (EditorUtility.DisplayDialog(
+							Localize.Inst.dialog_titleContent,
+							Localize.Inst.dialog_indexedAssetExpired,
+							Localize.Inst.dialog_enablePlugin,
+							Localize.Inst.dialog_disablePlugin))
+						{
+							await ReferenceCache.CleanUpAssets();
+							await ReferenceCache.IndexAssets();
+						
+							ReferenceSetting.IsEnabled = true;
+						}
+						else
+						{
+							ReferenceSetting.IsEnabled = false;
+						}
 					}
-					else
-					{
-						ReferenceSetting.IsEnabled = false;
-					}
+					
+					return;
 				}
 
-				if (EditorUtility.DisplayDialog(title,
-					Localize.Inst.dialog_noIndexedData,
-					Localize.Inst.dialog_enablePlugin,
-					Localize.Inst.dialog_disablePlugin))
-				{
-					await ReferenceCache.IndexAssets();
-					ReferenceSetting.IsEnabled = true;
-				}
-				else
-				{
-					ReferenceSetting.IsEnabled = false;
-				}
+				// first indexing
+				await ReferenceDialog.OpenIndexAllAssetDialog();
 			}
 		}
 	}

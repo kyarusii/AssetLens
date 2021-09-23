@@ -184,7 +184,7 @@ namespace RV
 				objectType = data.objectType;
 				objectName = data.objectName;
 				objectPath = data.objectPath;
-				version = data.version.ToString();
+				version = data.GetVersionText();
 
 				List<string> referedByGuids = data.referedByGuids;
 				referenced = new Object[referedByGuids.Count];

@@ -38,12 +38,22 @@ namespace RV
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
 
-		public Version version { get; protected set; }
+		private Version version;
 
+		public uint GetVersion()
+		{
+			return version;
+		}
 
-		public RefData(string guid)
+		public string GetVersionText()
+		{
+			return version.ToString();
+		}
+
+		public RefData(string guid, uint version)
 		{
 			this.guid = guid;
+			this.version = version;
 
 			try
 			{
@@ -72,35 +82,37 @@ namespace RV
 
 		public void Save()
 		{
-			string path = FileSystem.CacheDirectory + $"/{guid}.ref";
-
-			BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
-
-			// version for integration
-			version = ReferenceSetting.INDEX_VERSION;
+			ReferenceSerializer.Serialize(this);
 			
-			w.Write(version);
-			w.Write(objectType);
-			w.Write(objectName);
-			w.Write(objectPath);
-
-			int ownCount = ownGuids.Count;
-			w.Write(ownCount);
-
-			for (int i = 0; i < ownCount; i++)
-			{
-				w.Write(ownGuids[i]);
-			}
-
-			int byCount = referedByGuids.Count;
-			w.Write(byCount);
-
-			for (int i = 0; i < byCount; i++)
-			{
-				w.Write(referedByGuids[i]);
-			}
-
-			w.Close();
+			// string path = FileSystem.CacheDirectory + $"/{guid}.ref";
+			//
+			// BinaryWriter w = new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.Write));
+			//
+			// // version for integration
+			// version = ReferenceSetting.INDEX_VERSION;
+			//
+			// w.Write(version);
+			// w.Write(objectType);
+			// w.Write(objectName);
+			// w.Write(objectPath);
+			//
+			// int ownCount = ownGuids.Count;
+			// w.Write(ownCount);
+			//
+			// for (int i = 0; i < ownCount; i++)
+			// {
+			// 	w.Write(ownGuids[i]);
+			// }
+			//
+			// int byCount = referedByGuids.Count;
+			// w.Write(byCount);
+			//
+			// for (int i = 0; i < byCount; i++)
+			// {
+			// 	w.Write(referedByGuids[i]);
+			// }
+			//
+			// w.Close();
 		}
 
 		public void Remove()
@@ -119,45 +131,47 @@ namespace RV
 				return New(guid);
 			}
 
-			RefData asset = new RefData(guid);
+			return ReferenceSerializer.Deseriallize(guid);
 
-			if (asset.ownGuids == null)
-			{
-				asset.ownGuids = new List<string>();
-			}
-
-			if (asset.referedByGuids == null)
-			{
-				asset.referedByGuids = new List<string>();
-			}
-
-			BinaryReader r = new BinaryReader(File.OpenRead(path));
-
-			asset.version = r.ReadUInt32();
-			asset.objectType = r.ReadString();
-			asset.objectName = r.ReadString();
-			asset.objectPath = r.ReadString();
-
-			int ownCount = r.ReadInt32();
-			for (int i = 0; i < ownCount; i++)
-			{
-				asset.ownGuids.Add(r.ReadString());
-			}
-
-			int byCount = r.ReadInt32();
-			for (int i = 0; i < byCount; i++)
-			{
-				asset.referedByGuids.Add(r.ReadString());
-			}
-
-			r.Close();
-
-			return asset;
+			// RefData asset = new RefData(guid);
+			//
+			// if (asset.ownGuids == null)
+			// {
+			// 	asset.ownGuids = new List<string>();
+			// }
+			//
+			// if (asset.referedByGuids == null)
+			// {
+			// 	asset.referedByGuids = new List<string>();
+			// }
+			//
+			// BinaryReader r = new BinaryReader(File.OpenRead(path));
+			//
+			// asset.version = r.ReadUInt32();
+			// asset.objectType = r.ReadString();
+			// asset.objectName = r.ReadString();
+			// asset.objectPath = r.ReadString();
+			//
+			// int ownCount = r.ReadInt32();
+			// for (int i = 0; i < ownCount; i++)
+			// {
+			// 	asset.ownGuids.Add(r.ReadString());
+			// }
+			//
+			// int byCount = r.ReadInt32();
+			// for (int i = 0; i < byCount; i++)
+			// {
+			// 	asset.referedByGuids.Add(r.ReadString());
+			// }
+			//
+			// r.Close();
+			//
+			// return asset;
 		}
 
 		public static RefData New(string guid)
 		{
-			RefData asset = new RefData(guid);
+			RefData asset = new RefData(guid, ReferenceSetting.INDEX_VERSION);
 
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
 			string assetContent = File.ReadAllText(assetPath);
@@ -185,17 +199,6 @@ namespace RV
 			}
 
 			asset.ownGuids = owningGuids;
-			asset.version = ReferenceSetting.INDEX_VERSION;
-
-			// if (string.IsNullOrWhiteSpace(assetPath))
-			// {
-			// 	asset.objectType = "WHITESPACE";
-			// }
-			// else
-			// {
-			// 	Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(assetPath);
-			// 	asset.objectType = obj == null ? "NULL" : obj.GetType().FullName;	
-			// }
 
 			return asset;
 		}

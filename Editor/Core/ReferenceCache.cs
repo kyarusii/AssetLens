@@ -35,7 +35,8 @@ namespace RV
 			string msg = await ReadWork(taskCount);
 
 			Debug.Log(msg);
-			EditorPrefs.SetInt($"{Application.productName}.Reference.Version", (int)ReferenceSetting.INDEX_VERSION);
+			
+			ReferenceSerializer.SetLocalVersion((int)ReferenceSetting.INDEX_VERSION);
 
 			async Task<string> ReadWork(int threadCount)
 			{
@@ -52,7 +53,7 @@ namespace RV
 
 				while (fileMap.Keys.Count != allCount)
 				{
-					EditorUtility.DisplayProgressBar("인덱싱...",
+					EditorUtility.DisplayProgressBar(Localize.Inst.processing_title,
 						$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
 
 					// refresh rate
@@ -64,7 +65,7 @@ namespace RV
 				Dictionary<string, RefData> dataMap = new Dictionary<string, RefData>();
 				foreach (string key in guidRefByMap.Keys)
 				{
-					dataMap[key] = new RefData(key)
+					dataMap[key] = new RefData(key, ReferenceSetting.INDEX_VERSION)
 					{
 						guid = key,
 						referedByGuids = guidRefByMap[key].ToList()
@@ -76,7 +77,7 @@ namespace RV
 					if (!dataMap.TryGetValue(key, out RefData asset))
 					{
 						// asset = RefData.New(key);
-						asset = new RefData(key)
+						asset = new RefData(key, ReferenceSetting.INDEX_VERSION)
 						{
 							guid = key
 						};

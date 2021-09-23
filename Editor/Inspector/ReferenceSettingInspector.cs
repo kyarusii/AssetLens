@@ -3,6 +3,8 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+#pragma warning disable CS1998
+
 namespace RV
 {
 	[CustomEditor(typeof(ReferenceSetting))]
@@ -143,5 +145,13 @@ namespace RV
 
 			isInProgress = false;
 		}
+
+		private async void CleanUninstall()
+		{
+			Directory.Delete(FileSystem.CacheDirectory);
+			
+		}
 	}
 }
+
+#pragma warning restore CS1998
