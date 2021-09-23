@@ -54,7 +54,7 @@ git clone https://github.com/seonghwan-dev/AssetLens
 
 ### OpenUPM
 ```bash
-openupm add calci.unity.assetlens
+openupm add com.calci.assetlens
 ```
 
 ## QuickStart
