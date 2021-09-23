@@ -18,7 +18,6 @@ namespace AssetLens.Reference
 		[SerializeField] private bool traceSceneObject = false;
 		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
 		[SerializeField] private bool displayIndexerVersion = false;
-
 		[SerializeField] private string localization = "English";
 		
 		internal static Setting Inst {
@@ -33,17 +32,25 @@ namespace AssetLens.Reference
 				EditorUtility.SetDirty(GetOrCreateSettings());
 			}
 		}
-
+		
 		public static bool PauseInPlaymode => GetOrCreateSettings().pauseInPlaymode;
-
+		
 		public static bool TraceSceneObject => GetOrCreateSettings().traceSceneObject;
-
+		
 		public static bool UseEditorUtilityWhenSearchDependencies =>
 			GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
-
-
+		
+		
 		public static bool DisplayIndexerVersion => GetOrCreateSettings().displayIndexerVersion;
-
+		
+		public static string Localization {
+			set
+			{
+				GetOrCreateSettings().localization = value;
+				EditorUtility.SetDirty(GetOrCreateSettings());
+			}
+		}
+		
 		internal static Localize LoadLocalization {
 			get
 			{
@@ -52,14 +59,6 @@ namespace AssetLens.Reference
 
 				string json = File.ReadAllText(fullPath);
 				return JsonUtility.FromJson<Localize>(json);
-			}
-		}
-
-		public static string Localization {
-			set
-			{
-				GetOrCreateSettings().localization = value;
-				EditorUtility.SetDirty(GetOrCreateSettings());
 			}
 		}
 
