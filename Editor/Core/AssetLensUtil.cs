@@ -83,5 +83,8 @@ namespace AssetLens
 		{
 			return Path.GetFullPath(path).Contains("PackageCache");
 		}
+
+		internal const string UNITY_DEFAULT_RESOURCE = "Library/unity default resources";
+		internal const string UNITY_BUILTIN_EXTRA = "Resources/unity_builtin_extra";
 	}
 }

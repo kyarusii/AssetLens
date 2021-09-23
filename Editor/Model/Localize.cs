@@ -17,10 +17,19 @@ namespace AssetLens
 
 				return _context;
 			}
-			set => _context = value;
+			set
+			{
+				_context = value;
+				onUpdate(_context);
+			}
 		}
 
+		public static event Action<Localize> onUpdate = delegate(Localize localize) {  };
+
 		public string name = "Language";
+		public string displayName = "Asset Lens";
+
+		public string guid = "guid";
 
 		public string indexing_title = nameof(indexing_title);
 		public string indexing_message = nameof(indexing_message);
@@ -51,6 +60,20 @@ namespace AssetLens
 		public string dialog_disablePlugin = nameof(dialog_disablePlugin);
 
 		public string fmt_inspector_usageCount_singular = "{0} usage";
-		public string fmt_inspectro_usageCount_multiple = "{0} usages";
+		public string fmt_inspector_usageCount_multiple = "{0} usages";
+		public string fmt_inspector_dependencies = "Dependencies : {0}";
+		public string fmt_inspector_referencedBy = "Usages : {0}";
+		
+		public string inspector_nothing_selected = "Nothing selected";
+		public string inspector_selected = "Selected";
+		public string inspector_missingObject = "Missing Object";
+		public string inspector_editorUtilityMissingObjectHelpBox = nameof(inspector_editorUtilityMissingObjectHelpBox);
+		public string inspector_lockSelect = "Lock";
+		public string inspector_sceneObjectHelpbox = "Disabled on Scene Object";
+		public string inspector_buildInResources = "Built-in Resources";
+		public string inspector_playmodeHelpBox = "Disabled in PlayMode";
+
+		public string inspector_notInitializeHelpBox = "Asset Lens is not initialized";
+		public string inspector_generateIndex = "Initialize";
 	}
 }

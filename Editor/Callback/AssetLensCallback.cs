@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+#pragma warning disable CS0168
+
 namespace AssetLens
 {
 	internal static class AssetLensCallback
@@ -295,3 +297,4 @@ namespace AssetLens
 		}
 	}
 }
+#pragma warning restore CS0168

@@ -92,10 +92,9 @@ namespace AssetLens
 			public static SettingsProvider CreateFromSettingsObject()
 			{
 				Object settingsObj = EditorGUIUtility.Load(k_editorCustomSettingsPath);
- 
 				
 				AssetSettingsProvider provider =
-					AssetSettingsProvider.CreateProviderFromObject($"Project/{Constants.DisplayName}", settingsObj);
+					AssetSettingsProvider.CreateProviderFromObject($"Project/{Localize.Inst.displayName}", settingsObj);
 
 				provider.keywords =
 					SettingsProvider.GetSearchKeywordsFromSerializedObject(

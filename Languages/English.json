@@ -1,9 +1,11 @@
 {
     "name": "English",
+    "displayName": "Asset Lens",
     "indexing_title": "Warning!",
     "indexing_message": "This process might require a long time. Continue?",
     "indexing_proceed": "Continue",
     "indexing_cancel": "Cancel",
+    "processing_title": "processing_title",
     "setting_enabled": "Activated",
     "setting_pauseInPlaymode": "EditMode Only",
     "setting_traceSceneObjects": "Allow SceneObject",
@@ -14,8 +16,18 @@
     "setting_unlockDangerzone": "Unlock Dangerous Zone",
     "setting_dangerzone": "Dangerous Zone",
     "setting_cleanUpCache": "Clean up Cache",
+    "setting_uninstall": "Uninstall package",
+    "dialog_titleContent": "Init Wizard",
     "dialog_noIndexedData": "There is no indexed data. Generate?",
     "dialog_indexedAssetExpired": "indexed caches are expired. generate again?",
     "dialog_enablePlugin": "Generate",
-    "dialog_disablePlugin": "Disable Plugin"
+    "dialog_disablePlugin": "Disable Plugin",
+    "fmt_inspector_usageCount_singular": "{0} usage",
+    "fmt_inspector_usageCount_multiple": "{0} usages",
+    "fmt_inspector_dependencies": "Dependencies : {0}",
+    "fmt_inspector_referencedBy": "Usages : {0}",
+    "inspector_nothing_selected": "Nothing selected",
+    "inspector_selected": "Selected",
+    "inspector_missingObject": "Missing Object",
+    "inspector_editorUtilityMissingObjectHelpBox": "Missing object cannot be tracked in EditorUtility dependency mode.\nTurn off EditorUtilityOnSearch option in ProjectSetting/Asset Lens"
 }

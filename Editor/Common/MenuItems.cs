@@ -57,8 +57,8 @@ namespace AssetLens
 			}
 		}
 
-		[MenuItem(LanguageConstants.WINDOW_VIEWER)]
-		private static void Init()
+		[MenuItem(LanguageConstants.WINDOW_VIEWER, false, 110)]
+		private static void OpenReferenceViewerWindow()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
 
@@ -66,9 +66,29 @@ namespace AssetLens
 			window.Show();
 		}
 
-		private const int order = 28;
+#if DEBUG_ASSETLENS
+		[MenuItem(LanguageConstants.WINDOW_REFERENCE_REPLACE, false, 121)]
+		private static void OpenReferenceReplaceWindow()
+		{
+			ReferenceReplacementWindow window = (ReferenceReplacementWindow)EditorWindow.GetWindow(typeof(ReferenceReplacementWindow));
 
-		[MenuItem(LanguageConstants.ASSETMENU_FindReferenceIn, false, order)]
+			window.titleContent = new GUIContent("Reference Replacer");
+			window.Show();
+		}
+		
+		[MenuItem(LanguageConstants.WINDOW_SAFE_DELETE, false, 122)]
+		private static void OpenSafeDeleteWindow()
+		{
+			ReferenceSafeDeleteWindow window = (ReferenceSafeDeleteWindow)EditorWindow.GetWindow(typeof(ReferenceSafeDeleteWindow));
+
+			window.titleContent = new GUIContent("Safe Deleter");
+			window.Show();
+		}
+#endif
+
+		private const int FindInProjectsOrder = 28;
+
+		[MenuItem(LanguageConstants.ASSETMENU_FindReferenceIn, false, FindInProjectsOrder)]
 		private static void FindInProjects()
 		{
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
@@ -77,14 +97,14 @@ namespace AssetLens
 			window.Show();
 		}
 
-		[MenuItem(LanguageConstants.ASSETMENU_FindExplicitReferenceInProject, true, order + 1)]
-		[MenuItem(LanguageConstants.ASSETMENU_FindReferenceIn, true, order)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindExplicitReferenceInProject, true, FindInProjectsOrder + 1)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindReferenceIn, true, FindInProjectsOrder)]
 		private static bool ValidateFindInProject()
 		{
 			return Selection.activeObject != null && Selection.objects.Length == 1;
 		}
 
-		[MenuItem(LanguageConstants.ASSETMENU_FindExplicitReferenceInProject, false, order + 1)]
+		[MenuItem(LanguageConstants.ASSETMENU_FindExplicitReferenceInProject, false, FindInProjectsOrder + 1)]
 		private static void FindInProjectsExplicit()
 		{
 			Stopwatch sw = new Stopwatch();

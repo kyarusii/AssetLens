@@ -15,8 +15,6 @@ namespace AssetLens
 		private Object selected = default;
 		private Object previous = default;
 
-		// private RefData data = default;
-
 		private Object[] dependencies = Array.Empty<Object>();
 		private Object[] referenced = Array.Empty<Object>();
 
@@ -61,31 +59,31 @@ namespace AssetLens
 		{
 			if (!AssetLensSetting.IsEnabled)
 			{
-				EditorGUILayout.HelpBox("Reference is not initialized!", MessageType.Error);
+				EditorGUILayout.HelpBox(Localize.Inst.inspector_notInitializeHelpBox, MessageType.Error);
 				EditorGUILayout.Space(10);
 
-				if (GUILayout.Button("Initialize", new[] { GUILayout.Height(16) }))
+				if (GUILayout.Button(Localize.Inst.inspector_generateIndex, new[] { GUILayout.Height(24) }))
 				{
-					if (!EditorUtility.DisplayDialog("주의", "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?", "계속", "취소"))
-					{
-						return false;
-					}
-
-					Task indexAssets = AssetLensCache.IndexAssets();
-					AssetLensSetting.IsEnabled = true;
+					OpenDialog();
 				}
 
 				return false;
 			}
 
 			return true;
+
+			async void OpenDialog()
+			{
+				await AssetLensDialog.OpenIndexAllAssetDialog();
+				AssetLensSetting.IsEnabled = true;
+			}
 		}
 
 		private bool ValidateAllowInPlaymode()
 		{
 			if (Application.isPlaying && AssetLensSetting.PauseInPlaymode)
 			{
-				EditorGUILayout.HelpBox("Disabled in Playmode.", MessageType.Info);
+				EditorGUILayout.HelpBox(Localize.Inst.inspector_playmodeHelpBox, MessageType.Info);
 
 				return false;
 			}
@@ -97,6 +95,7 @@ namespace AssetLens
 		{
 			using (new EditorGUILayout.HorizontalScope())
 			{
+#if DEBUG_ASSETLENS
 				if (GUILayout.Button("Select by guid in clipboard"))
 				{
 					string buffer = EditorGUIUtility.systemCopyBuffer;
@@ -124,13 +123,13 @@ namespace AssetLens
 					}
 					else
 					{
-						Debug.Log($"{buffer} is not guid!");
+						AssetLensConsole.Log($"{buffer} is not guid!");
 					}
 				}
-
+#endif
 				GUILayout.FlexibleSpace();
 
-				isLocked = EditorGUILayout.Toggle("Lock", isLocked);
+				isLocked = EditorGUILayout.Toggle(Localize.Inst.inspector_lockSelect, isLocked);
 			}
 		}
 
@@ -143,7 +142,7 @@ namespace AssetLens
 				{
 					if (go.IsSceneObject())
 					{
-						EditorGUILayout.HelpBox("Disabled on Scene Object.", MessageType.Info);
+						EditorGUILayout.HelpBox(Localize.Inst.inspector_sceneObjectHelpbox, MessageType.Info);
 						return false;
 					}
 				}
@@ -234,7 +233,14 @@ namespace AssetLens
 		{
 			EditorGUILayout.Space(4);
 
-			EditorGUILayout.ObjectField($"Selected", selected, typeof(Object), true, Array.Empty<GUILayoutOption>());
+			if (selected == null)
+			{
+				EditorGUILayout.HelpBox(Localize.Inst.inspector_nothing_selected, MessageType.Info, true);
+			}
+			else
+			{
+				EditorGUILayout.ObjectField(Localize.Inst.inspector_selected, selected, typeof(Object), true, Array.Empty<GUILayoutOption>());
+			}
 
 			// display indexer version
 			if (AssetLensSetting.DisplayIndexerVersion)
@@ -275,7 +281,7 @@ namespace AssetLens
 
 			if (dependencies.Length > 0)
 			{
-				EditorGUILayout.LabelField($"Dependencies : {dependencies.Length}", EditorStyles.boldLabel);
+				EditorGUILayout.LabelField(string.Format(Localize.Inst.fmt_inspector_dependencies, dependencies.Length), EditorStyles.boldLabel);
 				EditorGUILayout.Space(2);
 
 				EditorGUI.indentLevel++;
@@ -297,14 +303,13 @@ namespace AssetLens
 							// cannot trace what was that
 							if (!drawedHelpBox)
 							{
-								EditorGUILayout.HelpBox(
-									"Missing object cannot be tracked in EditorUtility dependency mode.\nTurn off EditorUtilityOnSearch option in ProjectSetting/Reference",
+								EditorGUILayout.HelpBox(Localize.Inst.inspector_editorUtilityMissingObjectHelpBox,
 									MessageType.Info);
 
 								drawedHelpBox = true;
 							}
 
-							EditorGUILayout.LabelField("Missing Object");
+							EditorGUILayout.LabelField(Localize.Inst.inspector_missingObject);
 						}
 						else
 						{
@@ -313,18 +318,18 @@ namespace AssetLens
 
 							if (string.IsNullOrWhiteSpace(path))
 							{
-								EditorGUILayout.LabelField($"guid", guid);
+								EditorGUILayout.LabelField(Localize.Inst.guid, guid);
 							}
 							else
 							{
-								if (string.CompareOrdinal(path, "Library/unity default resources") == 0
-								|| string.CompareOrdinal(path, "Resources/unity_builtin_extra") == 0)
+								if (string.CompareOrdinal(path, AssetLensUtil.UNITY_DEFAULT_RESOURCE) == 0
+								|| string.CompareOrdinal(path, AssetLensUtil.UNITY_BUILTIN_EXTRA) == 0)
 								{
-									EditorGUILayout.LabelField($"Built-in Resources", path);
+									EditorGUILayout.LabelField(Localize.Inst.inspector_buildInResources, path);
 								}
 								else
 								{
-									EditorGUILayout.LabelField("Missing Object", path);
+									EditorGUILayout.LabelField(Localize.Inst.inspector_missingObject, path);
 								}
 							}
 						}
@@ -349,7 +354,7 @@ namespace AssetLens
 
 			if (referenced.Length > 0)
 			{
-				EditorGUILayout.LabelField($"Referenced By : {referenced.Length}", EditorStyles.boldLabel);
+				EditorGUILayout.LabelField(string.Format(Localize.Inst.fmt_inspector_referencedBy, referenced.Length), EditorStyles.boldLabel);
 				EditorGUILayout.Space(2);
 
 				EditorGUI.indentLevel++;
