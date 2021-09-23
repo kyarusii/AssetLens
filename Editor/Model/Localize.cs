@@ -43,6 +43,7 @@ namespace RV
 		public string setting_dangerzone = nameof(setting_dangerzone);
 		public string setting_cleanUpCache = nameof(setting_cleanUpCache);
 
+		public string dialog_titleContent = nameof(dialog_titleContent);
 		public string dialog_noIndexedData = nameof(dialog_noIndexedData);
 		public string dialog_indexedAssetExpired = nameof(dialog_indexedAssetExpired);
 		public string dialog_enablePlugin = nameof(dialog_enablePlugin);
