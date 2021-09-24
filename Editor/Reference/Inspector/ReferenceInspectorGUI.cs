@@ -40,9 +40,14 @@ namespace AssetLens.Reference
 				if (!ReferenceEquals(Selection.activeObject, target)) return;
 				
 				string path = AssetDatabase.GetAssetPath(target);
-				
+
+				// Exclude empty path
+				if (string.IsNullOrWhiteSpace(path)) return;
 				// Exclude folder
 				if (Directory.Exists(path)) return;
+				// Exclude Invalid Path
+				if (!File.Exists(path)) return;
+				
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
 				try

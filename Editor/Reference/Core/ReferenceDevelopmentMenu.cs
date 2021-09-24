@@ -73,6 +73,19 @@ namespace AssetLens.Reference
 			string result = await PackageSystem.GetVersion();
 			Debug.Log(result);
 		}
+
+		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Try Parse Selection")]
+		private static async void TryParseGuids()
+		{
+			Object target = Selection.activeObject;
+
+			string path = AssetDatabase.GetAssetPath(target);
+			StreamReader reader = new StreamReader(File.OpenRead(path));
+			string value = await reader.ReadToEndAsync();
+
+			List<string> parsed = RefData.ParseOwnGuids(value);
+			Debug.Log(parsed.ToString());
+		}
 	}
 #endif
 }

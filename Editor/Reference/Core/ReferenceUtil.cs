@@ -59,7 +59,7 @@ namespace AssetLens.Reference
 
 		internal static bool IsPersistent(this UnityEngine.Object target)
 		{
-			return !EditorUtility.IsPersistent(target);
+			return EditorUtility.IsPersistent(target);
 		}
 
 		internal static bool IsGuid(string text)

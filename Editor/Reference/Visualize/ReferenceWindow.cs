@@ -155,6 +155,17 @@ namespace AssetLens.Reference
 
 		private bool NeedCollectData()
 		{
+			if (selected != null)
+			{
+				// blacklist
+				Type type = selected.GetType();
+				
+				if (type.Name == "PackageSelectionObject")
+				{
+					return false;
+				}
+			}
+			
 			return !ReferenceEquals(previous, selected) || isDirty;
 		}
 
