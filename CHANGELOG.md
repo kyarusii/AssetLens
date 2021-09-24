@@ -85,3 +85,8 @@
 
 - Rename Package name to `Asset Lens` from `Reference`
 - Change registry
+
+### 0.2.1
+
+- fixed an issue about empty path
+- regular expression for addressable assets
