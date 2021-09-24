@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -84,7 +85,37 @@ namespace AssetLens.Reference
 			string value = await reader.ReadToEndAsync();
 
 			List<string> parsed = RefData.ParseOwnGuids(value);
-			Debug.Log(parsed.ToString());
+			foreach (string guid in parsed)
+			{
+				Debug.Log($"{AssetDatabase.GUIDToAssetPath(guid)}, {guid}");
+			}
+		}
+		
+		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Try Parse Selection 2")]
+		private static async void TryParseGuids2()
+		{
+			HashSet<string> owningGuids = new HashSet<string>();
+			
+			Object target = Selection.activeObject;
+
+			string path = AssetDatabase.GetAssetPath(target);
+			StreamReader reader = new StreamReader(File.OpenRead(path));
+			string value = await reader.ReadToEndAsync();
+			
+			Regex guidRegx = new Regex("GUID:\\s?([a-fA-F0-9]+)");
+			MatchCollection matches = guidRegx.Matches(value);
+			foreach (Match match in matches)
+			{
+				if (match.Success)
+				{
+					owningGuids.Add(match.Groups[1].Value);
+				}
+			}
+
+			foreach (string guid in owningGuids)
+			{
+				Debug.Log($"{AssetDatabase.GUIDToAssetPath(guid)}, {guid}");
+			}
 		}
 	}
 #endif

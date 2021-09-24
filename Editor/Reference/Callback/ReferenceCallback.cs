@@ -107,7 +107,6 @@ namespace AssetLens.Reference
 					}
 					catch (Exception e)
 					{
-						Debug.LogError(asset);
 						Debug.LogException(e);
 					}
 #endif
@@ -200,10 +199,14 @@ namespace AssetLens.Reference
 			// 이 에셋이 레퍼런스하는 에셋 정보들 편집
 			foreach (string ownGuid in refAsset.ownGuids)
 			{
-				RefData referedAsset = RefData.Get(ownGuid);
+				// 존재하는 파일만 수정
+				if (RefData.Exist(ownGuid))
+				{
+					RefData referedAsset = RefData.Get(ownGuid);
 
-				referedAsset.referedByGuids.Remove(guid);
-				referedAsset.Save();
+					referedAsset.referedByGuids.Remove(guid);
+					referedAsset.Save();
+				}
 			}
 
 			refAsset.Remove();
@@ -213,17 +216,6 @@ namespace AssetLens.Reference
 
 		private static void OnAssetCreate(string path, string guid)
 		{
-			// @TODO :: 커스텀 패키지도 관리되게 
-			
-// 			if (path.Contains("Packages/Reference"))
-// 			{
-// 				return;
-// 			}
-//
-// #if !DEBUG_ASSETLENS
-// 			if (path.Contains("Packages/")) return;
-// #endif
-
 			// 새로 만들었으면 이 에셋을 레퍼런스된게 있을 수 없으므로 그냥 프로필만 생성 ctrl-z로 복구하는거면 문제생길수있음...
 			if (string.IsNullOrWhiteSpace(path))
 			{
