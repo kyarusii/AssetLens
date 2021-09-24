@@ -104,6 +104,9 @@ namespace AssetLens.Reference
 			return ReferenceSerializer.Deseriallize(guid);
 		}
 
+		private const string UNITY_DEFAULT_RESOURCE = "0000000000000000e000000000000000";
+		private const string UNITY_BUILTIN_EXTRA = "0000000000000000f000000000000000";
+
 		public static RefData New(string guid)
 		{
 			RefData asset = new RefData(guid, Setting.INDEX_VERSION);
@@ -127,9 +130,20 @@ namespace AssetLens.Reference
 				}
 				else
 				{
-					RefData ownAsset = New(owningGuid);
-					ownAsset.referedByGuids.Add(guid);
-					ownAsset.Save();
+					if (owningGuid == UNITY_BUILTIN_EXTRA)
+					{
+						
+					}
+					else if (owningGuid == UNITY_DEFAULT_RESOURCE)
+					{
+						
+					}
+					else
+					{
+						RefData ownAsset = New(owningGuid);
+						ownAsset.referedByGuids.Add(guid);
+						ownAsset.Save();
+					}
 				}
 			}
 

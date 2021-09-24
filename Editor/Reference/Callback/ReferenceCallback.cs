@@ -256,10 +256,7 @@ namespace AssetLens.Reference
 			catch (Exception e)
 			{
 #if DEBUG_ASSETLENS
-				Debug.LogError(tempPath);
-				Debug.LogError(path);
-
-				Debug.LogException(e);
+				Debug.LogError($"temp:{tempPath}, path:{path}, exception:{e}");
 #endif
 			}
 		}

@@ -186,6 +186,13 @@ namespace AssetLens.Reference
 				// directory
 				if (Directory.Exists(path))
 				{
+					SetEmpty();
+					return;
+				}
+
+				if (string.IsNullOrWhiteSpace(path))
+				{
+					SetEmpty();
 					return;
 				}
 
@@ -227,6 +234,11 @@ namespace AssetLens.Reference
 				}
 			}
 			else
+			{
+				SetEmpty();
+			}
+
+			void SetEmpty()
 			{
 				dependencies = Array.Empty<Object>();
 				referenced = Array.Empty<Object>();

@@ -50,6 +50,7 @@ namespace AssetLens.Reference
 				
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
+
 				try
 				{
 					RefData refData = RefData.Get(guid);
@@ -70,7 +71,7 @@ namespace AssetLens.Reference
 				catch (Exception e)
 				{
 #if DEBUG_ASSETLENS
-					Debug.LogError(e.Message, target);
+					Debug.LogException(e);
 #endif
 				}
 			}
