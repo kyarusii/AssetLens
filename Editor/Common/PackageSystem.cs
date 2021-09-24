@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
@@ -49,6 +50,11 @@ namespace AssetLens
 			}
 
 			return $"Failed : {request.Error.message}";
+		}
+		
+		internal static bool IsReadOnlyPackage(this string path)
+		{
+			return Path.GetFullPath(path).Contains("PackageCache");
 		}
 	}
 }

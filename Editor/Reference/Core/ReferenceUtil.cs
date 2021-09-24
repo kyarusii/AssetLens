@@ -59,14 +59,13 @@ namespace AssetLens.Reference
 
 		internal static bool IsPersistent(this UnityEngine.Object target)
 		{
-			return !EditorUtility.IsPersistent(target);
+			return EditorUtility.IsPersistent(target);
 		}
 
 		internal static bool IsGuid(string text)
 		{
-			for (int i = 0; i < text.Length; i++)
+			foreach (char c in text)
 			{
-				char c = text[i];
 				if (
 					!(c >= '0' && c <= '9' ||
 					  c >= 'a' && c <= 'z')
@@ -78,12 +77,7 @@ namespace AssetLens.Reference
 
 			return true;
 		}
-
-		internal static bool IsReadOnlyPackage(this string path)
-		{
-			return Path.GetFullPath(path).Contains("PackageCache");
-		}
-
+		
 		internal const string UNITY_DEFAULT_RESOURCE = "Library/unity default resources";
 		internal const string UNITY_BUILTIN_EXTRA = "Resources/unity_builtin_extra";
 	}

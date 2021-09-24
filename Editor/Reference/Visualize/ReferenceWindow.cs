@@ -155,6 +155,17 @@ namespace AssetLens.Reference
 
 		private bool NeedCollectData()
 		{
+			if (selected != null)
+			{
+				// blacklist
+				Type type = selected.GetType();
+				
+				if (type.Name == "PackageSelectionObject")
+				{
+					return false;
+				}
+			}
+			
 			return !ReferenceEquals(previous, selected) || isDirty;
 		}
 
@@ -175,6 +186,13 @@ namespace AssetLens.Reference
 				// directory
 				if (Directory.Exists(path))
 				{
+					SetEmpty();
+					return;
+				}
+
+				if (string.IsNullOrWhiteSpace(path))
+				{
+					SetEmpty();
 					return;
 				}
 
@@ -216,6 +234,11 @@ namespace AssetLens.Reference
 				}
 			}
 			else
+			{
+				SetEmpty();
+			}
+
+			void SetEmpty()
 			{
 				dependencies = Array.Empty<Object>();
 				referenced = Array.Empty<Object>();
