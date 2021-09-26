@@ -196,6 +196,12 @@ namespace AssetLens.Reference
 					return;
 				}
 
+				if (selected is SceneAsset sceneAsset)
+				{
+					// SetEmpty();
+					// return;
+				}
+
 				RefData data = RefData.Get(guid);
 				
 				objectType = data.objectType;
@@ -390,7 +396,14 @@ namespace AssetLens.Reference
 
 				foreach (Object dependency in referenced)
 				{
-					EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
+					if (dependency == null)
+					{
+						EditorGUILayout.LabelField("Null Object");
+					}
+					else
+					{
+						EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
+					}
 				}
 
 				if (referenced.Length > 8)
