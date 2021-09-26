@@ -8,7 +8,7 @@ using UnityEngine;
 namespace AssetLens.Reference
 {
 	[CustomEditor(typeof(Setting))]
-	internal sealed class ReferenceSettingInspector : Editor
+	internal sealed class SettingInspector : Editor
 	{
 		private SerializedProperty enabled = default;
 		private SerializedProperty pauseInPlaymode = default;

@@ -18,6 +18,8 @@ namespace AssetLens.Reference
 		private Object[] dependencies = Array.Empty<Object>();
 		private Object[] referenced = Array.Empty<Object>();
 
+		private List<string> referedByGuids;
+
 		private string[] dependencyPaths = Array.Empty<string>();
 		private string[] dependencyGuids = Array.Empty<string>();
 
@@ -196,6 +198,12 @@ namespace AssetLens.Reference
 					return;
 				}
 
+				if (selected is SceneAsset sceneAsset)
+				{
+					// SetEmpty();
+					// return;
+				}
+
 				RefData data = RefData.Get(guid);
 				
 				objectType = data.objectType;
@@ -203,7 +211,7 @@ namespace AssetLens.Reference
 				objectPath = data.objectPath;
 				version = data.GetVersionText();
 
-				List<string> referedByGuids = data.referedByGuids;
+				referedByGuids = data.referedByGuids;
 				referenced = new Object[referedByGuids.Count];
 
 				for (int i = 0; i < referedByGuids.Count; i++)
@@ -388,9 +396,18 @@ namespace AssetLens.Reference
 					referenceScrollPos = EditorGUILayout.BeginScrollView(referenceScrollPos, GUILayout.Height(160));
 				}
 
-				foreach (Object dependency in referenced)
+				for (int i = 0; i < referenced.Length; i++)
 				{
-					EditorGUILayout.ObjectField(dependency, dependency.GetType(), true, Array.Empty<GUILayoutOption>());
+					Object dependency = referenced[i];
+					if (dependency == null)
+					{
+						EditorGUILayout.LabelField("guid", referedByGuids[i]);
+					}
+					else
+					{
+						EditorGUILayout.ObjectField(dependency, dependency.GetType(), true,
+							Array.Empty<GUILayoutOption>());
+					}
 				}
 
 				if (referenced.Length > 8)

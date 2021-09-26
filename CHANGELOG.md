@@ -90,3 +90,7 @@
 
 - fixed an issue about empty path
 - regular expression for addressable assets
+
+### 0.2.2
+
+- exclude scene asset
