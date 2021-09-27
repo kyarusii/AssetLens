@@ -1,6 +1,7 @@
 {
     "name": "한국어",
     "displayName": "에셋 렌즈",
+    "guid": "guid",
     "indexing_title": "경고",
     "indexing_message": "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?",
     "indexing_proceed": "계속",
@@ -29,5 +30,16 @@
     "inspector_nothing_selected": "Nothing selected",
     "inspector_selected": "Selected",
     "inspector_missingObject": "Missing Object",
-    "inspector_editorUtilityMissingObjectHelpBox": "inspector_editorUtilityMissingObjectHelpBox"
+    "inspector_editorUtilityMissingObjectHelpBox": "inspector_editorUtilityMissingObjectHelpBox",
+    "inspector_lockSelect": "Lock",
+    "inspector_sceneObjectHelpbox": "Disabled on Scene Object",
+    "inspector_buildInResources": "Built-in Resources",
+    "inspector_playmodeHelpBox": "Disabled in PlayMode",
+    "inspector_notInitializeHelpBox": "Asset Lens is not initialized",
+    "inspector_generateIndex": "Initialize",
+    "remove_messageContent": "This asset is used by other asset. \nWill you delete this asset?",
+    "remove_titleContent": "Warning!",
+    "remove_removeProceed": "Remove",
+    "remove_removeCancel": "Cancel",
+    "remove_cancelAlert": "Canceled."
 }

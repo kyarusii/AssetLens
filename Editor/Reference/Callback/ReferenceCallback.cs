@@ -21,6 +21,14 @@ namespace AssetLens.Reference
 
 			try
 			{
+				if (Directory.Exists(assetPath))
+				{
+#if DEBUG_ASSETLENS
+					Debug.Log("Directory should be removed without reference check.");
+#endif
+					return AssetDeleteResult.DidNotDelete;
+				}
+				
 				string guid = AssetDatabase.AssetPathToGUID(assetPath);
 
 				RefData assetReference = RefData.Get(guid);
@@ -28,8 +36,9 @@ namespace AssetLens.Reference
 				{
 					StringBuilder sb = new StringBuilder();
 
-					sb.AppendLine("이 에셋은 다음 에셋으로부터 사용되고 있습니다.");
-					sb.AppendLine("그래도 삭제하시겠습니까?");
+					var ln = Localize.Inst;
+
+					sb.AppendLine(ln.remove_messageContent);
 					sb.AppendLine();
 
 					foreach (string referedGuid in assetReference.referedByGuids)
@@ -38,10 +47,11 @@ namespace AssetLens.Reference
 						sb.AppendLine(referedAssetPath);
 					}
 
-					bool allowDelete = EditorUtility.DisplayDialog("경고!", sb.ToString(), "삭제", "취소");
+
+					bool allowDelete = EditorUtility.DisplayDialog(ln.remove_titleContent, sb.ToString(), ln.remove_removeProceed, ln.remove_removeCancel);
 					if (!allowDelete)
 					{
-						AssetLensConsole.Log("삭제가 취소되었습니다.");
+						AssetLensConsole.Log(ln.remove_cancelAlert);
 						return AssetDeleteResult.DidDelete;
 					}
 				}

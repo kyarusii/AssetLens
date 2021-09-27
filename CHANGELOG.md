@@ -98,3 +98,5 @@
 ### 0.2.3
 
 - missing object management wip
+- bug fix : removing directory causes exception because of missing filtering in OnWillDeleteAsset callback.
+- delete dialog localization.
