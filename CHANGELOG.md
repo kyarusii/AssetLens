@@ -94,3 +94,7 @@
 ### 0.2.2
 
 - exclude scene asset
+
+### 0.2.3
+
+- missing object management wip
