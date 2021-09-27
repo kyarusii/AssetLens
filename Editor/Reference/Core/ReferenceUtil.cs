@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -76,6 +77,35 @@ namespace AssetLens.Reference
 			}
 
 			return true;
+		}
+		
+		public static List<string> ParseOwnGuids(string assetContent)
+		{
+			HashSet<string> owningGuids = new HashSet<string>();
+
+			// 정규식으로 보유한 에셋 검색
+			Regex guidRegx = new Regex("guid:\\s?([a-fA-F0-9]+)");
+			MatchCollection matches = guidRegx.Matches(assetContent);
+			foreach (Match match in matches)
+			{
+				if (match.Success)
+				{
+					owningGuids.Add(match.Groups[1].Value);
+				}
+			}
+
+			// 어드레서블
+			guidRegx = new Regex("m_GUID:\\s?([a-fA-F0-9]+)");
+			matches = guidRegx.Matches(assetContent);
+			foreach (Match match in matches)
+			{
+				if (match.Success)
+				{
+					owningGuids.Add(match.Groups[1].Value);
+				}
+			}
+			
+			return owningGuids.ToList();
 		}
 		
 		internal const string UNITY_DEFAULT_RESOURCE = "Library/unity default resources";

@@ -16,19 +16,23 @@ namespace AssetLens.Reference
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			var assets = AssetDatabase.FindAssets("", new[] { "Assets" })
-				.Select(AssetDatabase.GUIDToAssetPath)
-				.Where(File.Exists).ToList();
+			// var assets = AssetDatabase.FindAssets("", new[] { "Assets" })
+			// 	.Select(AssetDatabase.GUIDToAssetPath)
+			// 	.Where(File.Exists).ToList();
+
+			var allAssets = AssetDatabase.GetAllAssetPaths().ToList();
 
 			if (indexCustomPackages)
 			{
-				assets.AddRange(AssetDatabase.FindAssets("", new[] { "Packages" })
+				allAssets.AddRange(AssetDatabase.FindAssets("", new[] { "Packages" })
 					.Select(AssetDatabase.GUIDToAssetPath)
 					// 실제 패키지 경로에 있는 경우만
 					.Where(path => !path.IsReadOnlyPackage())
 					.Where(File.Exists));
 			}
 
+			var assets = new HashSet<string>(allAssets);
+			
 			Queue<string> queue = new Queue<string>(assets);
 			int allCount = queue.Count;
 
@@ -111,7 +115,7 @@ namespace AssetLens.Reference
 						// 가지고있는 레퍼런스 저장
 						string guid = AssetDatabase.AssetPathToGUID(path);
 
-						List<string> owningGuids = RefData.ParseOwnGuids(value);
+						List<string> owningGuids = ReferenceUtil.ParseOwnGuids(value);
 						guidRefOwnerMap[guid] = new HashSet<string>(owningGuids);
 					}
 				}

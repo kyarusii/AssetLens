@@ -268,7 +268,7 @@ namespace AssetLens.Reference
 			// 수정이면 이미 존재해야함.
 			RefData asset = RefData.Get(guid);
 			string assetContent = File.ReadAllText(path);
-			List<string> newGuids = RefData.ParseOwnGuids(assetContent);
+			List<string> newGuids = ReferenceUtil.ParseOwnGuids(assetContent);
 
 			// 갖고있는거중에 변경되었을 수 있음
 			foreach (string previous in asset.ownGuids)
