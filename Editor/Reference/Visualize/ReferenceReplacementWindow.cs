@@ -72,6 +72,8 @@ namespace AssetLens.Reference
 				List<string> _guids = new List<string>();
 				foreach (Object target in m_targets)
 				{
+					if (target == null) continue;
+					
 					string targetPath = AssetDatabase.GetAssetPath(target);
 					string assetContent = File.ReadAllText(targetPath);
 
