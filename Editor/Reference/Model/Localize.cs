@@ -75,5 +75,11 @@ namespace AssetLens.Reference
 
 		public string inspector_notInitializeHelpBox = "Asset Lens is not initialized";
 		public string inspector_generateIndex = "Initialize";
+
+		public string remove_messageContent = "This asset is used by other asset. \nWill you delete this asset?";
+		public string remove_titleContent = "Warning!";
+		public string remove_removeProceed = "Remove";
+		public string remove_removeCancel = "Cancel";
+		public string remove_cancelAlert = "Canceled.";
 	}
 }

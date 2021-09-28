@@ -84,7 +84,7 @@ namespace AssetLens.Reference
 			StreamReader reader = new StreamReader(File.OpenRead(path));
 			string value = await reader.ReadToEndAsync();
 
-			List<string> parsed = RefData.ParseOwnGuids(value);
+			List<string> parsed = ReferenceUtil.ParseOwnGuids(value);
 			foreach (string guid in parsed)
 			{
 				Debug.Log($"{AssetDatabase.GUIDToAssetPath(guid)}, {guid}");

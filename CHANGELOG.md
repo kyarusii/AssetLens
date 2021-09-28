@@ -94,3 +94,10 @@
 ### 0.2.2
 
 - exclude scene asset
+
+### 0.2.3
+
+- missing object management wip
+- bug fix : removing directory causes exception because of missing filtering in OnWillDeleteAsset callback.
+- dialog localization about deleting asset.
+- dirty cache update way

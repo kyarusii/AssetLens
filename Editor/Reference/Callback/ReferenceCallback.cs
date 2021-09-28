@@ -21,6 +21,14 @@ namespace AssetLens.Reference
 
 			try
 			{
+				if (Directory.Exists(assetPath))
+				{
+#if DEBUG_ASSETLENS
+					Debug.Log("Directory should be removed without reference check.");
+#endif
+					return AssetDeleteResult.DidNotDelete;
+				}
+				
 				string guid = AssetDatabase.AssetPathToGUID(assetPath);
 
 				RefData assetReference = RefData.Get(guid);
@@ -28,8 +36,9 @@ namespace AssetLens.Reference
 				{
 					StringBuilder sb = new StringBuilder();
 
-					sb.AppendLine("이 에셋은 다음 에셋으로부터 사용되고 있습니다.");
-					sb.AppendLine("그래도 삭제하시겠습니까?");
+					var ln = Localize.Inst;
+
+					sb.AppendLine(ln.remove_messageContent);
 					sb.AppendLine();
 
 					foreach (string referedGuid in assetReference.referedByGuids)
@@ -38,10 +47,11 @@ namespace AssetLens.Reference
 						sb.AppendLine(referedAssetPath);
 					}
 
-					bool allowDelete = EditorUtility.DisplayDialog("경고!", sb.ToString(), "삭제", "취소");
+
+					bool allowDelete = EditorUtility.DisplayDialog(ln.remove_titleContent, sb.ToString(), ln.remove_removeProceed, ln.remove_removeCancel);
 					if (!allowDelete)
 					{
-						AssetLensConsole.Log("삭제가 취소되었습니다.");
+						AssetLensConsole.Log(ln.remove_cancelAlert);
 						return AssetDeleteResult.DidDelete;
 					}
 				}
@@ -165,7 +175,7 @@ namespace AssetLens.Reference
 		private static void OnAssetImport(string path)
 		{
 			string guid = AssetDatabase.AssetPathToGUID(path);
-			if (RefData.Exist(guid))
+			if (RefData.CacheExist(guid))
 			{
 				OnAssetModify(path, guid);
 			}
@@ -200,7 +210,7 @@ namespace AssetLens.Reference
 			foreach (string ownGuid in refAsset.ownGuids)
 			{
 				// 존재하는 파일만 수정
-				if (RefData.Exist(ownGuid))
+				if (RefData.CacheExist(ownGuid))
 				{
 					RefData referedAsset = RefData.Get(ownGuid);
 
@@ -258,7 +268,7 @@ namespace AssetLens.Reference
 			// 수정이면 이미 존재해야함.
 			RefData asset = RefData.Get(guid);
 			string assetContent = File.ReadAllText(path);
-			List<string> newGuids = RefData.ParseOwnGuids(assetContent);
+			List<string> newGuids = ReferenceUtil.ParseOwnGuids(assetContent);
 
 			// 갖고있는거중에 변경되었을 수 있음
 			foreach (string previous in asset.ownGuids)

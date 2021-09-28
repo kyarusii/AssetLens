@@ -1,6 +1,7 @@
 {
     "name": "English",
     "displayName": "Asset Lens",
+    "guid": "guid",
     "indexing_title": "Warning!",
     "indexing_message": "This process might require a long time. Continue?",
     "indexing_proceed": "Continue",
@@ -29,5 +30,16 @@
     "inspector_nothing_selected": "Nothing selected",
     "inspector_selected": "Selected",
     "inspector_missingObject": "Missing Object",
-    "inspector_editorUtilityMissingObjectHelpBox": "Missing object cannot be tracked in EditorUtility dependency mode.\nTurn off EditorUtilityOnSearch option in ProjectSetting/Asset Lens"
+    "inspector_editorUtilityMissingObjectHelpBox": "Missing object cannot be tracked in EditorUtility dependency mode.\nTurn off EditorUtilityOnSearch option in ProjectSetting/Asset Lens",
+    "inspector_lockSelect": "Lock",
+    "inspector_sceneObjectHelpbox": "Disabled on Scene Object",
+    "inspector_buildInResources": "Built-in Resources",
+    "inspector_playmodeHelpBox": "Disabled in PlayMode",
+    "inspector_notInitializeHelpBox": "Asset Lens is not initialized",
+    "inspector_generateIndex": "Initialize",
+    "remove_messageContent": "This asset is used by other asset. \nWill you delete this asset?",
+    "remove_titleContent": "Warning!",
+    "remove_removeProceed": "Remove",
+    "remove_removeCancel": "Cancel",
+    "remove_cancelAlert": "Canceled."
 }

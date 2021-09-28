@@ -66,7 +66,6 @@ namespace AssetLens.Reference
 			window.Show();
 		}
 
-#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.WINDOW_REFERENCE_REPLACE, false, 121)]
 		private static void OpenReferenceReplaceWindow()
 		{
@@ -76,6 +75,7 @@ namespace AssetLens.Reference
 			window.Show();
 		}
 		
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.WINDOW_SAFE_DELETE, false, 122)]
 		private static void OpenSafeDeleteWindow()
 		{
