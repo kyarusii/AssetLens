@@ -99,4 +99,5 @@
 
 - missing object management wip
 - bug fix : removing directory causes exception because of missing filtering in OnWillDeleteAsset callback.
-- delete dialog localization.
+- dialog localization about deleting asset.
+- dirty cache update way

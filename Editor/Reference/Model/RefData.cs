@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -83,6 +81,27 @@ namespace AssetLens.Reference
 			}
 		}
 
+		public bool IsDirty()
+		{
+			string guidToPath = AssetDatabase.GUIDToAssetPath(guid);
+			if (string.CompareOrdinal(guidToPath, objectPath) == 0)
+			{
+				return false;
+			}
+			
+			return true;
+		}
+
+		public void UpdateObjectData()
+		{
+			objectPath = AssetDatabase.GUIDToAssetPath(guid);
+			FileInfo fi = new FileInfo(objectPath);
+
+			objectName = fi.Name.Replace(fi.Extension, "");
+			
+			Save();
+		}
+
 		public void Save()
 		{
 			ReferenceSerializer.Serialize(this);
@@ -114,7 +133,14 @@ namespace AssetLens.Reference
 				return New(guid);
 			}
 
-			return ReferenceSerializer.Deseriallize(guid);
+			RefData loaded = ReferenceSerializer.Deseriallize(guid);
+			if (loaded.IsDirty())
+			{
+				loaded.UpdateObjectData();
+				AssetLensConsole.Log($"CacheUpdated : {loaded.objectPath}");
+			}
+
+			return loaded;
 		}
 
 		public static RefData New(string guid)
@@ -129,7 +155,7 @@ namespace AssetLens.Reference
 			// 보유한 에셋에다 레퍼런스 밀어넣기
 			foreach (string owningGuid in owningGuids)
 			{
-				if (Exist(owningGuid))
+				if (CacheExist(owningGuid))
 				{
 					RefData ownAsset = Get(owningGuid);
 					if (!ownAsset.referedByGuids.Contains(guid))
@@ -161,7 +187,7 @@ namespace AssetLens.Reference
 			return asset;
 		}
 
-		public static bool Exist(string guid)
+		public static bool CacheExist(string guid)
 		{
 			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 			return File.Exists(path);

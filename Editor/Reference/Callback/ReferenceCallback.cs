@@ -175,7 +175,7 @@ namespace AssetLens.Reference
 		private static void OnAssetImport(string path)
 		{
 			string guid = AssetDatabase.AssetPathToGUID(path);
-			if (RefData.Exist(guid))
+			if (RefData.CacheExist(guid))
 			{
 				OnAssetModify(path, guid);
 			}
@@ -210,7 +210,7 @@ namespace AssetLens.Reference
 			foreach (string ownGuid in refAsset.ownGuids)
 			{
 				// 존재하는 파일만 수정
-				if (RefData.Exist(ownGuid))
+				if (RefData.CacheExist(ownGuid))
 				{
 					RefData referedAsset = RefData.Get(ownGuid);
 
