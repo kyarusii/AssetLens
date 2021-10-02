@@ -22,7 +22,8 @@ The pain point that mainly considered with Unity is that when we delete an asset
 </p>
 
 ## Installation
-### Unity Package Manager
+### Unity Package Manager (NPM)
+[![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
 ```json
 {
     "dependencies": {
