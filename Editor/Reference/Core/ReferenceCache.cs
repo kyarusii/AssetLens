@@ -20,7 +20,10 @@ namespace AssetLens.Reference
 			// 	.Select(AssetDatabase.GUIDToAssetPath)
 			// 	.Where(File.Exists).ToList();
 
-			var allAssets = AssetDatabase.GetAllAssetPaths().ToList();
+			var allAssets = AssetDatabase.GetAllAssetPaths()
+				.Where(e => !Directory.Exists(e))
+				.Where(File.Exists)
+				.ToList();
 
 			if (indexCustomPackages)
 			{
@@ -28,7 +31,9 @@ namespace AssetLens.Reference
 					.Select(AssetDatabase.GUIDToAssetPath)
 					// 실제 패키지 경로에 있는 경우만
 					.Where(path => !path.IsReadOnlyPackage())
-					.Where(File.Exists));
+					.Where(e => !Directory.Exists(e))
+					.Where(File.Exists)
+				);
 			}
 
 			var assets = new HashSet<string>(allAssets);
