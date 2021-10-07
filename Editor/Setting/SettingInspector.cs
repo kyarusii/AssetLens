@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,6 +21,9 @@ namespace AssetLens.Reference
 		private bool unlockDangerZone = false;
 		private bool isInProgress = false;
 
+		private int managedAssetCount = -1;
+		private bool isCalculating = false;
+
 		private void OnEnable()
 		{
 			enabled = serializedObject.FindProperty(nameof(enabled));
@@ -29,6 +33,8 @@ namespace AssetLens.Reference
 				serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
 			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
+			
+			CountCacheAsync();
 		}
 
 		public override void OnInspectorGUI()
@@ -42,23 +48,33 @@ namespace AssetLens.Reference
 
 			EditorGUI.BeginDisabledGroup(!enabled.boolValue);
 			{
-				// EditorGUI.indentLevel++;
 				{
 					EditorGUILayout.LabelField(Localize.Inst.setting_workflow, EditorStyles.boldLabel);
 					EditorGUILayout.BeginVertical("HelpBox");
 
-					EditorGUILayout.PropertyField(pauseInPlaymode,
-						new GUIContent(Localize.Inst.setting_pauseInPlaymode));
-					EditorGUILayout.PropertyField(traceSceneObject,
-						new GUIContent(Localize.Inst.setting_traceSceneObjects));
-					EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
-					EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies,
-						new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
+					{
+						EditorGUILayout.PropertyField(pauseInPlaymode,
+							new GUIContent(Localize.Inst.setting_pauseInPlaymode));
+						EditorGUILayout.PropertyField(traceSceneObject,
+							new GUIContent(Localize.Inst.setting_traceSceneObjects));
+						EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
+						EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies,
+							new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
+
+						if (managedAssetCount < 0)
+						{
+							EditorGUILayout.LabelField($"Managed Asset Count", "calculating...");
+						}
+						else
+						{
+							EditorGUILayout.LabelField("Managed Asset Count", managedAssetCount.ToString());
+						}
+					}
+					
 					EditorGUILayout.EndVertical();
 
 					EditorGUILayout.Space(10);
 				}
-				// EditorGUI.indentLevel--;
 			}
 			EditorGUI.EndDisabledGroup();
 			
@@ -177,6 +193,28 @@ namespace AssetLens.Reference
 			// @TODO :: NEED TEST
 			string resultMessage = await PackageSystem.Uninstall();
 			Debug.Log(resultMessage);
+		}
+
+		private async void CountCacheAsync()
+		{
+			if (isCalculating)
+			{
+				return;
+			}
+			
+			isCalculating = true;
+			managedAssetCount = await GetCount();
+			isCalculating = false;
+
+			async Task<int> GetCount()
+			{
+				DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.ReferenceCacheDirectory);
+				var files = rootDirectory.GetFiles("*.ref");
+
+				await Task.Delay(10);
+				
+				return files.Length;
+			}
 		}
 	}
 }
