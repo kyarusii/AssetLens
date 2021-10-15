@@ -11,6 +11,7 @@
     "setting_pauseInPlaymode": "플레이모드에서 멈춤",
     "setting_traceSceneObjects": "씬 오브젝트 추적",
     "setting_useEditorUtilityWhenSearchDependencies": "검색 시 EditorUtility 사용",
+    "setting_initInfo": "Asset Lens 플러그인이 꺼져있습니다. 최초 플러그인 사용시 캐시 데이터를 생성하며 프로젝트의 크기에 따라 일정시간 소요될 수 있습니다.",
     "setting_language": "언어",
     "setting_workflow": "작동방식",
     "setting_miscellaneous": "기타",

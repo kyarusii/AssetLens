@@ -23,10 +23,11 @@
 
 ## 설치
 ### 유니티 패키지 매니저 (Unity Package Manager)
+[![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
 ```json
 {
     "dependencies": {
-        "com.calci.assetlens": "0.2.3"
+        "com.calci.assetlens": "0.2.5"
     }
 }
 ```

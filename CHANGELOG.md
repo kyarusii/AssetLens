@@ -101,3 +101,10 @@
 - bug fix : removing directory causes exception because of missing filtering in OnWillDeleteAsset callback.
 - dialog localization about deleting asset.
 - dirty cache update way
+
+### 0.2.4
+- bug fix : exclude directories and not exist files on first initialization.
+
+### 0.2.5
+- Check whether it is initialized or not only once.
+- Setting Inspector

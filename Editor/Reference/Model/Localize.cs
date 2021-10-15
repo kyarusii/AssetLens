@@ -45,6 +45,7 @@ namespace AssetLens.Reference
 		public string setting_useEditorUtilityWhenSearchDependencies =
 			nameof(setting_useEditorUtilityWhenSearchDependencies);
 
+		public string setting_initInfo = nameof(setting_initInfo);
 		public string setting_language = nameof(setting_language);
 		public string setting_workflow = nameof(setting_workflow);
 		public string setting_miscellaneous = nameof(setting_miscellaneous);

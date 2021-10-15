@@ -43,11 +43,14 @@ namespace AssetLens.Reference
 
 			EditorGUI.BeginChangeCheck();
 
-			EditorGUILayout.PropertyField(enabled, new GUIContent(Localize.Inst.setting_enabled));
-			EditorGUILayout.Space(12);
+			EditorGUILayout.BeginVertical(GUILayout.Height(200));
 
-			EditorGUI.BeginDisabledGroup(!enabled.boolValue);
+			if (enabled.boolValue)
 			{
+				EditorGUILayout.PropertyField(enabled, new GUIContent(Localize.Inst.setting_enabled));
+				EditorGUILayout.Space(12);
+
+				EditorGUI.BeginDisabledGroup(!enabled.boolValue);
 				{
 					EditorGUILayout.LabelField(Localize.Inst.setting_workflow, EditorStyles.boldLabel);
 					EditorGUILayout.BeginVertical("HelpBox");
@@ -70,13 +73,30 @@ namespace AssetLens.Reference
 							EditorGUILayout.LabelField("Managed Asset Count", managedAssetCount.ToString());
 						}
 					}
-					
+
 					EditorGUILayout.EndVertical();
 
 					EditorGUILayout.Space(10);
 				}
+				EditorGUI.EndDisabledGroup();
 			}
-			EditorGUI.EndDisabledGroup();
+			else
+			{
+				EditorGUILayout.HelpBox(Localize.Inst.setting_initInfo, MessageType.Info);
+				
+				if (GUILayout.Button("Initialize", GUILayout.Height(40)))
+				{
+					OpenDialog();
+				}
+			}
+			
+			async void OpenDialog()
+			{
+				await ReferenceDialog.OpenIndexAllAssetDialog();
+				Setting.IsEnabled = true;
+			}
+
+			EditorGUILayout.EndVertical();
 			
 			EditorGUILayout.LabelField(Localize.Inst.setting_miscellaneous, EditorStyles.boldLabel);
 			EditorGUILayout.BeginVertical("HelpBox");
