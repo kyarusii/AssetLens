@@ -11,6 +11,7 @@
     "setting_pauseInPlaymode": "EditMode Only",
     "setting_traceSceneObjects": "Allow SceneObject",
     "setting_useEditorUtilityWhenSearchDependencies": "Use EditorUtility in search",
+    "setting_initInfo": "The Asset Lens plugin is disabled. When the plugin is enabled on first, Asset Lens generate cache data to recognize asset dependencies and it might take few times based on size of the project.",
     "setting_language": "Language",
     "setting_workflow": "Workflows",
     "setting_miscellaneous": "Etc",
