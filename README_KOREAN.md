@@ -27,7 +27,7 @@
 ```json
 {
     "dependencies": {
-        "com.calci.assetlens": "0.2.5"
+        "com.calci.assetlens": "0.2.6"
     }
 }
 ```
