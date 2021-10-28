@@ -22,8 +22,7 @@ namespace AssetLens.Reference
 		
 		public static bool UseEditorUtilityWhenSearchDependencies =>
 			GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
-		
-		
+
 		public static bool DisplayIndexerVersion => GetOrCreateSettings().displayIndexerVersion;
 		
 		public static string Localization {

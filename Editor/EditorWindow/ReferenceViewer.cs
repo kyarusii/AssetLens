@@ -41,6 +41,7 @@ namespace AssetLens.Reference
 
             dependencies_container = root.Q<ScrollView>("dependencies-container");
             used_by_container = root.Q<ScrollView>("used-by-container");
+            
             dependencies_label = root.Q<Label>("dependencies-label");
             used_by_label = root.Q<Label>("used-by-label");
 
@@ -81,10 +82,15 @@ namespace AssetLens.Reference
                 dependencies_container.Clear();
                 used_by_container.Clear();
 
-                if (selected.value != null)
+                if (null == selected.value)
                 {
-                    var path = AssetDatabase.GetAssetPath(selected.value);
-                    var guid = AssetDatabase.AssetPathToGUID(path);
+                    dependencies_label.style.visibility = Visibility.Hidden;
+                    used_by_label.style.visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    string path = AssetDatabase.GetAssetPath(selected.value);
+                    string guid = AssetDatabase.AssetPathToGUID(path);
 
                     if (Directory.Exists(path))
                     {
@@ -95,119 +101,75 @@ namespace AssetLens.Reference
 
                     foreach (string assetGuid in data.ownGuids)
                     {
-                        // @TODO :: Template으로 빼기
-                        EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(assetGuid);
-                        string assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-                        Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-
-                        VisualElement buttonRoot = new VisualElement();
-                        buttonRoot.AddToClassList("reference-view-container");
-                        
-                        Image image = new Image();
-                        Button button = new Button(onClick);
-
-                        switch (assetCategory)
-                        {
-                            case EAssetCategory.Object:
-                                // @TODO : use uss style instead space
-                                button.text = $"      {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
-                                Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
-                                image.image = img;
-                                image.AddToClassList("reference-view-image");
-                                
-                                break;
-                            case EAssetCategory.DefaultResource:
-                                button.text = "Default Resource";
-                                button.SetEnabled(false);
-                                break;
-                            case EAssetCategory.BuiltInExtra:
-                                button.text = "Built-in Resource";
-                                button.SetEnabled(false);
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                        
-                        button.AddToClassList("reference-view-button");
-
-                        void onClick()
-                        {
-#if UNITY_2021_1_OR_NEWER
-                            EditorUtility.OpenPropertyEditor(obj);
-#else
-                            Selection.activeObject = obj;
-#endif
-                        }
-                        
-                        buttonRoot.Add(button);
-                        button.Add(image);
-                        
-                        dependencies_container.Add(buttonRoot);
+                        dependencies_container.Add(CreateRefDataButton(assetGuid));
                     }
                     
                     foreach (string assetGuid in data.referedByGuids)
                     {
-                        // @TODO :: Template으로 빼기
-                        EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(assetGuid);
-                        string assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-                        Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-
-                        VisualElement buttonRoot = new VisualElement();
-                        buttonRoot.AddToClassList("reference-view-container");
-
-                        Image image = new Image();
-                        Button button = new Button(onClick);
-
-                        switch (assetCategory)
-                        {
-                            case EAssetCategory.Object:
-                                // @TODO : use uss style instead space
-                                button.text = $"      {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
-                                Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
-                                image.image = img;
-                                image.AddToClassList("reference-view-image");
-
-                                break;
-                            case EAssetCategory.DefaultResource:
-                                button.text = "Default Resource";
-                                button.SetEnabled(false);
-                                break;
-                            case EAssetCategory.BuiltInExtra:
-                                button.text = "Built-in Resource";
-                                button.SetEnabled(false);
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                        
-                        button.AddToClassList("reference-view-button");
-
-                        void onClick()
-                        {
-#if UNITY_2021_1_OR_NEWER
-                            EditorUtility.OpenPropertyEditor(obj);
-#else
-                            Selection.activeObject = obj;
-#endif
-                        }
-                    
-                        buttonRoot.Add(button);
-                        button.Add(image);
-                        
-                        used_by_container.Add(buttonRoot);
+                        used_by_container.Add(CreateRefDataButton(assetGuid));
                     }
 
                     dependencies_label.text = $"Dependencies ({data.ownGuids.Count})";
-                    used_by_label.text = $"Used By ({data.ownGuids.Count})";
+                    used_by_label.text = $"Used By ({data.referedByGuids.Count})";
                     
                     dependencies_label.style.visibility = data.ownGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
                     used_by_label.style.visibility = data.referedByGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
                 }
-                else
+            }
+
+            VisualElement CreateRefDataButton(string guid)
+            {
+                // @TODO :: Template으로 빼기
+                EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(guid);
+
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+
+                VisualElement buttonRoot = new VisualElement();
+                buttonRoot.AddToClassList("reference-view-container");
+
+                Image image = new Image();
+                Button button = new Button(onClick);
+
+                switch (assetCategory)
                 {
-                    dependencies_label.style.visibility = Visibility.Hidden;
-                    used_by_label.style.visibility = Visibility.Hidden;
+                    case EAssetCategory.Object:
+                        // @TODO : use uss style instead space
+                        button.text = $"     {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
+                        Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
+                        image.image = img;
+                        image.AddToClassList("reference-view-image");
+                        break;
+                    
+                    case EAssetCategory.DefaultResource:
+                        button.text = "Default Resource";
+                        button.SetEnabled(false);
+                        break;
+                    
+                    case EAssetCategory.BuiltInExtra:
+                        button.text = "Built-in Resource";
+                        button.SetEnabled(false);
+                        break;
+                    
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
+
+                button.AddToClassList("reference-view-button");
+
+                void onClick()
+                {
+#if UNITY_2021_1_OR_NEWER
+                    EditorUtility.OpenPropertyEditor(obj);
+#else
+                    Selection.activeObject = obj;
+#endif
+                }
+
+                buttonRoot.Add(button);
+                button.Add(image);
+
+                return buttonRoot;
             }
         }
 

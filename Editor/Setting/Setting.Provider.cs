@@ -26,8 +26,6 @@ namespace AssetLens.Reference
 			}
 		}
 		
-		
-
 		private static Setting GetOrCreateSettings()
 		{
 			if (instance != null)

@@ -159,14 +159,8 @@ namespace AssetLens.Reference
 					newText.Append(' ');
 				newText.Append(text[i]);
 			}
+			
 			return newText.ToString();
 		}
-	}
-
-	internal enum EAssetCategory
-	{
-		Object,
-		DefaultResource,
-		BuiltInExtra,
 	}
 }
