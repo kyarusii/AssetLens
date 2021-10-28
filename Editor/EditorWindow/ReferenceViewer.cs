@@ -97,12 +97,21 @@ namespace AssetLens.Reference
                         string assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
                         Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
 
+                        VisualElement buttonRoot = new VisualElement();
+                        buttonRoot.AddToClassList("reference-view-container");
+                        
+                        Image image = new Image();
                         Button button = new Button(onClick);
 
                         switch (assetCategory)
                         {
                             case EAssetCategory.Object:
-                                button.text = $"{obj.name} ({obj.GetType().Name})";
+                                // @TODO : use uss style instead space
+                                button.text = $"      {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
+                                Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
+                                image.image = img;
+                                image.AddToClassList("reference-view-image");
+                                
                                 break;
                             case EAssetCategory.DefaultResource:
                                 button.text = "Default Resource";
@@ -116,7 +125,7 @@ namespace AssetLens.Reference
                                 throw new ArgumentOutOfRangeException();
                         }
                         
-                        button.AddToClassList("reference-view");
+                        button.AddToClassList("reference-view-button");
 
                         void onClick()
                         {
@@ -126,8 +135,11 @@ namespace AssetLens.Reference
                             Selection.activeObject = obj;
 #endif
                         }
-                    
-                        dependencies_container.Add(button);
+                        
+                        buttonRoot.Add(button);
+                        button.Add(image);
+                        
+                        dependencies_container.Add(buttonRoot);
                     }
                     
                     foreach (string assetGuid in data.referedByGuids)
@@ -136,12 +148,21 @@ namespace AssetLens.Reference
                         string assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
                         Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
 
+                        VisualElement buttonRoot = new VisualElement();
+                        buttonRoot.AddToClassList("reference-view-container");
+
+                        Image image = new Image();
                         Button button = new Button(onClick);
 
                         switch (assetCategory)
                         {
                             case EAssetCategory.Object:
-                                button.text = $"{obj.name} ({obj.GetType().Name})";
+                                // @TODO : use uss style instead space
+                                button.text = $"      {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
+                                Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
+                                image.image = img;
+                                image.AddToClassList("reference-view-image");
+
                                 break;
                             case EAssetCategory.DefaultResource:
                                 button.text = "Default Resource";
@@ -155,7 +176,7 @@ namespace AssetLens.Reference
                                 throw new ArgumentOutOfRangeException();
                         }
                         
-                        button.AddToClassList("reference-view");
+                        button.AddToClassList("reference-view-button");
 
                         void onClick()
                         {
@@ -166,7 +187,10 @@ namespace AssetLens.Reference
 #endif
                         }
                     
-                        used_by_container.Add(button);
+                        buttonRoot.Add(button);
+                        button.Add(image);
+                        
+                        used_by_container.Add(buttonRoot);
                     }
 
                     dependencies_label.text = $"Dependencies ({data.ownGuids.Count})";

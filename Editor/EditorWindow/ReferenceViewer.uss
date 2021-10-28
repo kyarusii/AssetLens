@@ -15,10 +15,22 @@
     margin: 10px;
 }
 
-.reference-view {
+.reference-view-container {
+    height: 22px;
+    width: auto;
+    margin-left: 20px;
+}
+
+.reference-view-image {
+    width: 16px;
+    height: 16px;
+}
+
+.reference-view-button {
+    width: auto;
+    display: flex;
     -unity-text-align: middle-left;
     height: 20px;
-    margin-left: 20px;
 }
 
 .default-asset-view {

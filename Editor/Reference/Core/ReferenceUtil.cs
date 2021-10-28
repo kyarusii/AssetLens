@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
@@ -143,6 +144,22 @@ namespace AssetLens.Reference
 
 				return EAssetCategory.Object;
 			}
+		}
+		
+		public static string AddSpacesToSentence(string text)
+		{
+			if (string.IsNullOrWhiteSpace(text))
+				return string.Empty;
+			
+			StringBuilder newText = new StringBuilder(text.Length * 2);
+			newText.Append(text[0]);
+			for (int i = 1; i < text.Length; i++)
+			{
+				if (char.IsUpper(text[i]) && text[i - 1] != ' ')
+					newText.Append(' ');
+				newText.Append(text[i]);
+			}
+			return newText.ToString();
 		}
 	}
 
