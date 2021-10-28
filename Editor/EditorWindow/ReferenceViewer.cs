@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using UnityEditor;
-using UnityEditor.Build.Content;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,8 +16,8 @@ namespace AssetLens.Reference
         private ObjectField selected = default;
         private Toggle lockToggle = default;
 
-        private VisualElement dependencies_container;
-        private VisualElement used_by_container;
+        private ScrollView dependencies_container;
+        private ScrollView used_by_container;
 
         private Label dependencies_label;
         private Label used_by_label;
@@ -30,11 +29,9 @@ namespace AssetLens.Reference
             VisualElement root = rootVisualElement;
 
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML);
-            // StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(USS);
 
             VisualElement labelFromUXML = visualTree.Instantiate();
             root.Add(labelFromUXML);
-            // root.styleSheets.Add(styleSheet);
 
             selected = root.Q<ObjectField>("selectedObject");
             selected.objectType = typeof(Object);
@@ -42,14 +39,19 @@ namespace AssetLens.Reference
 
             lockToggle = root.Q<Toggle>("lockToggle");
 
-            dependencies_container = root.Q<VisualElement>("dependencies-container");
-            used_by_container = root.Q<VisualElement>("used-by-container");
+            dependencies_container = root.Q<ScrollView>("dependencies-container");
+            used_by_container = root.Q<ScrollView>("used-by-container");
             dependencies_label = root.Q<Label>("dependencies-label");
             used_by_label = root.Q<Label>("used-by-label");
+
+            dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+            used_by_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
         }
 
         private void Update()
         {
+            // temporal interval to refresh after compiling.
+            // need to change initialize on load
             if (Time.realtimeSinceStartup - lastUpdateTime > 0.1f)
             {
                 ConfigureSelection();
@@ -93,6 +95,7 @@ namespace AssetLens.Reference
 
                     foreach (string assetGuid in data.ownGuids)
                     {
+                        // @TODO :: Template으로 빼기
                         EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(assetGuid);
                         string assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
                         Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
@@ -144,6 +147,7 @@ namespace AssetLens.Reference
                     
                     foreach (string assetGuid in data.referedByGuids)
                     {
+                        // @TODO :: Template으로 빼기
                         EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(assetGuid);
                         string assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
                         Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
@@ -214,10 +218,11 @@ namespace AssetLens.Reference
         {
             ReferenceViewer wnd = GetWindow<ReferenceViewer>();
             wnd.titleContent = new GUIContent("Reference Viewer");
+            wnd.minSize = new Vector2(380, 400);
+
             wnd.Focus();
             wnd.Repaint();
-            
-            wnd.position = Rect.zero;
+
             wnd.Show();
         }
     }

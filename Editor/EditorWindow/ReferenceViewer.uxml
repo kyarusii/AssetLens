@@ -8,7 +8,7 @@
     <ui:VisualElement name="space" style="height:20px"/>
     
     <ui:Label name="dependencies-label" class="title-label" />
-    <ui:VisualElement name="dependencies-container" class="list-container" />
+    <ui:ScrollView name="dependencies-container" class="list-container"/>
     <ui:Label name="used-by-label" class="title-label" />
-    <ui:VisualElement name="used-by-container" class="list-container" />
+    <ui:ScrollView name="used-by-container" class="list-container" />
 </ui:UXML>
