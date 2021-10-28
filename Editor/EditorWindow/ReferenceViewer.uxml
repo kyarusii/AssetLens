@@ -9,6 +9,7 @@
     
     <ui:Label name="dependencies-label" class="title-label" />
     <ui:ScrollView name="dependencies-container" class="list-container"/>
+    
     <ui:Label name="used-by-label" class="title-label" />
     <ui:ScrollView name="used-by-container" class="list-container" />
 </ui:UXML>

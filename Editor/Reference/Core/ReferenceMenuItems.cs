@@ -60,6 +60,14 @@ namespace AssetLens.Reference
 		[MenuItem(ReferenceMenuName.WINDOW_VIEWER, false, 110)]
 		private static void OpenReferenceViewerWindow()
 		{
+#if UNITY_2020_3_OR_NEWER
+			if (Setting.UseUIElements)
+			{
+				ReferenceViewer.GetWindow();
+				return;
+			}
+#endif
+			
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
 
 			window.titleContent = new GUIContent("Reference Viewer");
@@ -91,6 +99,13 @@ namespace AssetLens.Reference
 		[MenuItem(ReferenceMenuName.ASSETMENU_FindReferenceIn, false, FindInProjectsOrder)]
 		private static void FindInProjects()
 		{
+#if UNITY_2020_3_OR_NEWER
+			if (Setting.UseUIElements)
+			{
+				ReferenceViewer.GetWindow();
+				return;
+			}
+#endif
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
 
 			window.titleContent = new GUIContent("Reference Viewer");

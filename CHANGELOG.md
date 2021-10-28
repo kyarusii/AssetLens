@@ -108,3 +108,7 @@
 ### 0.2.5
 - Check whether it is initialized or not only once.
 - Setting Inspector
+
+### 0.2.6
+- UIElements Reference Viewer Window
+- MultiColumn Viewer

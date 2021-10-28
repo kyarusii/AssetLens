@@ -214,7 +214,7 @@ namespace AssetLens.Reference
 #if DEBUG_ASSETLENS
         [MenuItem("Window/Asset Lens/Reference Viewer UIToolkit", false, 111)]
 #endif
-        public static void ShowExample()
+        public static ReferenceViewer GetWindow()
         {
             ReferenceViewer wnd = GetWindow<ReferenceViewer>();
             wnd.titleContent = new GUIContent("Reference Viewer");
@@ -224,6 +224,7 @@ namespace AssetLens.Reference
             wnd.Repaint();
 
             wnd.Show();
+            return wnd;
         }
     }
 }

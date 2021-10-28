@@ -17,6 +17,7 @@ namespace AssetLens.Reference
 		private SerializedProperty useEditorUtilityWhenSearchDependencies = default;
 		private SerializedProperty displayIndexerVersion = default;
 		private SerializedProperty localization = default;
+		private SerializedProperty useUIElementsWindow = default;
 
 		private bool unlockDangerZone = false;
 		private bool isInProgress = false;
@@ -33,6 +34,7 @@ namespace AssetLens.Reference
 				serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
 			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
+			useUIElementsWindow = serializedObject.FindProperty(nameof(useUIElementsWindow));
 			
 			CountCacheAsync();
 		}
@@ -63,6 +65,8 @@ namespace AssetLens.Reference
 						EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
 						EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies,
 							new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
+						EditorGUILayout.PropertyField(useUIElementsWindow,
+							new GUIContent("Use UI Elements"));
 
 						if (managedAssetCount < 0)
 						{
