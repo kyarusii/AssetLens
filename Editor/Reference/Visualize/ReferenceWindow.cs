@@ -353,8 +353,8 @@ namespace AssetLens.Reference
 							}
 							else
 							{
-								if (string.CompareOrdinal(path, ReferenceUtil.UNITY_DEFAULT_RESOURCE) == 0
-								|| string.CompareOrdinal(path, ReferenceUtil.UNITY_BUILTIN_EXTRA) == 0)
+								if (string.CompareOrdinal(path, ReferenceUtil.Path.UNITY_DEFAULT_RESOURCE) == 0
+								|| string.CompareOrdinal(path, ReferenceUtil.Path.UNITY_BUILTIN_EXTRA) == 0)
 								{
 									EditorGUILayout.LabelField(Localize.Inst.inspector_buildInResources, path);
 								}

@@ -108,7 +108,48 @@ namespace AssetLens.Reference
 			return owningGuids.ToList();
 		}
 		
-		internal const string UNITY_DEFAULT_RESOURCE = "Library/unity default resources";
-		internal const string UNITY_BUILTIN_EXTRA = "Resources/unity_builtin_extra";
+		internal static class Path
+		{
+			internal const string UNITY_DEFAULT_RESOURCE = "Library/unity default resources";
+			internal const string UNITY_BUILTIN_EXTRA = "Resources/unity_builtin_extra";	
+		}
+		
+		internal static class GUID
+		{
+			internal const string UNITY_DEFAULT_RESOURCE = "0000000000000000e000000000000000";
+			internal const string UNITY_BUILTIN_EXTRA    = "0000000000000000f000000000000000";
+
+			internal static bool IsDefaultResource(string guid)
+			{
+				return guid == UNITY_DEFAULT_RESOURCE;
+			}
+
+			internal static bool IsBuiltInExtra(string guid)
+			{
+				return guid == UNITY_BUILTIN_EXTRA;
+			}
+
+			internal static EAssetCategory GetAssetCategory(string guid)
+			{
+				if (IsDefaultResource(guid))
+				{
+					return EAssetCategory.DefaultResource;
+				}
+
+				if (IsBuiltInExtra(guid))
+				{
+					return EAssetCategory.BuiltInExtra;
+				}
+
+				return EAssetCategory.Object;
+			}
+		}
+	}
+
+	internal enum EAssetCategory
+	{
+		Object,
+		DefaultResource,
+		BuiltInExtra,
 	}
 }

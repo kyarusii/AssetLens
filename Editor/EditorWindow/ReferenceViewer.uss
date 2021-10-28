@@ -1,0 +1,26 @@
+.window-header {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    height: 24px;
+}
+
+.right {
+    align-items: flex-end;
+}
+
+.title-label {
+    -unity-font-style: bold;
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+    margin: 10px;
+}
+
+.reference-view {
+    -unity-text-align: middle-left;
+    height: 20px;
+    margin-left: 20px;
+}
+
+.default-asset-view {
+    margin-left: 20px;
+}

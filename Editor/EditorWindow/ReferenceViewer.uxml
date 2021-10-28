@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="ReferenceViewer.uss" />
+    <ui:VisualElement class="window-header">
+        <ui:Toggle name="lockToggle" label="Lock" class="right" />
+    </ui:VisualElement>
+    <uie:ObjectField name="selectedObject" label="Selected" allow-scene-objects="false" />
+    
+    <ui:VisualElement name="space" style="height:20px"/>
+    
+    <ui:Label name="dependencies-label" class="title-label" />
+    <ui:VisualElement name="dependencies-container" class="list-container" />
+    <ui:Label name="used-by-label" class="title-label" />
+    <ui:VisualElement name="used-by-container" class="list-container" />
+</ui:UXML>
