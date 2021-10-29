@@ -24,6 +24,7 @@ namespace AssetLens.Reference.TreeWindow
 
 #if DEBUG_ASSETLENS
 		[MenuItem("Window/Asset Lens/Reference Tree Window", false, 112)]
+#endif
 		public static ReferenceTreeWindow GetWindow()
 		{
 			ReferenceTreeWindow window = GetWindow<ReferenceTreeWindow>();
@@ -34,7 +35,6 @@ namespace AssetLens.Reference.TreeWindow
 			
 			return window;
 		}
-#endif
 
 		[OnOpenAsset]
 		public static bool OnOpenAsset(int instanceID, int line)

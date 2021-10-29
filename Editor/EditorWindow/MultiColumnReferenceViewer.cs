@@ -19,6 +19,7 @@ namespace AssetLens.Reference
             MultiColumnReferenceViewer wnd = GetWindow<MultiColumnReferenceViewer>();
 
             wnd.titleContent = new GUIContent("Multi Column Reference Viewer");
+            wnd.minSize = new Vector2(800, 300);
 
             return wnd;
         }
