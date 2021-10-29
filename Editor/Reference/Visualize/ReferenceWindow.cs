@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -175,6 +176,7 @@ namespace AssetLens.Reference
 		private string objectName;
 		private string objectPath;
 		private string version;
+		private string modified;
 
 		private void CollectData()
 		{
@@ -210,6 +212,7 @@ namespace AssetLens.Reference
 				objectName = data.objectName;
 				objectPath = data.objectPath;
 				version = data.GetVersionText();
+				modified = data.GetLastEditTime().ToString(CultureInfo.InvariantCulture);
 
 				referedByGuids = data.referedByGuids;
 				referenced = new Object[referedByGuids.Count];
@@ -255,6 +258,7 @@ namespace AssetLens.Reference
 				objectName = string.Empty;
 				objectPath = string.Empty;
 				version = string.Empty;
+				modified = string.Empty;
 			}
 
 			isDirty = false;
@@ -286,20 +290,17 @@ namespace AssetLens.Reference
 				
 				if (typeAndVersion)
 				{
-					using (new EditorGUILayout.HorizontalScope())
-					{
-						EditorGUILayout.LabelField(version);
-						EditorGUILayout.LabelField(objectType);
-					}
+					EditorGUILayout.LabelField(version, objectType);
 				}
 				
 				if (nameAndPath)
 				{
-					using (new EditorGUILayout.HorizontalScope())
-					{
-						EditorGUILayout.LabelField(objectName);
-						EditorGUILayout.LabelField(objectPath);
-					}
+					EditorGUILayout.LabelField(objectName, objectPath);
+				}
+
+				if (!string.IsNullOrWhiteSpace(modified))
+				{
+					EditorGUILayout.LabelField("LastModified", modified);
 				}
 
 				if (typeAndVersion || nameAndPath)

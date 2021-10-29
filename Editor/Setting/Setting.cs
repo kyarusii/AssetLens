@@ -15,6 +15,7 @@ namespace AssetLens.Reference
 		[SerializeField] private string localization = "English";
 		
 		[SerializeField] private bool useUIElementsWindow = false;
+		[SerializeField] private bool autoUpgradeCachedData = false;
 		
 		public static bool PauseInPlaymode => GetOrCreateSettings().pauseInPlaymode;
 		
@@ -46,6 +47,17 @@ namespace AssetLens.Reference
 
 		public static bool UseUIElements {
 			get => GetOrCreateSettings().useUIElementsWindow;
+		}
+
+		public static bool AutoUpgradeCachedData {
+			get
+			{
+#if DEBUG_ASSETLENS
+				return GetOrCreateSettings().autoUpgradeCachedData;
+#else
+				return false;
+#endif
+			}
 		}
 	}
 }

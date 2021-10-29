@@ -25,6 +25,22 @@ namespace AssetLens.Reference
 			Task indexAssets = AssetLensCache.IndexAssets();
 			Setting.IsEnabled = true;
 		}
+		
+		[MenuItem(ReferenceMenuName.MENU_INDEX_ALL_ASSETS + "_100")]
+		private static void IndexAllAssets_100()
+		{
+			if (!EditorUtility.DisplayDialog(
+				Localize.Inst.indexing_title,
+				Localize.Inst.indexing_message,
+				Localize.Inst.indexing_proceed,
+				Localize.Inst.indexing_cancel))
+			{
+				return;
+			}
+
+			Task indexAssets = AssetLensCache.IndexAssets(100);
+			Setting.IsEnabled = true;
+		}
 
 		[MenuItem(ReferenceMenuName.MENU_LOG_REFERENCE + " %&r")]
 		private static void LogReferences()

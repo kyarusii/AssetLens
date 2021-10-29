@@ -8,7 +8,7 @@ namespace AssetLens.Reference
 {
 	internal partial class Setting
 	{
-		public const uint INDEX_VERSION = 100;
+		public const uint INDEX_VERSION = 206;
 		private const string k_editorCustomSettingsPath = FileSystem.SettingDirectory + "/AssetLens Setting.asset";
 		
 		private static Setting instance = default;

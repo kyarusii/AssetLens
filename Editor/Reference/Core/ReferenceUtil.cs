@@ -120,6 +120,18 @@ namespace AssetLens.Reference
 			internal const string UNITY_DEFAULT_RESOURCE = "0000000000000000e000000000000000";
 			internal const string UNITY_BUILTIN_EXTRA    = "0000000000000000f000000000000000";
 
+			internal static readonly string[] OTHER_INTERNALS = new[]
+			{
+				"0000000000000000a100000000000000",
+				"0000000000000000b000000000000000",
+				"0000000000000000b100000000000000",
+				"0000000000000000c000000000000000",
+				"0000000000000000c100000000000000",
+				"0000000000000000d000000000000000",
+				"0000000000000000d100000000000000",
+				"0000000000000000f100000000000000",
+			};
+
 			internal static bool IsDefaultResource(string guid)
 			{
 				return guid == UNITY_DEFAULT_RESOURCE;
@@ -128,6 +140,11 @@ namespace AssetLens.Reference
 			internal static bool IsBuiltInExtra(string guid)
 			{
 				return guid == UNITY_BUILTIN_EXTRA;
+			}
+
+			internal static bool IsOtherInternals(string guid)
+			{
+				return OTHER_INTERNALS.Contains(guid);
 			}
 
 			internal static EAssetCategory GetAssetCategory(string guid)
@@ -140,6 +157,11 @@ namespace AssetLens.Reference
 				if (IsBuiltInExtra(guid))
 				{
 					return EAssetCategory.BuiltInExtra;
+				}
+
+				if (IsOtherInternals(guid))
+				{
+					return EAssetCategory.Others;
 				}
 
 				return EAssetCategory.Object;
@@ -161,6 +183,12 @@ namespace AssetLens.Reference
 			}
 			
 			return newText.ToString();
+		}
+
+		internal static string GetGuid(UnityEngine.Object obj)
+		{
+			string path = AssetDatabase.GetAssetPath(obj);
+			return AssetDatabase.AssetPathToGUID(path);
 		}
 	}
 }

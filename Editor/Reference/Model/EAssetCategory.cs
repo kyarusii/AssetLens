@@ -5,5 +5,6 @@
 		Object,
 		DefaultResource,
 		BuiltInExtra,
+		Others,
 	}
 }

@@ -23,6 +23,10 @@ namespace AssetLens.Reference
         private Label used_by_label;
 
         private double lastUpdateTime;
+        
+        private bool needRebuild;
+
+        private Object current;
 
         public void CreateGUI()
         {
@@ -73,48 +77,91 @@ namespace AssetLens.Reference
                 return;
             }
             
-            Object current = Selection.activeObject;
+            current = Selection.activeObject;
+
+            // when the selected object is a gameObject in the scene
+            if (!Setting.TraceSceneObject && current is GameObject go && go.IsSceneObject())
+            {
+                needRebuild = true;
+                return;
+            }
+
+            // object changed
             if (!ReferenceEquals(current, selected.value))
             {
-                selected.value = current;
+                // current = selected.value;
+                needRebuild = true;
+            }
+
+            // check changed
+            if (current != null)
+            {
+                string guid = ReferenceUtil.GetGuid(current);
+                string path = AssetDatabase.GetAssetPath(current);
+                
+                // if current object is not folder
+                if (!Directory.Exists(path))
+                {
+                    if (ReferenceUtil.GUID.GetAssetCategory(guid) == EAssetCategory.Object)
+                    {
+                        RefData data = RefData.Get(guid);
+                    
+                    }    
+                }
+            }
+
+            if (needRebuild)
+            {
+                RebuildVisualElement();
+                needRebuild = false;
+            }
+        }
+
+        private void RebuildVisualElement()
+        {
+            selected.value = current;
             
-                // update view
-                dependencies_container.Clear();
-                used_by_container.Clear();
+            // clear previous visual element
+            dependencies_container.Clear();
+            used_by_container.Clear();
 
-                if (null == selected.value)
-                {
-                    dependencies_label.style.visibility = Visibility.Hidden;
-                    used_by_label.style.visibility = Visibility.Hidden;
-                }
-                else
-                {
-                    string path = AssetDatabase.GetAssetPath(selected.value);
-                    string guid = AssetDatabase.AssetPathToGUID(path);
+            // when selected object is null
+            if (null == current)
+            {
+                DontDraw();
+                return;
+            }
 
-                    if (Directory.Exists(path))
-                    {
-                        return;
-                    }
+            string path = AssetDatabase.GetAssetPath(current);
+            string guid = AssetDatabase.AssetPathToGUID(path);
 
-                    RefData data = RefData.Get(guid);
+            if (Directory.Exists(path))
+            {
+                return;
+            }
 
-                    foreach (string assetGuid in data.ownGuids)
-                    {
-                        dependencies_container.Add(CreateRefDataButton(assetGuid));
-                    }
+            RefData data = RefData.Get(guid);
+
+            foreach (string assetGuid in data.ownGuids)
+            {
+                dependencies_container.Add(CreateRefDataButton(assetGuid));
+            }
                     
-                    foreach (string assetGuid in data.referedByGuids)
-                    {
-                        used_by_container.Add(CreateRefDataButton(assetGuid));
-                    }
+            foreach (string assetGuid in data.referedByGuids)
+            {
+                used_by_container.Add(CreateRefDataButton(assetGuid));
+            }
 
-                    dependencies_label.text = $"Dependencies ({data.ownGuids.Count})";
-                    used_by_label.text = $"Used By ({data.referedByGuids.Count})";
+            dependencies_label.text = $"Dependencies ({data.ownGuids.Count})";
+            used_by_label.text = $"Used By ({data.referedByGuids.Count})";
                     
-                    dependencies_label.style.visibility = data.ownGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
-                    used_by_label.style.visibility = data.referedByGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
-                }
+            dependencies_label.style.visibility = data.ownGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
+            used_by_label.style.visibility = data.referedByGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
+            
+                        void DontDraw()
+            {
+                dependencies_label.style.visibility = Visibility.Hidden;
+                used_by_label.style.visibility = Visibility.Hidden;
             }
 
             VisualElement CreateRefDataButton(string guid)
@@ -148,6 +195,11 @@ namespace AssetLens.Reference
                     
                     case EAssetCategory.BuiltInExtra:
                         button.text = "Built-in Resource";
+                        button.SetEnabled(false);
+                        break;
+                    
+                    case EAssetCategory.Others:
+                        button.text = "Other Internals";
                         button.SetEnabled(false);
                         break;
                     

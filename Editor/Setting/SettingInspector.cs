@@ -18,6 +18,7 @@ namespace AssetLens.Reference
 		private SerializedProperty displayIndexerVersion = default;
 		private SerializedProperty localization = default;
 		private SerializedProperty useUIElementsWindow = default;
+		private SerializedProperty autoUpgradeCachedData = default;
 
 		private bool unlockDangerZone = false;
 		private bool isInProgress = false;
@@ -35,6 +36,7 @@ namespace AssetLens.Reference
 			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
 			useUIElementsWindow = serializedObject.FindProperty(nameof(useUIElementsWindow));
+			autoUpgradeCachedData = serializedObject.FindProperty(nameof(autoUpgradeCachedData));
 			
 			CountCacheAsync();
 		}
@@ -67,6 +69,8 @@ namespace AssetLens.Reference
 							new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
 						EditorGUILayout.PropertyField(useUIElementsWindow,
 							new GUIContent("Use UI Elements"));
+						EditorGUILayout.PropertyField(autoUpgradeCachedData,
+							new GUIContent("Auto Update Cached Data On Read"));
 
 						if (managedAssetCount < 0)
 						{
