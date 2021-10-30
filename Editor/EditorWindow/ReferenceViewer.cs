@@ -182,10 +182,22 @@ namespace AssetLens.Reference
                 {
                     case EAssetCategory.Object:
                         // @TODO : use uss style instead space
-                        button.text = $"     {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
-                        Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
-                        image.image = img;
-                        image.AddToClassList("reference-view-image");
+
+                        if (obj != null)
+                        {
+                            button.text = $"     {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
+                            Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
+                            image.image = img;
+                            image.AddToClassList("reference-view-image");    
+                        }
+                        else
+                        {
+                            button.text = $"     (null) (guid:{guid}) {assetPath}";
+                            Texture img = EditorGUIUtility.ObjectContent(null, typeof(Object)).image;
+                            image.image = img;
+                            image.AddToClassList("reference-view-image"); 
+                        }
+                        
                         break;
                     
                     case EAssetCategory.DefaultResource:
