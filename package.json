@@ -26,10 +26,8 @@
     "utility",
     "unity"
   ],
-  "dependencies": {
-    "commitizen": "^3.0.0"
-  },
   "devDependencies": {
+    "commitizen": "^3.0.0",
     "cz-conventional-changelog": "^3.0.1"
   },
   "config": {
