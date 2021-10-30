@@ -1,0 +1,42 @@
+.window-header {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    height: 24px;
+}
+
+.right {
+    align-items: flex-end;
+}
+
+.title-label {
+    -unity-font-style: bold;
+    font-size: 12px;
+    margin: 10px;
+}
+
+.reference-view-container {
+    height: 22px;
+    width: auto;
+    margin-left: 20px;
+}
+
+.reference-view-image {
+    width: 16px;
+    height: 16px;
+}
+
+.reference-view-button {
+    width: auto;
+    display: flex;
+    -unity-text-align: middle-left;
+    height: 20px;
+}
+
+.default-asset-view {
+    margin-left: 20px;
+}
+
+.list-container {
+    min-height: 60px;
+    max-height: 150px;
+}

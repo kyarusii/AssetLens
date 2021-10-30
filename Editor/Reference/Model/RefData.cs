@@ -13,9 +13,6 @@ namespace AssetLens.Reference
 {
 	internal class RefData
 	{
-		private const string UNITY_DEFAULT_RESOURCE = "0000000000000000e000000000000000";
-		private const string UNITY_BUILTIN_EXTRA    = "0000000000000000f000000000000000";
-		
 		/// <summary>
 		/// from file name
 		/// </summary>
@@ -35,20 +32,38 @@ namespace AssetLens.Reference
 		/// from asset database path
 		/// </summary>
 		public string objectPath;
+		/// <summary>
+		/// last modified date time
+		/// </summary>
+		public long objectModifiedTime;
 
 		public List<string> ownGuids = new List<string>();
 		public List<string> referedByGuids = new List<string>();
 
 		private Version version;
 
+		public DateTime GetLastEditTime()
+		{
+			return DateTime.FromBinary(objectModifiedTime);
+		}
+
 		public uint GetVersion()
 		{
 			return version;
 		}
 
+		public bool IsOutdatedVersion()
+		{
+			return version < Setting.INDEX_VERSION;
+		}
+
 		public string GetVersionText()
 		{
 			return version.ToString();
+		}
+
+		protected RefData()
+		{
 		}
 
 		public RefData(string guid, uint version)
@@ -102,25 +117,15 @@ namespace AssetLens.Reference
 			Save();
 		}
 
-		public void Save()
+		public void Save(uint serializerVersion = Setting.INDEX_VERSION)
 		{
-			ReferenceSerializer.Serialize(this);
+			ReferenceSerializer.Serialize(this, serializerVersion);
 		}
 
 		public void Remove()
 		{
 			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 			File.Delete(path);
-		}
-
-		public bool IsBuiltInExtra()
-		{
-			return guid == UNITY_BUILTIN_EXTRA;
-		}
-
-		public bool IsDefaultResource()
-		{
-			return guid == UNITY_DEFAULT_RESOURCE;
 		}
 
 		public static RefData Get(string guid)
@@ -148,8 +153,13 @@ namespace AssetLens.Reference
 			RefData asset = new RefData(guid, Setting.INDEX_VERSION);
 
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-			string assetContent = File.ReadAllText(assetPath);
 
+			if (!File.Exists(assetPath))
+			{
+				return GhostData(guid);
+			}
+
+			string assetContent= File.ReadAllText(assetPath);
 			List<string> owningGuids = ReferenceUtil.ParseOwnGuids(assetContent);
 
 			// 보유한 에셋에다 레퍼런스 밀어넣기
@@ -166,7 +176,9 @@ namespace AssetLens.Reference
 				}
 				else
 				{
-					if (owningGuid == UNITY_BUILTIN_EXTRA || owningGuid == UNITY_DEFAULT_RESOURCE)
+					if (ReferenceUtil.GUID.IsBuiltInExtra(owningGuid)
+					|| ReferenceUtil.GUID.IsDefaultResource(owningGuid))
+					// if (owningGuid == UNITY_BUILTIN_EXTRA || owningGuid == UNITY_DEFAULT_RESOURCE)
 					{
 						RefData builtinExtra = new RefData(owningGuid, Setting.INDEX_VERSION);
 						
@@ -183,6 +195,7 @@ namespace AssetLens.Reference
 			}
 
 			asset.ownGuids = owningGuids;
+			asset.objectModifiedTime = DateTime.Now.ToBinary();
 
 			return asset;
 		}
@@ -191,6 +204,11 @@ namespace AssetLens.Reference
 		{
 			string path = FileSystem.ReferenceCacheDirectory + $"/{guid}.ref";
 			return File.Exists(path);
+		}
+
+		public static RefData GhostData(string guid)
+		{
+			return new GhostRefData(guid);
 		}
 	}
 }

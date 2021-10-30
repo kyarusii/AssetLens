@@ -16,10 +16,10 @@ namespace AssetLens.Reference
 	{
 		static ReferenceInspectorGUI()
 		{
-			Editor.finishedDefaultHeaderGUI += EditorOnfinishedDefaultHeaderGUI;
+			UnityEditor.Editor.finishedDefaultHeaderGUI += EditorOnfinishedDefaultHeaderGUI;
 		}
 
-		private static void EditorOnfinishedDefaultHeaderGUI(Editor editor)
+		private static void EditorOnfinishedDefaultHeaderGUI(UnityEditor.Editor editor)
 		{
 			if (!Setting.IsEnabled)
 			{

@@ -11,7 +11,7 @@ namespace AssetLens.Reference
 {
 	internal static class AssetLensCache
 	{
-		internal static async Task IndexAssets(bool indexCustomPackages = true, int taskCount = 20)
+		internal static async Task IndexAssets(uint version = Setting.INDEX_VERSION, bool indexCustomPackages = true, int taskCount = 20)
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -100,7 +100,7 @@ namespace AssetLens.Reference
 				foreach (string guid in dataMap.Keys)
 				{
 					RefData asset = dataMap[guid];
-					asset.Save();
+					asset.Save(version);
 				}
 
 				stopwatch.Stop();

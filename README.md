@@ -27,7 +27,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 ```json
 {
     "dependencies": {
-        "com.calci.assetlens": "0.2.5"
+        "com.calci.assetlens": "0.2.6"
     }
 }
 ```

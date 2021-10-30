@@ -9,7 +9,7 @@ using UnityEngine;
 namespace AssetLens.Reference
 {
 	[CustomEditor(typeof(Setting))]
-	internal sealed class SettingInspector : Editor
+	internal sealed class SettingInspector : UnityEditor.Editor
 	{
 		private SerializedProperty enabled = default;
 		private SerializedProperty pauseInPlaymode = default;
@@ -17,6 +17,8 @@ namespace AssetLens.Reference
 		private SerializedProperty useEditorUtilityWhenSearchDependencies = default;
 		private SerializedProperty displayIndexerVersion = default;
 		private SerializedProperty localization = default;
+		private SerializedProperty useUIElementsWindow = default;
+		private SerializedProperty autoUpgradeCachedData = default;
 
 		private bool unlockDangerZone = false;
 		private bool isInProgress = false;
@@ -33,6 +35,8 @@ namespace AssetLens.Reference
 				serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
 			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
+			useUIElementsWindow = serializedObject.FindProperty(nameof(useUIElementsWindow));
+			autoUpgradeCachedData = serializedObject.FindProperty(nameof(autoUpgradeCachedData));
 			
 			CountCacheAsync();
 		}
@@ -63,6 +67,10 @@ namespace AssetLens.Reference
 						EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
 						EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies,
 							new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
+						EditorGUILayout.PropertyField(useUIElementsWindow,
+							new GUIContent("Use UI Elements"));
+						EditorGUILayout.PropertyField(autoUpgradeCachedData,
+							new GUIContent("Auto Update Cached Data On Read"));
 
 						if (managedAssetCount < 0)
 						{
