@@ -1,10 +1,10 @@
 {
-    "name": "Tests",
-    "rootNamespace": "RV.Tests",
+    "name": "Calci.AssetLens.Tests",
+    "rootNamespace": "AssetLens.Test",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "AssetLens"
+        "Calci.AssetLens"
     ],
     "includePlatforms": [
         "Editor"
