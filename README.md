@@ -16,9 +16,17 @@ The pain point that mainly considered with Unity is that when we delete an asset
 
 <a>
 <img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/>
+</a>
+<a>
 <img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/>
+</a>
+<a>
 <img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/>
+</a>
+<a>
 <img src="https://img.shields.io/badge/unity-2021.2f-blue.svg?logo=unity"/>
+</a>
+<a>
 <img src="https://img.shields.io/badge/unity-2022.1 beta-red.svg?logo=unity"/>
 </a>
 <br/>
