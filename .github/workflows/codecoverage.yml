@@ -1,0 +1,42 @@
+name: CI
+
+on: 
+  pull_request: 
+    branches:
+      - main
+
+jobs:
+
+  runTests:
+
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library
+
+      - name: Run tests and generate Coverage XML report
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          unityVersion: auto
+          testMode: playmode
+          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
+      - name: Upload XML report to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          name: PlayMode
+          flags: automated
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage-results/**/*.xml
