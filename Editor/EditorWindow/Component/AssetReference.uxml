@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:engine="UnityEngine.UIElements"
+        xmlns:editor="UnityEditor.UIElements"
+        xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+        xsi:schemaLocation="UnityEngine.UIElements ../../../../../UIElementsSchema/UnityEngine.UIElements.xsd">
+
+    <engine:Label text="Select something to remove from your suitcase:"/>
+    <engine:Box>
+        <engine:Toggle name="boots" label="Boots" value="false" />
+        <engine:Toggle name="helmet" label="Helmet" value="false" />
+        <engine:Toggle name="cloak" label="Cloak of invisibility" value="false"/>
+    </engine:Box>
+    <engine:Box>
+        <engine:Button name="cancel" text="Cancel" />
+        <engine:Button name="ok" text="OK" />
+    </engine:Box>
+</engine:UXML>
