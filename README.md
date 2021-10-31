@@ -1,10 +1,9 @@
 # Asset Lens
 
-[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)  
-
-
 ## About **Asset Lens**
 **Asset Lens** is a dependency tracking plugin for UnityEditor that provides additional information such as the number of usage.
+
+[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)
 
 This plugin is based on pre-cached complementary guid map to trace which asset has dependencies to specific asset. 
 The pain point that mainly considered with Unity is that when we delete an asset, we don't know which asset is using it. 
@@ -13,11 +12,22 @@ The pain point that mainly considered with Unity is that when we delete an asset
 - All assets must be serialized as force-text option in ProjectSetting/Editor
 
 ### Compatibility
-<a href="unityhub://2019.4.32f1/"><img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/></a>
-<a href="unityhub://2020.3.21f1/"><img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/></a>
-<a href="unityhub://2021.1.27f1/"><img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/></a>
-<a href="unityhub://2021.2.0f1/"><img src="https://img.shields.io/badge/unity-2021.2f-brightgreen.svg?logo=unity"/></a>
-<a href="unityhub://2022.1.0a13/"><img src="https://img.shields.io/badge/unity-2022.1 alpha-red.svg?logo=unity"/></a>
+  
+<a href="unityhub://2019.4.32f1/">
+<img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/>
+</a>
+<a href="unityhub://2020.3.21f1/">
+<img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/>
+</a>
+<a href="unityhub://2021.1.27f1/">
+<img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/>
+</a>
+<a href="unityhub://2021.2.0f1/">
+<img src="https://img.shields.io/badge/unity-2021.2f-brightgreen.svg?logo=unity"/>
+</a>
+<a href="unityhub://2022.1.0a13/">
+<img src="https://img.shields.io/badge/unity-2022.1 alpha-red.svg?logo=unity"/>
+</a>
 
 <a href="https://codecov.io/gh/seonghwan-dev/AssetLens">
 <img src="https://codecov.io/gh/seonghwan-dev/AssetLens/branch/main/graph/badge.svg?token=7ODSTUTX1G"/>
@@ -32,10 +42,13 @@ The pain point that mainly considered with Unity is that when we delete an asset
 ## Installation
 ### Unity Package Manager (NPM)
 [![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
+
+Replace stable version at version definition in json `x.x.x`  
+example) `"com.calci.assetlens": "0.2.6"`  
 ```json
 {
     "dependencies": {
-        "com.calci.assetlens": "0.3.0"
+        "com.calci.assetlens": "x.x.x"
     }
 }
 ```
