@@ -32,6 +32,8 @@ jobs:
         with:
           unityVersion: auto
           testMode: playmode
+          projectPath: ./
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
       - name: Upload XML report to Codecov
         uses: codecov/codecov-action@v2
