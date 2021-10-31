@@ -14,14 +14,14 @@ The pain point that mainly considered with Unity is that when we delete an asset
 
 ### Compatibility
 
+<a>
 <img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/>
 <img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/>
 <img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/>
 <img src="https://img.shields.io/badge/unity-2021.2f-blue.svg?logo=unity"/>
 <img src="https://img.shields.io/badge/unity-2022.1 beta-red.svg?logo=unity"/>
-
+</a>
 <br/>
-
 <a href="https://codecov.io/gh/seonghwan-dev/AssetLens">
 <img src="https://codecov.io/gh/seonghwan-dev/AssetLens/branch/main/graph/badge.svg?token=7ODSTUTX1G"/>
 </a>
@@ -38,7 +38,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 ```json
 {
     "dependencies": {
-        "com.calci.assetlens": "0.2.6"
+        "com.calci.assetlens": "0.3.0"
     }
 }
 ```
