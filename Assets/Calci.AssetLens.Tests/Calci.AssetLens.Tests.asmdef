@@ -6,9 +6,7 @@
         "UnityEditor.TestRunner",
         "Calci.AssetLens"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

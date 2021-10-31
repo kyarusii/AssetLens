@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf2f8419622478991552f5656d3475d, type: 3}
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
-  enabled: 0
+  enabled: 1
   pauseInPlaymode: 1
   traceSceneObject: 0
   useEditorUtilityWhenSearchDependencies: 0
