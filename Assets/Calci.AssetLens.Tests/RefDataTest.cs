@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class ReferenceTest
+public class RefDataTest
 {
     // A Test behaves as an ordinary method
     [Test]
