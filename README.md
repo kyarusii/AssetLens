@@ -13,11 +13,11 @@ The pain point that mainly considered with Unity is that when we delete an asset
 - All assets must be serialized as force-text option in ProjectSetting/Editor
 
 ### Compatibility
-<img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2021.2f-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2022.1 beta-red.svg?logo=unity"/>
+<a href="unityhub://2019.4.32f1/"><img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/></a>
+<a href="unityhub://2020.3.21f1/"><img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/></a>
+<a href="unityhub://2021.1.27f1/"><img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/></a>
+<a href="unityhub://2021.2.0f1/"><img src="https://img.shields.io/badge/unity-2021.2f-brightgreen.svg?logo=unity"/></a>
+<a href="unityhub://2022.1.0a13/"><img src="https://img.shields.io/badge/unity-2022.1 alpha-red.svg?logo=unity"/></a>
 
 <a href="https://codecov.io/gh/seonghwan-dev/AssetLens">
 <img src="https://codecov.io/gh/seonghwan-dev/AssetLens/branch/main/graph/badge.svg?token=7ODSTUTX1G"/>
