@@ -14,22 +14,12 @@ The pain point that mainly considered with Unity is that when we delete an asset
 
 ### Compatibility
 
-<a>
 <img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/>
-</a>
-<a>
 <img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/>
-</a>
-<a>
 <img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/>
-</a>
-<a>
 <img src="https://img.shields.io/badge/unity-2021.2f-blue.svg?logo=unity"/>
-</a>
-<a>
 <img src="https://img.shields.io/badge/unity-2022.1 beta-red.svg?logo=unity"/>
-</a>
-<br/>
+
 <a href="https://codecov.io/gh/seonghwan-dev/AssetLens">
 <img src="https://codecov.io/gh/seonghwan-dev/AssetLens/branch/main/graph/badge.svg?token=7ODSTUTX1G"/>
 </a>
@@ -37,7 +27,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 <img src="https://img.shields.io/npm/v/com.calci.assetlens?label=openupm&registry_uri=https://package.openupm.com"/>
 </a>
 <a href="https://badge.fury.io/js/com.calci.assetlens">
-<img src="https://badge.fury.io/js/com.calci.assetlens.svg" alt="npm version">
+<img src="https://badge.fury.io/js/com.calci.assetlens.svg" alt="npm version"/>
 </a>
 
 ## Installation
