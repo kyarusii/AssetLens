@@ -2,6 +2,10 @@
 using UnityEditor;
 using UnityEngine;
 
+#if !DEBUG_ASSETLENS
+#pragma warning disable CS0414
+#endif
+
 namespace AssetLens.Reference
 {
 	internal partial class Setting : ScriptableObject
@@ -61,3 +65,7 @@ namespace AssetLens.Reference
 		}
 	}
 }
+
+#if !DEBUG_ASSETLENS
+#pragma warning restore CS0414
+#endif

@@ -9,6 +9,10 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
+/[Uu]serSettings/
+/[Rr]ealm/*.lock
+/[Pp]ackages/Reference Viewer/*
+/[Pp]ackages/Reference Viewer/Editor/*.cs
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -58,5 +62,13 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+.idea
+.*
+*.lock
+Assets/StreamingAssets/UDPServerHijackConfiguration.json
+Assets/StreamingAssets/UDPServerHijackConfiguration.json.meta
+
+/[Cc]ode[Cc]overage/
+Assets/InitTestScene*.unity
 /node_modules/
 package-lock.json
