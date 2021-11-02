@@ -1,3 +1,14 @@
+## 0.3.0 (2021-11-02)
+
+### Fix
+
+- convert test assembly definition asset as editor assembly
+
+### Feat
+
+- add assemblyinfo to internalsvisibleto tests
+- add buttons in inspector gui drawer
+
 ## 0.2.6 (2021-10-31)
 
 ### Fix
