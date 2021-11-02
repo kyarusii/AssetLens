@@ -22,7 +22,7 @@ namespace AssetLens.Reference
 				return;
 			}
 
-			Task indexAssets = AssetLensCache.IndexAssets();
+			Task indexAssets = AssetLensCache.IndexAssetsAsync();
 			Setting.IsEnabled = true;
 		}
 		
@@ -38,7 +38,7 @@ namespace AssetLens.Reference
 				return;
 			}
 
-			Task indexAssets = AssetLensCache.IndexAssets(100);
+			Task indexAssets = AssetLensCache.IndexAssetsAsync(100);
 			Setting.IsEnabled = true;
 		}
 

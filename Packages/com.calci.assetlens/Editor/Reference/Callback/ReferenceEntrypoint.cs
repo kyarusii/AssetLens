@@ -30,8 +30,8 @@ namespace AssetLens.Reference
 								Localize.Inst.dialog_enablePlugin,
 								Localize.Inst.dialog_disablePlugin))
 							{
-								await AssetLensCache.CleanUpAssets();
-								await AssetLensCache.IndexAssets();
+								await AssetLensCache.CleanUpAssetsAsync();
+								await AssetLensCache.IndexAssetsAsync();
 						
 								Setting.IsEnabled = true;
 							}
