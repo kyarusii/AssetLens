@@ -3,14 +3,18 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.Compilation;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using Debug = UnityEngine.Debug;
 
 namespace AssetLens.Reference
 {
 	internal static class ReferenceMenuItems
 	{
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.MENU_INDEX_ALL_ASSETS)]
+#endif
 		private static void IndexAllAssets()
 		{
 			if (!EditorUtility.DisplayDialog(
@@ -26,7 +30,9 @@ namespace AssetLens.Reference
 			Setting.IsEnabled = true;
 		}
 		
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.MENU_INDEX_ALL_ASSETS + "_100")]
+#endif
 		private static void IndexAllAssets_100()
 		{
 			if (!EditorUtility.DisplayDialog(
@@ -42,7 +48,7 @@ namespace AssetLens.Reference
 			Setting.IsEnabled = true;
 		}
 
-		[MenuItem(ReferenceMenuName.MENU_LOG_REFERENCE + " %&r")]
+		[MenuItem(ReferenceMenuName.MENU_LOG_REFERENCE + " %&r", false, 27)]
 		private static void LogReferences()
 		{
 			Object obj = Selection.activeObject;
@@ -60,7 +66,8 @@ namespace AssetLens.Reference
 			foreach (string foundGuid in asset.ownGuids)
 			{
 				string foundPath = AssetDatabase.GUIDToAssetPath(foundGuid);
-				Debug.Log($"<color=#7FFF00>{fi.Name}이 사용하고 있는 에셋 : {foundPath}</color>",
+				
+				Debug.Log(string.Format(Localize.Inst.assets_has_dependencies_format, fi.Name, foundPath),
 					AssetDatabase.LoadAssetAtPath<Object>(foundPath));
 			}
 
@@ -68,7 +75,7 @@ namespace AssetLens.Reference
 			{
 				string foundPath = AssetDatabase.GUIDToAssetPath(foundGuid);
 
-				Debug.Log($"<color=#1E90FF>{fi.Name}을 사용하고 있는 에셋 : {foundPath}</color>",
+				Debug.Log(string.Format(Localize.Inst.assets_is_referenced_by_format, fi.Name, foundPath), 
 					AssetDatabase.LoadAssetAtPath<Object>(foundPath));
 			}
 		}
@@ -168,6 +175,31 @@ namespace AssetLens.Reference
 			}
 
 			Debug.Log($"{foundPaths.Length} files, {sw.ElapsedMilliseconds * 0.001f:N2}s elapsed!");
+		}
+		
+#if !DEBUG_ASSETLENS
+		[MenuItem("Help/Asset Lens/Enter Debug Mode", false, 120)]
+#endif
+		private static void ExitDebugMode()
+		{
+			BuildTargetGroup currentBuildTarget = EditorUserBuildSettings.selectedBuildTargetGroup;
+			string symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(currentBuildTarget);
+
+			if (!symbols.Contains("DEBUG_ASSETLENS"))
+			{
+				symbols = "DEBUG_ASSETLENS;" + symbols;
+			}
+			
+			PlayerSettings.SetScriptingDefineSymbolsForGroup(currentBuildTarget, symbols);
+			
+			AssetDatabase.SaveAssets();
+			CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.None);
+		}
+
+		[MenuItem("Help/Asset Lens/Open README", false, 131)]
+		private static void OpenReadme()
+		{
+			Application.OpenURL("https://github.com/seonghwan-dev/AssetLens/blob/main/README.md");
 		}
 	}
 }
