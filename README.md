@@ -65,9 +65,10 @@ openupm add com.calci.assetlens
 ```
 
 ## QuickStart
-- Execute `Tools/Asset Lens/Index All Assets` in MenuItem and wait until complete.  
-- Configure `Asset Lens` settings in `Edit/Project Settings...` in MenuItem.
-- Select an asset you want to know which asset references it and run `Find References In Project` context menu.
+- Open Asset Lens Setting in `Edit/Project Settings...`  
+- Hit the button `Initialize` to index all assets in project.  
+- Configure the settings for convenience.  
+- Select an asset you want to know which asset references it and run `Find References In Project` context menu.  
 
 ## Fundamentals
 - Create a cache file per a asset file, see also [RefData.cs](Packages/com.calci.assetlens/Editor/Reference/Model/RefData.cs)
@@ -104,12 +105,18 @@ Displays the number of other resources using the selected asset.
 - Detect references indexed in [Addressable](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)  
 
 ## Contributes
-- Current Editor Version : `2021.2.0f1`  
-- Fork and clone repository.
-- Add an scripting define symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
+- Current Editor Version : `2021.2.0f1`    
+- Fork and clone repository.  
+- Edit sources and commit with conventional commits (prefer Commitizen)  
+- Add unit test codes for new feature (Optional)
+- Create PR.  
+
+### Developer mode
+Select menu in `Help/Asset Lens/Enter Debug Mode` or Add an scripting define symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
+
+### Edit Languages
 - Run `Tools/Asset Lens_DEV/Add New Language` to create a new localization profile.
 - Run `Tools/Asset Lens_DEV/Update Language profiles` to add field after edit `Localize` class.
-- Create PR.
 
 ### Requirements
 - commitizen - conventional commit log to generate changelog
