@@ -35,7 +35,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 [![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
 
 Replace stable version at version definition in json `x.x.x`  
-example) `"com.calci.assetlens": "0.2.6"`  
+example) `"com.calci.assetlens": "0.3.0"`  
 ```json
 {
     "dependencies": {
