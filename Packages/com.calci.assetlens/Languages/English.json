@@ -42,5 +42,7 @@
     "remove_titleContent": "Warning!",
     "remove_removeProceed": "Remove",
     "remove_removeCancel": "Cancel",
-    "remove_cancelAlert": "Canceled."
+    "remove_cancelAlert": "Canceled.",
+    "assets_has_dependencies_format": "{0} uses <color=#7FFF00>{1}</color>",
+    "assets_is_referenced_by_format": "{0} is used by <color=#1E90FF>{1}</color>"
 }
