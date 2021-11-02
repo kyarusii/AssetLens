@@ -39,7 +39,7 @@
 		internal const string TOOL = "Tools/Asset Lens";
 
 		internal const string MENU_INDEX_ALL_ASSETS = TOOL + "/Index All Assets";
-		internal const string MENU_LOG_REFERENCE = TOOL + "/Log Selection";
+		internal const string MENU_LOG_REFERENCE = "Assets/Log Selected Object";
 
 		internal const string WINDOW = "Window/Asset Lens";
 		internal const string WINDOW_VIEWER = WINDOW + "/Reference Viewer";

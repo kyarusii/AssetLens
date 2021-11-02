@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 namespace AssetLens.Reference
@@ -116,6 +118,20 @@ namespace AssetLens.Reference
 			{
 				Debug.Log($"{AssetDatabase.GUIDToAssetPath(guid)}, {guid}");
 			}
+		}
+		
+		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Exit Debug Mode", false, 120)]
+		private static void ExitDebugMode()
+		{
+			BuildTargetGroup currentBuildTarget = EditorUserBuildSettings.selectedBuildTargetGroup;
+			string symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(currentBuildTarget);
+			
+			symbols = symbols.Replace("DEBUG_ASSETLENS;", "").Replace("DEBUG_ASSETLENS", "");
+			
+			PlayerSettings.SetScriptingDefineSymbolsForGroup(currentBuildTarget, symbols);
+			
+			AssetDatabase.SaveAssets();
+			CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.None);
 		}
 	}
 #endif
