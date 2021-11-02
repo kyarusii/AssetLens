@@ -82,5 +82,8 @@ namespace AssetLens.Reference
 		public string remove_removeProceed = "Remove";
 		public string remove_removeCancel = "Cancel";
 		public string remove_cancelAlert = "Canceled.";
+
+		public string assets_has_dependencies_format = "<color=#7FFF00>{0} uses {1}</color>";
+		public string assets_is_referenced_by_format = "<color=#7FFF00>{0} is used by {1}</color>";
 	}
 }
