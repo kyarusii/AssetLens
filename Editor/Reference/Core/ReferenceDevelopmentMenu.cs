@@ -65,7 +65,7 @@ namespace AssetLens.Reference
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Index Include Packages")]
 		private static void IndexingIncludePackages()
 		{
-			var indexAssets = AssetLensCache.IndexAssets();
+			var indexAssets = AssetLensCache.IndexAssetsAsync();
 		}
 
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Get Version")]
