@@ -113,7 +113,7 @@ namespace AssetLens.Reference
 		private const int FindInProjectsOrder = 28;
 
 		[MenuItem(ReferenceMenuName.ASSETMENU_FindReferenceIn, false, FindInProjectsOrder)]
-		private static void FindInProjects()
+		public static void FindInProjects()
 		{
 #if UNITY_2020_3_OR_NEWER
 			if (Setting.UseUIElements)
@@ -126,6 +126,7 @@ namespace AssetLens.Reference
 
 			window.titleContent = new GUIContent("Reference Viewer");
 			window.Show();
+			window.Focus();
 		}
 
 		[MenuItem(ReferenceMenuName.ASSETMENU_FindExplicitReferenceInProject, true, FindInProjectsOrder + 1)]

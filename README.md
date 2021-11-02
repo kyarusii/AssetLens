@@ -86,6 +86,9 @@ openupm add com.calci.assetlens
 <img src="https://user-images.githubusercontent.com/79823287/134523437-166bf30b-ccdd-42ea-90ae-3084e0f013f6.png" width="460">
 </p>
 
+### Inspector Indicator
+Displays the number of other resources using the selected asset.
+
 ## Roadmap
 - Safer Asset Delete ([#8](/../../issues/8))  
 - Reference replacement wizard ([#9](/../../issues/9))  
@@ -93,6 +96,7 @@ openupm add com.calci.assetlens
 - Detect references indexed in [Addressable](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)  
 
 ## Contributes
+- Current Editor Version : `2021.2.0f1`  
 - Fork and clone repository.
 - Add an scripting define symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
 - Run `Tools/Asset Lens_DEV/Add New Language` to create a new localization profile.
@@ -101,8 +105,3 @@ openupm add com.calci.assetlens
 
 ### Requirements
 - commitizen - conventional commit log to generate changelog
-
-## Images
-![image](https://user-images.githubusercontent.com/79823287/131787910-1cc009e6-d483-4a87-afb0-a6ac31d3cf0d.png)  
-![image](https://user-images.githubusercontent.com/79823287/131797772-078dda37-0917-4d98-abea-f09645e33a77.png)  
-![image](https://user-images.githubusercontent.com/79823287/131797825-213d2927-db5a-47d0-a02d-bb87e0400b52.png)  
