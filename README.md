@@ -1,10 +1,9 @@
 # Asset Lens
 
-[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)  
-
-
 ## About **Asset Lens**
 **Asset Lens** is a dependency tracking plugin for UnityEditor that provides additional information such as the number of usage.
+
+[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)
 
 This plugin is based on pre-cached complementary guid map to trace which asset has dependencies to specific asset. 
 The pain point that mainly considered with Unity is that when we delete an asset, we don't know which asset is using it. 
@@ -13,15 +12,14 @@ The pain point that mainly considered with Unity is that when we delete an asset
 - All assets must be serialized as force-text option in ProjectSetting/Editor
 
 ### Compatibility
+  
+  
+<a href="unityhub://2019.4.32f1/"><img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/></a>
+<a href="unityhub://2020.3.21f1/"><img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/></a>
+<a href="unityhub://2021.1.27f1/"><img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/></a>
+<a href="unityhub://2021.2.0f1/"><img src="https://img.shields.io/badge/unity-2021.2f-brightgreen.svg?logo=unity"/></a>
+<a href="unityhub://2022.1.0a13/"><img src="https://img.shields.io/badge/unity-2022.1 alpha-red.svg?logo=unity"/></a>
 
-<a>
-<img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2021.1f_LTS-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2021.2f-blue.svg?logo=unity"/>
-<img src="https://img.shields.io/badge/unity-2022.1 beta-red.svg?logo=unity"/>
-</a>
-<br/>
 <a href="https://codecov.io/gh/seonghwan-dev/AssetLens">
 <img src="https://codecov.io/gh/seonghwan-dev/AssetLens/branch/main/graph/badge.svg?token=7ODSTUTX1G"/>
 </a>
@@ -29,16 +27,19 @@ The pain point that mainly considered with Unity is that when we delete an asset
 <img src="https://img.shields.io/npm/v/com.calci.assetlens?label=openupm&registry_uri=https://package.openupm.com"/>
 </a>
 <a href="https://badge.fury.io/js/com.calci.assetlens">
-<img src="https://badge.fury.io/js/com.calci.assetlens.svg" alt="npm version">
+<img src="https://badge.fury.io/js/com.calci.assetlens.svg" alt="npm version"/>
 </a>
 
 ## Installation
 ### Unity Package Manager (NPM)
 [![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
+
+Replace stable version at version definition in json `x.x.x`  
+example) `"com.calci.assetlens": "0.3.0"`  
 ```json
 {
     "dependencies": {
-        "com.calci.assetlens": "0.3.0"
+        "com.calci.assetlens": "x.x.x"
     }
 }
 ```
@@ -85,6 +86,18 @@ openupm add com.calci.assetlens
 <img src="https://user-images.githubusercontent.com/79823287/134523437-166bf30b-ccdd-42ea-90ae-3084e0f013f6.png" width="460">
 </p>
 
+### Inspector Indicator
+Displays the number of other resources using the selected asset.
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79823287/139777116-25ed937e-2f69-421a-91a8-4ae426a311e4.png" width="460">
+</p>
+
+- Details : Open Reference Viewer as EditorWindow instantly.  
+- Refresh : Reserialized cached reference data asset.  
+- GUID : Displays the guid of selected asset. onClick events will copy guid to your clipboard.  
+
+
 ## Roadmap
 - Safer Asset Delete ([#8](/../../issues/8))  
 - Reference replacement wizard ([#9](/../../issues/9))  
@@ -92,6 +105,7 @@ openupm add com.calci.assetlens
 - Detect references indexed in [Addressable](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)  
 
 ## Contributes
+- Current Editor Version : `2021.2.0f1`  
 - Fork and clone repository.
 - Add an scripting define symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
 - Run `Tools/Asset Lens_DEV/Add New Language` to create a new localization profile.
@@ -100,8 +114,3 @@ openupm add com.calci.assetlens
 
 ### Requirements
 - commitizen - conventional commit log to generate changelog
-
-## Images
-![image](https://user-images.githubusercontent.com/79823287/131787910-1cc009e6-d483-4a87-afb0-a6ac31d3cf0d.png)  
-![image](https://user-images.githubusercontent.com/79823287/131797772-078dda37-0917-4d98-abea-f09645e33a77.png)  
-![image](https://user-images.githubusercontent.com/79823287/131797825-213d2927-db5a-47d0-a02d-bb87e0400b52.png)  

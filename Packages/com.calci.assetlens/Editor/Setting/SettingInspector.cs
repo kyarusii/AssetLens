@@ -193,7 +193,7 @@ namespace AssetLens.Reference
 
 		private async void CleanUpCache()
 		{
-			int processedAssetCount = await AssetLensCache.CleanUpAssets();
+			int processedAssetCount = await AssetLensCache.CleanUpAssetsAsync();
 			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
 
 			isInProgress = false;
@@ -203,7 +203,7 @@ namespace AssetLens.Reference
 		{
 			Setting.IsEnabled = false;
 			
-			int processedAssetCount = await AssetLensCache.CleanUpAssets();
+			int processedAssetCount = await AssetLensCache.CleanUpAssetsAsync();
 			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
 			
 			Directory.Delete(FileSystem.ReferenceCacheDirectory);

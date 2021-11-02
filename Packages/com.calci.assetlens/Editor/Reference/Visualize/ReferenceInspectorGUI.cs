@@ -36,7 +36,7 @@ namespace AssetLens.Reference
 						return;
 					}
 				}
-
+				
 				if (!ReferenceEquals(Selection.activeObject, target)) return;
 				
 				string path = AssetDatabase.GetAssetPath(target);
@@ -50,7 +50,6 @@ namespace AssetLens.Reference
 				
 				string guid = AssetDatabase.AssetPathToGUID(path);
 
-
 				try
 				{
 					RefData refData = RefData.Get(guid);
@@ -62,11 +61,32 @@ namespace AssetLens.Reference
 						? string.Format(Localize.Inst.fmt_inspector_usageCount_singular, usedBy.Count)
 						: string.Format(Localize.Inst.fmt_inspector_usageCount_multiple, usedBy.Count);
 					
-					Rect totalRect = EditorGUILayout.GetControlRect();
-					// @TODO :: convert to button like prefab
-					Rect controlRect = EditorGUI.PrefixLabel(totalRect, EditorGUIUtility.TrTempContent(textContent));
+					EditorGUILayout.BeginHorizontal(new GUIStyle { fixedHeight = 17, margin = new RectOffset { top = 1, bottom = 1 } });
+					
+					GUIContent prefix = new GUIContent(textContent);
+					float prefixWidth = 24f + EditorStyles.boldLabel.CalcSize(prefix).x;
+					
+					EditorGUILayout.BeginHorizontal(GUILayout.Width(prefixWidth));
+					DoPrefixLabel(prefix, EditorStyles.label);
+					EditorGUILayout.EndHorizontal();
+					
+					if (GUILayout.Button("Detail", EditorStyles.miniButtonLeft))
+					{
+						OnDetail();
+					}
 
-					EditorGUI.SelectableLabel(controlRect, guid);	
+					if (GUILayout.Button("Refresh", EditorStyles.miniButtonRight))
+					{
+						OnRefresh(guid);
+					}
+					
+					GUIContent guidGUI = new GUIContent($"guid: {guid}");
+					if (EditorGUILayout.LinkButton(guidGUI))
+					{
+						OnGUIDClick(guid);
+					}
+					
+					EditorGUILayout.EndHorizontal();
 				}
 				catch (Exception e)
 				{
@@ -74,6 +94,35 @@ namespace AssetLens.Reference
 					Debug.LogException(e);
 #endif
 				}
+			}
+		}
+
+		private static void DoPrefixLabel(GUIContent label, GUIStyle style)
+		{
+			Rect rect = GUILayoutUtility.GetRect(label, style, GUILayout.ExpandWidth(false));
+			rect.height = Math.Max(18f, rect.height);
+			GUI.Label(rect, label, style);
+		}
+
+		private static void OnDetail()
+		{
+			ReferenceMenuItems.FindInProjects();
+		}
+
+		private static void OnRefresh(string guid)
+		{
+			RefData refData = RefData.Get(guid);
+			refData.Save();
+		}
+
+		private static void OnGUIDClick(string guid)
+		{
+			EditorGUIUtility.systemCopyBuffer = guid;
+
+			foreach (SceneView sceneView in SceneView.sceneViews)
+			{
+				sceneView.ShowNotification(new GUIContent($"GUID copied to clipboard!\n{guid}"));
+				sceneView.Focus();
 			}
 		}
 	}
