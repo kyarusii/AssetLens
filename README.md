@@ -89,6 +89,15 @@ openupm add com.calci.assetlens
 ### Inspector Indicator
 Displays the number of other resources using the selected asset.
 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/79823287/139777116-25ed937e-2f69-421a-91a8-4ae426a311e4.png" width="460">
+</p>
+
+- Details : Open Reference Viewer as EditorWindow instantly.  
+- Refresh : Reserialized cached reference data asset.  
+- GUID : Displays the guid of selected asset. onClick events will copy guid to your clipboard.  
+
+
 ## Roadmap
 - Safer Asset Delete ([#8](/../../issues/8))  
 - Reference replacement wizard ([#9](/../../issues/9))  
