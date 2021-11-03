@@ -23,6 +23,11 @@ namespace AssetLens.Reference
         private Label used_by_label;
 
         private VisualElement no_selection;
+        private VisualElement additional_info;
+
+        private Label versionTypeLabel;
+        private Label namePathLabel;
+        private Label lastModified;
 
         private double lastUpdateTime;
         
@@ -52,9 +57,20 @@ namespace AssetLens.Reference
             used_by_label = root.Q<Label>("used-by-label");
 
             no_selection = root.Q<VisualElement>("no-selection");
+            additional_info = root.Q<VisualElement>("additional-info");
+
+            versionTypeLabel = new Label();
+            namePathLabel = new Label();
+            lastModified = new Label();
+            
+            additional_info.Add(versionTypeLabel);
+            // additional_info.Add(namePathLabel);
+            additional_info.Add(lastModified);
 
             dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             used_by_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+            
+            ConfigureSelection();
         }
 
         private void Update()
@@ -69,6 +85,13 @@ namespace AssetLens.Reference
 
         private void OnSelectionChange()
         {
+            needRebuild = true;
+            ConfigureSelection();
+        }
+
+        private void OnFocus()
+        {
+            needRebuild = true;
             ConfigureSelection();
         }
 
@@ -87,7 +110,11 @@ namespace AssetLens.Reference
             if (!Setting.TraceSceneObject && current is GameObject go && go.IsSceneObject())
             {
                 needRebuild = true;
-                return;
+                
+                // @TODO 
+                // null 넣는 대신 씬 오브젝트임을 표기
+                current = null;
+                goto escape;
             }
 
             // object changed
@@ -109,11 +136,12 @@ namespace AssetLens.Reference
                     if (ReferenceUtil.GUID.GetAssetCategory(guid) == EAssetCategory.Object)
                     {
                         RefData data = RefData.Get(guid);
-                    
                     }    
                 }
             }
-
+            
+            escape: ;
+            
             if (needRebuild)
             {
                 RebuildVisualElement();
@@ -135,7 +163,14 @@ namespace AssetLens.Reference
                 DontDraw();
                 return;
             }
-
+            
+            if (Setting.DisplayIndexerVersion)
+            {
+                selected.style.display = DisplayStyle.Flex;
+                no_selection.style.display = DisplayStyle.None;
+                additional_info.style.display = DisplayStyle.Flex;
+            }
+            
             string path = AssetDatabase.GetAssetPath(current);
             string guid = AssetDatabase.AssetPathToGUID(path);
 
@@ -145,6 +180,10 @@ namespace AssetLens.Reference
             }
 
             RefData data = RefData.Get(guid);
+
+            versionTypeLabel.text = $"{data.GetVersionText()} ({data.objectType})";
+            // namePathLabel.text = $"{data.objectName} ({data.objectPath})";
+            lastModified.text = $"Last Modified : {data.GetLastEditTime()}";
 
             foreach (string assetGuid in data.ownGuids)
             {
@@ -162,18 +201,22 @@ namespace AssetLens.Reference
             dependencies_label.style.visibility = data.ownGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
             used_by_label.style.visibility = data.referedByGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
             
-                        void DontDraw()
+            void DontDraw()
             {
                 dependencies_label.style.visibility = Visibility.Hidden;
                 used_by_label.style.visibility = Visibility.Hidden;
+
+                no_selection.style.display = DisplayStyle.Flex;
+                selected.style.display = DisplayStyle.None;
+                additional_info.style.display = DisplayStyle.None;
             }
 
-            VisualElement CreateRefDataButton(string guid)
+            VisualElement CreateRefDataButton(string targetGuid)
             {
                 // @TODO :: Template으로 빼기
-                EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(guid);
+                EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(targetGuid);
 
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                string assetPath = AssetDatabase.GUIDToAssetPath(targetGuid);
                 Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
 
                 VisualElement buttonRoot = new VisualElement();
@@ -196,7 +239,7 @@ namespace AssetLens.Reference
                         }
                         else
                         {
-                            button.text = $"     (null) (guid:{guid}) {assetPath}";
+                            button.text = $"     (null) (guid:{targetGuid}) {assetPath}";
                             Texture img = EditorGUIUtility.ObjectContent(null, typeof(Object)).image;
                             image.image = img;
                             image.AddToClassList("reference-view-image"); 
