@@ -190,5 +190,35 @@ namespace AssetLens.Reference
 			string path = AssetDatabase.GetAssetPath(obj);
 			return AssetDatabase.AssetPathToGUID(path);
 		}
+
+		/// <summary>
+		/// Find assets that don't have any reference links with other asset.
+		/// </summary>
+		/// <returns></returns>
+		internal static string[] GetIsolatedAssets()
+		{
+			return null;
+		}
+
+		/// <summary>
+		/// Validate the asset is placed in resources folder.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		internal static bool WillBePackAsResources(string path)
+		{
+			return path.Contains("Resources", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Validate the asset is related with the scene in build setting.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		internal static bool IsManagedBySceneInBuild(string path)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
