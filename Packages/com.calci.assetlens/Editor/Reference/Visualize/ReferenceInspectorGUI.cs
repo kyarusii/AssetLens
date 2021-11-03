@@ -15,12 +15,8 @@ namespace AssetLens.Reference
 	[InitializeOnLoad]
 	internal static class ReferenceInspectorGUI
 	{
-		private static SearchableEditorWindow hierarchy;
-		private static MethodInfo setSearchFilterMethodInfo;
-		
 		static ReferenceInspectorGUI()
 		{
-			FindSceneHierarchyWindow();
 			UnityEditor.Editor.finishedDefaultHeaderGUI += EditorOnfinishedDefaultHeaderGUI;
 		}
 
@@ -56,40 +52,6 @@ namespace AssetLens.Reference
 			{
 				DrawPersistentObject(target);
 				return;
-			}
-		}
-
-		/// <summary>
-		/// initialize hierarchy window
-		/// </summary>
-		private static void FindSceneHierarchyWindow()
-		{
-			SearchableEditorWindow[] windows = (SearchableEditorWindow[])Resources.FindObjectsOfTypeAll (typeof(SearchableEditorWindow));
-			foreach (SearchableEditorWindow window in windows) {
-
-				if(window.GetType().ToString() == "UnityEditor.SceneHierarchyWindow") {
-
-					hierarchy = window;
-					break;
-				}
-			}
-			
-			if (hierarchy == null)
-				return;
-
-			setSearchFilterMethodInfo = typeof(SearchableEditorWindow).GetMethod("SetSearchFilter", BindingFlags.NonPublic | BindingFlags.Instance);         
-		}
-
-		/// <summary>
-		/// set search filter in hierarchy
-		/// </summary>
-		/// <param name="searchFilter"></param>
-		/// <param name="searchMode"></param>
-		private static void SetHierarchyFilter(string searchFilter, SearchableEditorWindow.SearchMode searchMode)
-		{
-			if (setSearchFilterMethodInfo != null && hierarchy != null)
-			{
-				setSearchFilterMethodInfo.Invoke(hierarchy, new object[] { searchFilter, searchMode, false, false });
 			}
 		}
 
@@ -184,7 +146,8 @@ namespace AssetLens.Reference
 					foreach (UnityEngine.Component component in components)
 					{
 						int instanceId = component.GetInstanceID();
-						SetHierarchyFilter($"ref:{instanceId}:", SearchableEditorWindow.SearchMode.All);
+						
+						Internals.Hierarchy.SetSearchFilter($"ref:{instanceId}:", SearchableEditorWindow.SearchMode.All);
 					}
 				}
 			}
