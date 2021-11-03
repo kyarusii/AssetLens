@@ -26,7 +26,6 @@ namespace AssetLens.Reference
         private VisualElement additional_info;
 
         private Label versionTypeLabel;
-        private Label namePathLabel;
         private Label lastModified;
 
         private double lastUpdateTime;
@@ -60,11 +59,9 @@ namespace AssetLens.Reference
             additional_info = root.Q<VisualElement>("additional-info");
 
             versionTypeLabel = new Label();
-            namePathLabel = new Label();
             lastModified = new Label();
             
             additional_info.Add(versionTypeLabel);
-            // additional_info.Add(namePathLabel);
             additional_info.Add(lastModified);
 
             dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
@@ -176,13 +173,13 @@ namespace AssetLens.Reference
 
             if (Directory.Exists(path))
             {
+                DontDraw();
                 return;
             }
 
             RefData data = RefData.Get(guid);
 
             versionTypeLabel.text = $"{data.GetVersionText()} ({data.objectType})";
-            // namePathLabel.text = $"{data.objectName} ({data.objectPath})";
             lastModified.text = $"Last Modified : {data.GetLastEditTime()}";
 
             foreach (string assetGuid in data.ownGuids)
