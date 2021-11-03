@@ -14,7 +14,13 @@ namespace AssetLens.Reference
 	internal static class ReferenceCallback
 	{
 		internal static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
-		{
+		{	
+			// Disabled
+			if (!Setting.IsEnabled)
+			{
+				return AssetDeleteResult.DidNotDelete;
+			}
+			
 			// LightingEditor
 			if (Lightmapping.isRunning)
 			{
@@ -24,16 +30,12 @@ namespace AssetLens.Reference
 				return AssetDeleteResult.DidNotDelete;
 			}
 
+			// NavMeshEditor
 			if (NavMeshBuilder.isRunning)
 			{
 				Type type = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
 				Debug.Log(type);
 				
-				return AssetDeleteResult.DidNotDelete;
-			}
-			
-			if (!Setting.IsEnabled)
-			{
 				return AssetDeleteResult.DidNotDelete;
 			}
 
