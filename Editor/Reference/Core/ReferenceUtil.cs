@@ -56,7 +56,7 @@ namespace AssetLens.Reference
 				return false;
 			}
 
-			return !string.IsNullOrWhiteSpace(target.scene.name);
+			return !string.IsNullOrWhiteSpace(target.scene.name) && !target.IsPersistent();
 		}
 
 		internal static bool IsPersistent(this UnityEngine.Object target)
