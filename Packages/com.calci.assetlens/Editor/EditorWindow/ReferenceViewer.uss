@@ -40,3 +40,9 @@
     min-height: 60px;
     max-height: 150px;
 }
+
+.dark-container {
+    background-color: dimgrey;
+    margin: 10px;
+    padding: 10px;
+}

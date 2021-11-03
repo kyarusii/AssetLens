@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,13 +14,24 @@ namespace AssetLens.Reference
 		[SerializeField] private bool enabled = false;
 		
 		[SerializeField] private bool pauseInPlaymode = true;
-		[SerializeField] private bool traceSceneObject = false;
 		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
 		[SerializeField] private bool displayIndexerVersion = false;
 		[SerializeField] private string localization = "English";
 		
 		[SerializeField] private bool useUIElementsWindow = false;
 		[SerializeField] private bool autoUpgradeCachedData = false;
+
+		[SerializeField] private bool traceSceneObject = false;
+		[SerializeField] private bool displaySceneObjectInstanceId = false;
+
+		public static event Action<Setting> onSettingChange = delegate(Setting setting) {  };
+
+		public static void SetSettingDirty()
+		{
+			onSettingChange(Setting.Inst);
+		}
+
+		public static bool DisplaySceneObjectId => GetOrCreateSettings().displaySceneObjectInstanceId;
 		
 		public static bool PauseInPlaymode => GetOrCreateSettings().pauseInPlaymode;
 		

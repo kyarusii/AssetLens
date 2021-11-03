@@ -65,9 +65,10 @@ openupm add com.calci.assetlens
 ```
 
 ## QuickStart
-- Execute `Tools/Asset Lens/Index All Assets` in MenuItem and wait until complete.  
-- Configure `Asset Lens` settings in `Edit/Project Settings...` in MenuItem.
-- Select an asset you want to know which asset references it and run `Find References In Project` context menu.
+- Open Asset Lens Setting in `Edit/Project Settings...`  
+- Hit the button `Initialize` to index all assets in project.  
+- Configure the settings for convenience.  
+- Select an asset you want to know which asset references it and run `Find References In Project` context menu.  
 
 ## Fundamentals
 - Create a cache file per a asset file, see also [RefData.cs](Packages/com.calci.assetlens/Editor/Reference/Model/RefData.cs)
@@ -79,12 +80,11 @@ openupm add com.calci.assetlens
 - Find References In Project
 
 ### Reference Viewer Window
-<p align="center">
-<img src="https://user-images.githubusercontent.com/79823287/134523257-28173dc7-4fd5-406e-8ac9-56b148debedb.png" width="460">
-</p>
-<p align="center">
-<img src="https://user-images.githubusercontent.com/79823287/134523437-166bf30b-ccdd-42ea-90ae-3084e0f013f6.png" width="460">
-</p>
+
+|before initialize|after initialize|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/79823287/134523257-28173dc7-4fd5-406e-8ac9-56b148debedb.png" width="460">|<img src="https://user-images.githubusercontent.com/79823287/134523437-166bf30b-ccdd-42ea-90ae-3084e0f013f6.png" width="460">|
+|not available|available to trace dependencies|
 
 ### Inspector Indicator
 Displays the number of other resources using the selected asset.
@@ -99,18 +99,36 @@ Displays the number of other resources using the selected asset.
 
 
 ## Roadmap
-- Safer Asset Delete ([#8](/../../issues/8))  
-- Reference replacement wizard ([#9](/../../issues/9))  
-- Reference dependency map visualizer  
-- Detect references indexed in [Addressable](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)  
+Not stable yet, but under development.
+
+### Reference Viewer
+- Multi Column Viewer (Sortable)
+- Scene Object Reference Graph
+
+### Safe Delete
+- Alert before the asset that is used by other asset will be deleted.
+- Replace reference during delete asset. (Reference Replacer)
+
+### Inspector Lens
+- Display how many assets are related to selected asset at the top of the inspector.
+
+### Build Lens
+- Find the assets will be included in build
+- Asset bundle, Addressable, Linked assets with scenes in build setting, resources.
 
 ## Contributes
-- Current Editor Version : `2021.2.0f1`  
-- Fork and clone repository.
-- Add an scripting define symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
+- Current Editor Version : `2021.2.0f1`    
+- Fork and clone repository.  
+- Edit sources and commit with conventional commits (prefer Commitizen)  
+- Add unit test codes for new feature (Optional)
+- Create PR.  
+
+### Developer mode
+Select menu in `Help/Asset Lens/Enter Debug Mode` or Add an scripting define symbol `DEBUG_ASSETLENS` at ProjectSettings/Player.
+
+### Edit Languages
 - Run `Tools/Asset Lens_DEV/Add New Language` to create a new localization profile.
 - Run `Tools/Asset Lens_DEV/Update Language profiles` to add field after edit `Localize` class.
-- Create PR.
 
 ### Requirements
 - commitizen - conventional commit log to generate changelog

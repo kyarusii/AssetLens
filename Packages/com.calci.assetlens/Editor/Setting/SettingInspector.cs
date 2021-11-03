@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 #pragma warning disable CS1998
@@ -11,15 +12,37 @@ namespace AssetLens.Reference
 	[CustomEditor(typeof(Setting))]
 	internal sealed class SettingInspector : UnityEditor.Editor
 	{
+		private static bool isCompiling;
+		
+		[InitializeOnLoadMethod]
+		private static void RegisterCallback()
+		{
+			CompilationPipeline.compilationStarted += CompilationPipelineOncompilationStarted;
+			CompilationPipeline.compilationFinished += CompilationPipelineOncompilationFinished;
+		}
+
+		private static void CompilationPipelineOncompilationStarted(object obj)
+		{
+			isCompiling = true;
+		}
+		
+		private static void CompilationPipelineOncompilationFinished(object obj)
+		{
+			isCompiling = false;
+		}
+
 		private SerializedProperty enabled = default;
 		private SerializedProperty pauseInPlaymode = default;
-		private SerializedProperty traceSceneObject = default;
 		private SerializedProperty useEditorUtilityWhenSearchDependencies = default;
 		private SerializedProperty displayIndexerVersion = default;
 		private SerializedProperty localization = default;
 		private SerializedProperty useUIElementsWindow = default;
 		private SerializedProperty autoUpgradeCachedData = default;
 
+		/* scene object */
+		private SerializedProperty traceSceneObject = default;
+		private SerializedProperty displaySceneObjectInstanceId = default;
+		
 		private bool unlockDangerZone = false;
 		private bool isInProgress = false;
 
@@ -30,13 +53,16 @@ namespace AssetLens.Reference
 		{
 			enabled = serializedObject.FindProperty(nameof(enabled));
 			pauseInPlaymode = serializedObject.FindProperty(nameof(pauseInPlaymode));
-			traceSceneObject = serializedObject.FindProperty(nameof(traceSceneObject));
+			
 			useEditorUtilityWhenSearchDependencies =
 				serializedObject.FindProperty(nameof(useEditorUtilityWhenSearchDependencies));
 			displayIndexerVersion = serializedObject.FindProperty(nameof(displayIndexerVersion));
 			localization = serializedObject.FindProperty(nameof(localization));
 			useUIElementsWindow = serializedObject.FindProperty(nameof(useUIElementsWindow));
 			autoUpgradeCachedData = serializedObject.FindProperty(nameof(autoUpgradeCachedData));
+			
+			traceSceneObject = serializedObject.FindProperty(nameof(traceSceneObject));
+			displaySceneObjectInstanceId = serializedObject.FindProperty(nameof(displaySceneObjectInstanceId));
 			
 			CountCacheAsync();
 		}
@@ -47,6 +73,13 @@ namespace AssetLens.Reference
 
 			EditorGUI.BeginChangeCheck();
 
+			if (isCompiling)
+			{
+				EditorGUILayout.LabelField("Status", "Compiling");
+			}
+
+			EditorGUI.BeginDisabledGroup(isCompiling);
+			
 			EditorGUILayout.BeginVertical(GUILayout.Height(200));
 
 			if (enabled.boolValue)
@@ -62,8 +95,7 @@ namespace AssetLens.Reference
 					{
 						EditorGUILayout.PropertyField(pauseInPlaymode,
 							new GUIContent(Localize.Inst.setting_pauseInPlaymode));
-						EditorGUILayout.PropertyField(traceSceneObject,
-							new GUIContent(Localize.Inst.setting_traceSceneObjects));
+						
 						EditorGUILayout.PropertyField(displayIndexerVersion, new GUIContent("Display Indexer Version"));
 						EditorGUILayout.PropertyField(useEditorUtilityWhenSearchDependencies,
 							new GUIContent(Localize.Inst.setting_useEditorUtilityWhenSearchDependencies));
@@ -85,8 +117,20 @@ namespace AssetLens.Reference
 					EditorGUILayout.EndVertical();
 
 					EditorGUILayout.Space(10);
+					
+#if DEBUG_ASSETLENS
+					EditorGUILayout.LabelField("Scene Objects", EditorStyles.boldLabel);
+					EditorGUILayout.BeginVertical("HelpBox");
+					EditorGUILayout.PropertyField(traceSceneObject,
+						new GUIContent(Localize.Inst.setting_traceSceneObjects));
+					EditorGUILayout.PropertyField(displaySceneObjectInstanceId,
+						new GUIContent("Display Instance ID"));
+					EditorGUILayout.EndVertical();
+					EditorGUILayout.Space(10);
+#endif
 				}
 				EditorGUI.EndDisabledGroup();
+				
 			}
 			else
 			{
@@ -182,10 +226,14 @@ namespace AssetLens.Reference
 
 				EditorGUILayout.Space(4);
 			}
+			
+			// isCompiling scope
+			EditorGUI.EndDisabledGroup();
 
 			if (EditorGUI.EndChangeCheck())
 			{
 				ReferenceWindow.isDirty = true;
+				Setting.SetSettingDirty();
 			}
 
 			serializedObject.ApplyModifiedProperties();
@@ -210,7 +258,7 @@ namespace AssetLens.Reference
 
 #if DEBUG_ASSETLENS
 			
-			string projectManifest = File.ReadAllText(FileSystem.Manifest);
+			string projectManifest = await File.ReadAllTextAsync(FileSystem.Manifest);
 			if (!projectManifest.Contains(Constants.PackageName))
 			{
 				AssetLensConsole.Log("Cannot be uninstalled under development.");

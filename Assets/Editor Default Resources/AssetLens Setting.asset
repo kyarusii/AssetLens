@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabled: 1
   pauseInPlaymode: 1
-  traceSceneObject: 0
   useEditorUtilityWhenSearchDependencies: 0
-  displayIndexerVersion: 0
+  displayIndexerVersion: 1
   localization: English
   useUIElementsWindow: 0
   autoUpgradeCachedData: 0
+  traceSceneObject: 0
+  displaySceneObjectInstanceId: 1

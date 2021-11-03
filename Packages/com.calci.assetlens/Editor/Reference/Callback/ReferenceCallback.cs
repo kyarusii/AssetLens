@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEditor;
+using UnityEditor.AI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,9 +14,28 @@ namespace AssetLens.Reference
 	internal static class ReferenceCallback
 	{
 		internal static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
-		{
+		{	
+			// Disabled
 			if (!Setting.IsEnabled)
 			{
+				return AssetDeleteResult.DidNotDelete;
+			}
+			
+			// LightingEditor
+			if (Lightmapping.isRunning)
+			{
+				Type type = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
+				Debug.Log(type);
+				
+				return AssetDeleteResult.DidNotDelete;
+			}
+
+			// NavMeshEditor
+			if (NavMeshBuilder.isRunning)
+			{
+				Type type = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
+				Debug.Log(type);
+				
 				return AssetDeleteResult.DidNotDelete;
 			}
 
