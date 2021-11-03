@@ -4,6 +4,9 @@
     <ui:VisualElement class="window-header">
         <ui:Toggle name="lockToggle" label="Lock" class="right" />
     </ui:VisualElement>
+    
+    <ui:VisualElement class="no-selection"/>
+    
     <uie:ObjectField name="selectedObject" label="Selected" allow-scene-objects="false" />
     
     <ui:VisualElement name="space" style="height:20px"/>

@@ -22,6 +22,8 @@ namespace AssetLens.Reference
         private Label dependencies_label;
         private Label used_by_label;
 
+        private VisualElement no_selection;
+
         private double lastUpdateTime;
         
         private bool needRebuild;
@@ -34,8 +36,8 @@ namespace AssetLens.Reference
 
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML);
 
-            VisualElement labelFromUXML = visualTree.Instantiate();
-            root.Add(labelFromUXML);
+            VisualElement mainUXML = visualTree.Instantiate();
+            root.Add(mainUXML);
 
             selected = root.Q<ObjectField>("selectedObject");
             selected.objectType = typeof(Object);
@@ -48,6 +50,8 @@ namespace AssetLens.Reference
             
             dependencies_label = root.Q<Label>("dependencies-label");
             used_by_label = root.Q<Label>("used-by-label");
+
+            no_selection = root.Q<VisualElement>("no-selection");
 
             dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             used_by_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
