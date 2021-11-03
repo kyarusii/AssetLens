@@ -1,3 +1,15 @@
+## 0.3.1 (2021-11-03)
+
+### Fix
+
+- allow unity editor delete asset without notify in baking
+- handle asset manage in unity baking
+- trace object in scene view
+- sync with ugui version
+- uielements scheme
+- hide unnecessary menu item
+- convert localizable string
+
 ## 0.3.0 (2021-11-02)
 
 ### Fix
