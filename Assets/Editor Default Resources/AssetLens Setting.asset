@@ -19,5 +19,5 @@ MonoBehaviour:
   localization: English
   useUIElementsWindow: 0
   autoUpgradeCachedData: 0
-  traceSceneObject: 1
+  traceSceneObject: 0
   displaySceneObjectInstanceId: 1

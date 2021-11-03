@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 #pragma warning disable CS1998
@@ -11,6 +12,25 @@ namespace AssetLens.Reference
 	[CustomEditor(typeof(Setting))]
 	internal sealed class SettingInspector : UnityEditor.Editor
 	{
+		private static bool isCompiling;
+		
+		[InitializeOnLoadMethod]
+		private static void RegisterCallback()
+		{
+			CompilationPipeline.compilationStarted += CompilationPipelineOncompilationStarted;
+			CompilationPipeline.compilationFinished += CompilationPipelineOncompilationFinished;
+		}
+
+		private static void CompilationPipelineOncompilationStarted(object obj)
+		{
+			isCompiling = true;
+		}
+		
+		private static void CompilationPipelineOncompilationFinished(object obj)
+		{
+			isCompiling = false;
+		}
+
 		private SerializedProperty enabled = default;
 		private SerializedProperty pauseInPlaymode = default;
 		private SerializedProperty useEditorUtilityWhenSearchDependencies = default;
@@ -53,6 +73,13 @@ namespace AssetLens.Reference
 
 			EditorGUI.BeginChangeCheck();
 
+			if (isCompiling)
+			{
+				EditorGUILayout.LabelField("Status", "Compiling");
+			}
+
+			EditorGUI.BeginDisabledGroup(isCompiling);
+			
 			EditorGUILayout.BeginVertical(GUILayout.Height(200));
 
 			if (enabled.boolValue)
@@ -91,18 +118,19 @@ namespace AssetLens.Reference
 
 					EditorGUILayout.Space(10);
 					
+#if DEBUG_ASSETLENS
 					EditorGUILayout.LabelField("Scene Objects", EditorStyles.boldLabel);
 					EditorGUILayout.BeginVertical("HelpBox");
-#if DEBUG_ASSETLENS
 					EditorGUILayout.PropertyField(traceSceneObject,
 						new GUIContent(Localize.Inst.setting_traceSceneObjects));
 					EditorGUILayout.PropertyField(displaySceneObjectInstanceId,
 						new GUIContent("Display Instance ID"));
-#endif
 					EditorGUILayout.EndVertical();
 					EditorGUILayout.Space(10);
+#endif
 				}
 				EditorGUI.EndDisabledGroup();
+				
 			}
 			else
 			{
@@ -198,6 +226,9 @@ namespace AssetLens.Reference
 
 				EditorGUILayout.Space(4);
 			}
+			
+			// isCompiling scope
+			EditorGUI.EndDisabledGroup();
 
 			if (EditorGUI.EndChangeCheck())
 			{
