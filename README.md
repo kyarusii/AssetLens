@@ -99,10 +99,22 @@ Displays the number of other resources using the selected asset.
 
 
 ## Roadmap
-- Safer Asset Delete ([#8](/../../issues/8))  
-- Reference replacement wizard ([#9](/../../issues/9))  
-- Reference dependency map visualizer  
-- Detect references indexed in [Addressable](https://docs.unity3d.com/Packages/com.unity.addressables@1.19/manual/index.html)  
+Not stable yet, but under development.
+
+### Reference Viewer
+- Multi Column Viewer (Sortable)
+- Scene Object Reference Graph
+
+### Safe Delete
+- Alert before the asset that is used by other asset will be deleted.
+- Replace reference during delete asset. (Reference Replacer)
+
+### Inspector Lens
+- Display how many assets are related to selected asset at the top of the inspector.
+
+### Build Lens
+- Find the assets will be included in build
+- Asset bundle, Addressable, Linked assets with scenes in build setting, resources.
 
 ## Contributes
 - Current Editor Version : `2021.2.0f1`    
