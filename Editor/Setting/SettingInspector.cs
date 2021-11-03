@@ -186,6 +186,7 @@ namespace AssetLens.Reference
 			if (EditorGUI.EndChangeCheck())
 			{
 				ReferenceWindow.isDirty = true;
+				Setting.SetSettingDirty();
 			}
 
 			serializedObject.ApplyModifiedProperties();

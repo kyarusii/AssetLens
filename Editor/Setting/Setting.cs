@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,6 +21,13 @@ namespace AssetLens.Reference
 		
 		[SerializeField] private bool useUIElementsWindow = false;
 		[SerializeField] private bool autoUpgradeCachedData = false;
+		
+		public static event Action<Setting> onSettingChange = delegate(Setting setting) {  };
+
+		public static void SetSettingDirty()
+		{
+			onSettingChange(Setting.Inst);
+		}
 		
 		public static bool PauseInPlaymode => GetOrCreateSettings().pauseInPlaymode;
 		
