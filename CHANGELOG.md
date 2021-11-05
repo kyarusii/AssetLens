@@ -1,3 +1,11 @@
+## 0.3.2 (2021-11-05)
+
+### Fix
+
+- compile error 2019.4
+- compile error 2020.3
+- compile error 2021.1f
+
 ## 0.3.1 (2021-11-03)
 
 ### Fix
