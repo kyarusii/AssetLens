@@ -207,7 +207,11 @@ namespace AssetLens.Reference
 		/// <returns></returns>
 		internal static bool WillBePackAsResources(string path)
 		{
+#if UNITY_2021_2_OR_NEWER
 			return path.Contains("Resources", StringComparison.OrdinalIgnoreCase);
+#else
+			return path.ToUpper().Contains("RESOURCES");
+#endif
 		}
 
 		/// <summary>
