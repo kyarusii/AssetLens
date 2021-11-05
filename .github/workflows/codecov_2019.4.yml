@@ -1,0 +1,44 @@
+name: CI Unity_2019_4
+
+on: 
+  pull_request: 
+    branches:
+      - main
+
+jobs:
+
+  runTests:
+
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library
+
+      - name: Run tests and generate Coverage XML report
+        uses: game-ci/unity-test-runner@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          unityVersion: 2019.4.28f1
+          testMode: editMode
+          projectPath: ./
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics;assemblyFilters:Calci.AssetLens.Tests
+      - name: Upload XML report to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          name: EditMode-2019-4
+          flags: automated
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage-results/**/*.xml
