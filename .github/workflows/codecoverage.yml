@@ -34,7 +34,7 @@ jobs:
           testMode: editMode
           projectPath: ./
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
+          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics;assemblyFilters:Calci.AssetLens.Tests
       - name: Upload XML report to Codecov
         uses: codecov/codecov-action@v2
         with:
