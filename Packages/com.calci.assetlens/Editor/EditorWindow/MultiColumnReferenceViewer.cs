@@ -31,7 +31,11 @@ namespace AssetLens.Reference
 
             // Import UXML
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML);
+#if UNITY_2020_3_OR_NEWER
             VisualElement editorWindowTree = visualTree.Instantiate();
+#else
+            VisualElement editorWindowTree = visualTree.CloneTree();
+#endif
             
             root.Add(editorWindowTree);
         }

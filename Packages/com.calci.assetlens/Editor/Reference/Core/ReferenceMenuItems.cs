@@ -193,7 +193,7 @@ namespace AssetLens.Reference
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(currentBuildTarget, symbols);
 			
 			AssetDatabase.SaveAssets();
-			CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.None);
+			CompilationPipeline.RequestScriptCompilation();
 		}
 
 		[MenuItem("Help/Asset Lens/Open README", false, 131)]

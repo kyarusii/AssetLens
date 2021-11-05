@@ -40,7 +40,11 @@ namespace AssetLens.Reference
 
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML);
 
+#if UNITY_2020_3_OR_NEWER
             VisualElement mainUXML = visualTree.Instantiate();
+#else
+            VisualElement mainUXML = visualTree.CloneTree();
+#endif
             root.Add(mainUXML);
 
             selected = root.Q<ObjectField>("selectedObject");
@@ -64,8 +68,13 @@ namespace AssetLens.Reference
             additional_info.Add(versionTypeLabel);
             additional_info.Add(lastModified);
 
+#if UNITY_2021_1_OR_NEWER
             dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
             used_by_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
+#else
+            dependencies_container.horizontalScroller.visible = false;
+            used_by_container.horizontalScroller.visible = false;
+#endif
             
             ConfigureSelection();
         }

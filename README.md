@@ -132,3 +132,6 @@ Select menu in `Help/Asset Lens/Enter Debug Mode` or Add an scripting define sym
 
 ### Requirements
 - commitizen - conventional commit log to generate changelog
+
+### Tests
+must be passed test in 2019.4, 2020.3, 2021.1, 2021.2
