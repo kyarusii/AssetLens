@@ -113,10 +113,18 @@ namespace AssetLens.Reference
 				}
 
 				GUIContent guidGUI = new GUIContent($"guid: {guid}");
+
+#if UNITY_2021_1_OR_NEWER
 				if (EditorGUILayout.LinkButton(guidGUI))
 				{
 					OnGUIDClick(guid);
 				}
+#else
+				if (GUILayout.Button(guidGUI))
+				{
+					OnGUIDClick(guid);
+				}
+#endif
 
 				EditorGUILayout.EndHorizontal();
 			}
