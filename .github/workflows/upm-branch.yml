@@ -1,4 +1,8 @@
 name: Branch for UPM
+on:
+  push:
+    branches:
+    - main
 jobs:
   split-upm:
     name: split upm branch
