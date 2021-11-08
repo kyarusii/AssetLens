@@ -239,13 +239,15 @@ namespace AssetLens.Reference
                         if (obj != null)
                         {
                             button.text = $"     {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
+                            button.tooltip = assetPath;
                             Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
                             image.image = img;
                             image.AddToClassList("reference-view-image");    
                         }
                         else
                         {
-                            button.text = $"     (null) (guid:{targetGuid}) {assetPath}";
+                            button.text = $"     (null) (guid:{targetGuid})";
+                            button.tooltip = assetPath;
                             Texture img = EditorGUIUtility.ObjectContent(null, typeof(Object)).image;
                             image.image = img;
                             image.AddToClassList("reference-view-image"); 
