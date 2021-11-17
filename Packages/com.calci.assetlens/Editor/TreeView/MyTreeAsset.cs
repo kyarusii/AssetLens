@@ -4,7 +4,7 @@ using UnityEngine;
 namespace AssetLens.Reference.TreeWindow
 {
 	
-	[CreateAssetMenu (fileName = "TreeDataAsset", menuName = "Tree Asset", order = 1)]
+	// [CreateAssetMenu (fileName = "TreeDataAsset", menuName = "Tree Asset", order = 1)]
 	public class MyTreeAsset : ScriptableObject
 	{
 		[SerializeField] List<RefTreeElement> m_TreeElements = new List<RefTreeElement> ();

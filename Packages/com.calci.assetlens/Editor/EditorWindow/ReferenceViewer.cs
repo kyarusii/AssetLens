@@ -27,6 +27,8 @@ namespace AssetLens.Reference
 
         private Label versionTypeLabel;
         private Label lastModified;
+        
+        private Button substitute_button;
 
         private double lastUpdateTime;
         
@@ -64,9 +66,60 @@ namespace AssetLens.Reference
 
             versionTypeLabel = new Label();
             lastModified = new Label();
-            
+
+#if DEBUG_ASSETLENS
+            var featureRoot = root.Q<VisualElement>("feature-buttons");
+            substitute_button = new Button();
+            featureRoot.Add(substitute_button);
+
+            // substitute_button = root.Q<Button>("substitute-button");
+            substitute_button.clicked += () =>
+            {
+                string openFile = EditorUtility.OpenFilePanel("replace", "Assets", "");
+                if (!string.IsNullOrWhiteSpace(openFile))
+                {
+                    var newGuid = AssetDatabase.AssetPathToGUID(openFile);
+                    
+                    RefData newData = RefData.Get(newGuid);
+                    
+                    var path = AssetDatabase.GetAssetPath(selected.value);
+                    var guid = AssetDatabase.AssetPathToGUID(path);
+                    
+                    RefData data = RefData.Get(guid);
+
+                    AssetDatabase.StartAssetEditing();
+                    foreach (string referedByGuid in data.referedByGuids)
+                    {
+                        string assetPath = AssetDatabase.GUIDToAssetPath(referedByGuid);
+                        var obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+                        if (obj != null)
+                        {
+                            RefData refData = RefData.Get(referedByGuid);
+
+                            refData.ownGuids.Remove(guid);
+                            refData.ownGuids.Add(newGuid);
+                            
+                            newData.referedByGuids.Add(referedByGuid);
+
+                            string assetContent = File.ReadAllText(assetPath);
+                            string newAssetContent = assetContent.Replace(guid, newGuid);
+                            
+                            File.WriteAllText(assetPath, newAssetContent);
+                            AssetDatabase.ImportAsset(assetPath);
+                            
+                            refData.Save();
+                        }
+                    }
+                    AssetDatabase.StopAssetEditing();
+                    
+                    newData.Save();
+                    AssetDatabase.SaveAssets();
+                }
+            };
+
             additional_info.Add(versionTypeLabel);
             additional_info.Add(lastModified);
+#endif
 
 #if UNITY_2021_1_OR_NEWER
             dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
@@ -239,13 +292,15 @@ namespace AssetLens.Reference
                         if (obj != null)
                         {
                             button.text = $"     {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
+                            button.tooltip = assetPath;
                             Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
                             image.image = img;
                             image.AddToClassList("reference-view-image");    
                         }
                         else
                         {
-                            button.text = $"     (null) (guid:{targetGuid}) {assetPath}";
+                            button.text = $"     (null) (guid:{targetGuid})";
+                            button.tooltip = assetPath;
                             Texture img = EditorGUIUtility.ObjectContent(null, typeof(Object)).image;
                             image.image = img;
                             image.AddToClassList("reference-view-image"); 
