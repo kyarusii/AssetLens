@@ -1,3 +1,13 @@
+## 0.3.3 (2021-11-17)
+
+### Fix
+
+- feature button for dev
+- remove create asset menu of myTreeAsset
+- display asset path at tooltip instead of button
+
+## upm/0.3.2 (2021-11-08)
+
 ## 0.3.2 (2021-11-05)
 
 ### Fix
