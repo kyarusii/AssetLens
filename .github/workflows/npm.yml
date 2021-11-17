@@ -6,6 +6,7 @@ on:
  
 jobs:
   build:
+   if: "!startsWith(github.event.release.tag_name, 'upm"
    runs-on: ubuntu-latest
    steps:
    - uses: actions/checkout@v2
@@ -17,5 +18,6 @@ jobs:
    - run: yarn install
    
    - run: npm publish --access public
+     working-directory: Packages/com.calci.assetlens
      env:
        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
