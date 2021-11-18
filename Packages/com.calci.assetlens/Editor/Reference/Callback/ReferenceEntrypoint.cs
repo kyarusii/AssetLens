@@ -46,6 +46,19 @@ namespace AssetLens.Reference
 
 					// first indexing
 					await ReferenceDialog.OpenIndexAllAssetDialog();
+					
+					// var titleContent = Localize.Inst.dialog_titleContent;
+					// var message = Localize.Inst.dialog_noIndexedData;
+					// var ok = Localize.Inst.dialog_enablePlugin;
+					// var cancel = Localize.Inst.dialog_disablePlugin;
+					//
+					// DialogWindow.OpenDialog(titleContent, message, ok, cancel,
+					// 	() =>
+					// 	{
+					// 		AssetLensCache.IndexAssetsAsync();
+					// 	}, 
+					// 	() => { }, 
+					// 	() => { });
 				}
 				
 				SessionState.SetBool(key, true);
