@@ -8,11 +8,8 @@ using Object = UnityEngine.Object;
 
 namespace AssetLens.Reference
 {
-    public class ReferenceViewer : EditorWindow
+    public class ReferenceViewer : UIWindow
     {
-        private const string UXML = "Packages/com.calci.assetlens/Editor/EditorWindow/ReferenceViewer.uxml";
-        private const string USS = "Packages/com.calci.assetlens/Editor/EditorWindow/ReferenceViewer.uss";
-
         private ObjectField selected = default;
         private Toggle lockToggle = default;
 
@@ -35,19 +32,10 @@ namespace AssetLens.Reference
         private bool needRebuild;
 
         private Object current;
-
-        public void CreateGUI()
+        
+        protected override void Constructor()
         {
-            VisualElement root = rootVisualElement;
-
-            VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML);
-
-#if UNITY_2020_3_OR_NEWER
-            VisualElement mainUXML = visualTree.Instantiate();
-#else
-            VisualElement mainUXML = visualTree.CloneTree();
-#endif
-            root.Add(mainUXML);
+            LoadLayout("ReferenceViewer");
 
             selected = root.Q<ObjectField>("selectedObject");
             selected.objectType = typeof(Object);

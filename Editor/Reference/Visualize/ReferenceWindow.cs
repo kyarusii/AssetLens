@@ -77,8 +77,30 @@ namespace AssetLens.Reference
 
 			async void OpenDialog()
 			{
-				await ReferenceDialog.OpenIndexAllAssetDialog();
-				Setting.IsEnabled = true;
+				// await ReferenceDialog.OpenIndexAllAssetDialog();
+				// Setting.IsEnabled = true;
+				
+				DialogWindow.OpenDialog(Localize.Inst.dialog_titleContent,
+					Localize.Inst.dialog_noIndexedData, 
+					Localize.Inst.dialog_enablePlugin, 
+					Localize.Inst.dialog_disablePlugin,
+					OnAccept, OnCancel, OnClose);
+
+				async void OnAccept()
+				{
+					await AssetLensCache.IndexAssetsAsync();
+					Setting.IsEnabled = true;
+				}
+
+				void OnCancel()
+				{
+					Setting.IsEnabled = false;
+				}
+
+				void OnClose()
+				{
+					Setting.IsEnabled = false;
+				}
 			}
 		}
 

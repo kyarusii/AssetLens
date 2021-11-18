@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI/Stylesheets/DialogBox.uss?fileID=7433441132597879392&amp;guid=741a42f3c5b44f22b4d5c68a6cfa7eda&amp;type=3#DialogBox" />
+    <ui:VisualElement style="align-items: center; justify-content: flex-end;">
+        <ui:VisualElement name="content-container" class="content-container">
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="title-label" class="label-title label" />
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="content-label" class="label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="button-container" class="button-container">
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="btn-primary" class="btn-round btn-primary" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="btn-secondary" class="btn-round" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
