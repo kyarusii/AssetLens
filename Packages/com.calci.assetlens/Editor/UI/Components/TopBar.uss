@@ -1,0 +1,15 @@
+.top-bar {
+    flex-direction: row-reverse;
+    
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    
+    background-color: rgba(0,0,0,0);
+}
+
+.btn {
+    width: 20px;
+    height: 20px;
+}
