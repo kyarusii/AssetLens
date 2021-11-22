@@ -75,7 +75,7 @@ namespace AssetLens.Reference
 
 			return true;
 
-			async void OpenDialog()
+			void OpenDialog()
 			{
 				// await ReferenceDialog.OpenIndexAllAssetDialog();
 				// Setting.IsEnabled = true;

@@ -122,9 +122,9 @@ namespace AssetLens.Reference
 			wnd.position = pos;
 			
 			wnd.titleContent = new GUIContent("Dialog");
-			wnd.Focus();
-			wnd.Repaint();
-			wnd.Show();
+			// wnd.Focus();
+			// wnd.Repaint();
+			wnd.ShowPopup();
 			// wnd.ShowModal();
 
 			return wnd;

@@ -43,6 +43,10 @@ namespace AssetLens.Reference
 		public static bool DisplayIndexerVersion => GetOrCreateSettings().displayIndexerVersion;
 		
 		public static string Localization {
+			get
+			{
+				return GetOrCreateSettings().localization;
+			}
 			set
 			{
 				GetOrCreateSettings().localization = value;
@@ -73,6 +77,21 @@ namespace AssetLens.Reference
 #else
 				return false;
 #endif
+			}
+		}
+
+		public static bool HasRootDir()
+		{
+			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.ReferenceCacheDirectory);
+			return rootDirectory.Exists;
+		}
+
+		public static void CreateRootDir()
+		{
+			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.ReferenceCacheDirectory);
+			if (!rootDirectory.Exists)
+			{
+				rootDirectory.Create();
 			}
 		}
 	}

@@ -3,10 +3,13 @@
     border-radius: 20px;
     width: 120px;
     height: 40px;
+    border-width: 0;
+    background-color: darkgray;
+    color: black;
 }
 
 .btn-round:hover {
-    background-color: darkgray;
+    background-color: gray;
     border-radius: 8px;
 }
 
@@ -44,11 +47,11 @@
     color: rgba(238, 69, 15, 255);
     flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .content-container {
-    margin-top: 20px;
+    margin-top: 12px;
     margin-bottom: 20px;
     
     flex-wrap: wrap;
@@ -58,4 +61,17 @@
 .button-container {
     flex-wrap: wrap;
     flex-direction: row;
+}
+
+.root {
+    transition: all 0.2s;
+    background-color: rosybrown;
+    height: 140px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+}
+
+.root:focus, .root:hover {
+    background-color: mediumseagreen;
 }
