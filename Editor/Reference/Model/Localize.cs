@@ -94,7 +94,6 @@ namespace AssetLens.Reference
 		public string IndexSceneObjectTooltip = "IndexSceneObjectTooltip";
 		public string IndexPackageSubDirTooltip = "IndexPackageSubDirTooltip";
 
-
 		public string IndexWizard_IndexOptionLabel = "Indexing Options";
 		public string IndexWizard_StatusConsoleLabel = "Plugin Status";
 		
@@ -107,7 +106,6 @@ namespace AssetLens.Reference
 		public string IndexWizard_ManagedAssetLabel = "Managed Asset : {0}";
 		public string IndexWizard_Title = "Index Wizard";
 		
-
 		public string Close = "Close";
 		public string Proceed = "Proceed";
 		public string Generate = "Generate";
