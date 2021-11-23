@@ -10,6 +10,8 @@ using Debug = UnityEngine.Debug;
 
 namespace AssetLens.Reference
 {
+	using UI;
+	
 	internal static class ReferenceMenuItems
 	{
 #if DEBUG_ASSETLENS

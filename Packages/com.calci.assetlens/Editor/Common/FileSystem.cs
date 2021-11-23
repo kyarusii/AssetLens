@@ -14,8 +14,8 @@ namespace AssetLens
 
 		internal const string SettingDirectory = "Assets/Editor Default Resources";
 		
-		internal const string LayoutDirectory = PackageDirectory + "/Editor/UI/Layouts/";
-		internal const string StylesheetDirectory = PackageDirectory + "/Editor/UI/Stylesheets/";
+		internal const string LayoutDirectory = PackageDirectory + "/Editor/UI Toolkit/Layouts/";
+		internal const string StylesheetDirectory = PackageDirectory + "/Editor/UI Toolkit/Stylesheets/";
 
 	}
 }

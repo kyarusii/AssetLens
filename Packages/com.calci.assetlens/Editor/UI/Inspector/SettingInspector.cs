@@ -10,6 +10,8 @@ using UnityEngine.UIElements;
 
 namespace AssetLens.Reference
 {
+	using AssetLens.UI;
+	
 	[CustomEditor(typeof(Setting))]
 	internal sealed class SettingInspector : UnityEditor.Editor
 	{
@@ -140,7 +142,7 @@ namespace AssetLens.Reference
 				
 				if (GUILayout.Button("Open Wizard", GUILayout.Height(40)))
 				{
-					ConfigurationWizard.Open();
+					AssetLensIndexWizard.Open();
 					// OpenDialog();
 				}
 			}

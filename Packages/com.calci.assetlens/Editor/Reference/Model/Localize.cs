@@ -95,16 +95,17 @@ namespace AssetLens.Reference
 		public string IndexPackageSubDirTooltip = "IndexPackageSubDirTooltip";
 
 
-		public string ConfigWizard_IndexOptionLabel = "Indexing Options";
-		public string ConfigWizard_StatusConsoleLabel = "Plugin Status";
+		public string IndexWizard_IndexOptionLabel = "Indexing Options";
+		public string IndexWizard_StatusConsoleLabel = "Plugin Status";
 		
-		public string ConfigWizard_EntranceTooltip =
+		public string IndexWizard_EntranceTooltip =
 			"Is this your first time using AssetLens? Press the button to check the quick start guide.";
-		public string ConfigWizard_OpenWhenProjectStartup = "Always open when you start a project.";
-		public string ConfigWizard_StatusLabel = "Status : <color={0}>{1}</color>";
-		public string ConfigWizard_StatusReadyToUse = "Ready To Use";
-		public string ConfigWizard_StatusNotInitialized = "Not Initialized";
-		public string ConfigWizard_ManagedAssetLabel = "Managed Asset : {0}";
+		public string IndexWizard_OpenWhenProjectStartup = "Always open when you start a project.";
+		public string IndexWizard_StatusLabel = "Status : <color={0}>{1}</color>";
+		public string IndexWizard_StatusReadyToUse = "Ready To Use";
+		public string IndexWizard_StatusNotInitialized = "Not Initialized";
+		public string IndexWizard_ManagedAssetLabel = "Managed Asset : {0}";
+		public string IndexWizard_Title = "Index Wizard";
 		
 
 		public string Close = "Close";

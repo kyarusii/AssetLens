@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -10,12 +9,14 @@ using Object = UnityEngine.Object;
 #pragma warning disable CS0168
 #endif
 
-namespace AssetLens.Reference
+namespace AssetLens.UI
 {
+	using Reference;
+	
 	[InitializeOnLoad]
-	internal static class ReferenceInspectorGUI
+	internal static class InspectorLensGUI
 	{
-		static ReferenceInspectorGUI()
+		static InspectorLensGUI()
 		{
 			UnityEditor.Editor.finishedDefaultHeaderGUI += EditorOnfinishedDefaultHeaderGUI;
 		}
