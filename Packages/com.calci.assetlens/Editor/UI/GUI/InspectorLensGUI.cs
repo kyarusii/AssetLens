@@ -23,16 +23,25 @@ namespace AssetLens.UI
 
 		private static void EditorOnfinishedDefaultHeaderGUI(UnityEditor.Editor editor)
 		{
-			// don't draw if disabled
+			// don't draw if disabled.
 			if (!Setting.IsEnabled)
 			{
 				return;
 			}
 
-			// don't draw multi objects selected
-			if (editor.targets.Length != 1)
+			// don't draw if inspector lens disabled.
+			if (!Setting.Inst.InspectorLensEnable)
 			{
 				return;
+			}
+
+			// don't draw multi objects selected
+			if (Setting.Inst.InspectorHideWithNoLink)
+			{
+				if (editor.targets.Length != 1)
+				{
+					return;
+				}
 			}
 
 			Object target = editor.target;
@@ -40,7 +49,7 @@ namespace AssetLens.UI
 			// scene object
 			if (target is GameObject gameObject && gameObject.IsSceneObject())
 			{
-				if (Setting.DisplaySceneObjectId)
+				if (Setting.Inst.InspectorDrawObjectInstanceId)
 				{
 					DrawSceneObject(target);
 				}

@@ -10,7 +10,7 @@ namespace AssetLens.UI
 {
     using Reference;
     
-    public class ReferenceViewer : AssetLensEditorWindow
+    public sealed class ReferenceViewer : AssetLensEditorWindow
     {
         private ObjectField selected = default;
         private Toggle lockToggle = default;
@@ -156,7 +156,7 @@ namespace AssetLens.UI
             current = Selection.activeObject;
 
             // when the selected object is a gameObject in the scene
-            if (!Setting.TraceSceneObject && current is GameObject go && go.IsSceneObject())
+            if (!Setting.Inst.ViewSceneObject && current is GameObject go && go.IsSceneObject())
             {
                 needRebuild = true;
                 
@@ -213,7 +213,7 @@ namespace AssetLens.UI
                 return;
             }
             
-            if (Setting.DisplayIndexerVersion)
+            if (Setting.Inst.ViewIndexerVersion)
             {
                 selected.style.display = DisplayStyle.Flex;
                 no_selection.style.display = DisplayStyle.None;
@@ -321,11 +321,7 @@ namespace AssetLens.UI
 
                 void onClick()
                 {
-#if UNITY_2021_1_OR_NEWER
-                    EditorUtility.OpenPropertyEditor(obj);
-#else
-                    Selection.activeObject = obj;
-#endif
+                    ReferenceUtil.Focus(obj);
                 }
 
                 buttonRoot.Add(button);

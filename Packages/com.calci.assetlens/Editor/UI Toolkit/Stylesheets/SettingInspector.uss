@@ -9,10 +9,25 @@
     min-width: 160px;
 }
 
-/*.container {*/
-/*    border-radius: 12px;*/
-/*    margin-top: 12px;*/
-/*    margin-right: 8px;*/
-/*    padding: 8px;*/
-/*    background-color: slategray;*/
-/*}*/
+.unity-enum-field {
+    margin: 2px 12px;
+    justify-content: space-between;
+}
+
+.unity-enum-field__input {
+    width: 160px;
+    max-width: 160px;
+    min-width: 160px;
+}
+
+.group {
+    transition: all 0.2s;
+}
+
+.group:disabled {
+    /*height: 0.0%;*/
+}
+
+.group .unity-toggle__input {
+    /*display: none;*/
+}

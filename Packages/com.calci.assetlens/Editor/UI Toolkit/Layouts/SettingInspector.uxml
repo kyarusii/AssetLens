@@ -2,6 +2,23 @@
     <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Stylesheets/SettingInspector.uss?fileID=7433441132597879392&amp;guid=424f3a46ea29aba4d97a262ed842282d&amp;type=3#SettingInspector" />
     <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/SwitchToggle.uss?fileID=7433441132597879392&amp;guid=7c390d666cc3d3b40a39b9b26febbbd2&amp;type=3#SwitchToggle" />
     <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/Header.uss?fileID=7433441132597879392&amp;guid=77c28c7a2dc874544b5a305dd7c729a3&amp;type=3#Header" />
-    <ui:VisualElement name="options" class="container" />
-    <ui:VisualElement name="buttons" class="container" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/RoundSquareButton.uss?fileID=7433441132597879392&amp;guid=2e19af0eab77f014d99d9175c1116f79&amp;type=3#RoundSquareButton" />
+    <ui:VisualElement name="logo" class="logo" style="max-height: 120px; min-height: 120px; height: 120px; background-image: url(&apos;project://database/Packages/com.calci.assetlens/Contents/assetlens.png?fileID=2800000&amp;guid=1f5991d5b5314d74c8bb049b730b4fb8&amp;type=3#assetlens&apos;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(221, 160, 160);" />
+    <ui:VisualElement name="options" class="container" style="align-items: stretch;" />
+    <ui:VisualElement name="buttons" class="container">
+        <ui:Label text="Shortcuts" display-tooltip-when-elided="true" class="header-1" />
+        <ui:Button text="open-index-wizard" display-tooltip-when-elided="true" name="open-index-wizard" class="btn-thick" />
+        <ui:Button text="reset-setting" display-tooltip-when-elided="true" name="reset-setting" class="btn-thick" />
+        <ui:Button text="clean-cached-indecies" display-tooltip-when-elided="true" name="clean-cached-indecies" class="btn-warning btn-thick" />
+        <ui:Button text="uninstall-package" display-tooltip-when-elided="true" name="uninstall-package" class="btn-danger btn-thick" />
+    </ui:VisualElement>
+    <ui:VisualElement name="help" class="container">
+        <ui:Label text="Help" display-tooltip-when-elided="true" class="header header-1" />
+        <ui:Button text="open-readme" display-tooltip-when-elided="true" name="open-readme" class="btn-thick" />
+        <ui:Button text="documentation" display-tooltip-when-elided="true" name="documentation" class="btn-thick" />
+        <ui:Button text="report-issue" display-tooltip-when-elided="true" name="report-issue" class="btn-thick" />
+        <ui:Button text="changelog" display-tooltip-when-elided="true" name="changelog" class="btn-thick" />
+        <ui:Button text="license" display-tooltip-when-elided="true" name="license" class="btn-thick" />
+        <ui:Button text="credit" display-tooltip-when-elided="true" name="credit" class="btn-thick" />
+    </ui:VisualElement>
 </ui:UXML>

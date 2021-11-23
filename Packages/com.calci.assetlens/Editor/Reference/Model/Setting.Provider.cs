@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
@@ -10,10 +9,10 @@ namespace AssetLens.Reference
 	internal partial class Setting
 	{
 		public const uint INDEX_VERSION = 206;
+		
 		private const string k_editorCustomSettingsPath = FileSystem.SettingDirectory + "/AssetLens Setting.asset";
 		
 		private static Setting instance = default;
-		
 		internal static Setting Inst {
 			get => GetOrCreateSettings();
 		}
@@ -68,8 +67,10 @@ namespace AssetLens.Reference
 			[SettingsProvider]
 			public static SettingsProvider CreateFromSettingsObject()
 			{
+				// create setting object if not exist.
 				Object settingsObj = GetOrCreateSettings();
 
+				// load visual tree asset from custom editor of setting object.
 				var sp = new SettingsProvider("Project/Asset Lens", SettingsScope.Project)
 				{
 					activateHandler = (ActivateHandler)
@@ -81,7 +82,9 @@ namespace AssetLens.Reference
 			private static void ActivateHandler(string arg1, VisualElement arg2)
 			{
 				var editor = Editor.CreateEditor(GetOrCreateSettings());
+				
 				arg2.Add(editor.CreateInspectorGUI());
+				
 				arg2.style.paddingLeft = 12;
 				arg2.style.paddingRight = 12;
 			}

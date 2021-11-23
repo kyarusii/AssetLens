@@ -271,6 +271,9 @@ namespace AssetLens.UI
 			
 			// @TODO :: 다른 옵션 열기
 			Close();
+			
+			// Focus Setting
+			ReferenceUtil.Focus(Setting.Inst, EObjectFocusMethod.Selection);
 		}
 
 		private void OnCloseButton()
@@ -350,9 +353,6 @@ namespace AssetLens.UI
 			return EditorPrefs.GetBool(startUpKey, true);
 		}
 		
-#if DEBUG_ASSETLENS
-		[MenuItem("Window/Asset Lens/Index Wizard", false, 140)]
-#endif
 		public static void Open()
 		{
 			AssetLensIndexWizard wnd = GetWindow<AssetLensIndexWizard>();

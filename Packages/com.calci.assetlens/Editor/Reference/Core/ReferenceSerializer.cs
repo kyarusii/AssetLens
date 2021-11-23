@@ -42,7 +42,7 @@ namespace AssetLens.Reference
 			r.Close();
 
 			// auto update cached data if outdated
-			if (asset.IsOutdatedVersion() && Setting.AutoUpgradeCachedData)
+			if (asset.IsOutdatedVersion() && Setting.Inst.DataAutoUpdate)
 			{
 				asset = RefData.New(guid);
 				asset.Save();

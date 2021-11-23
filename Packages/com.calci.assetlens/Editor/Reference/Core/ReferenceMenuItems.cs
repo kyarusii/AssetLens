@@ -1,11 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using Debug = UnityEngine.Debug;
 
 namespace AssetLens.Reference
@@ -14,40 +12,12 @@ namespace AssetLens.Reference
 	
 	internal static class ReferenceMenuItems
 	{
-#if DEBUG_ASSETLENS
-		[MenuItem(ReferenceMenuName.MENU_INDEX_ALL_ASSETS)]
-#endif
-		private static void IndexAllAssets()
-		{
-			if (!EditorUtility.DisplayDialog(
-				Localize.Inst.indexing_title,
-				Localize.Inst.indexing_message,
-				Localize.Inst.indexing_proceed,
-				Localize.Inst.indexing_cancel))
-			{
-				return;
-			}
-
-			Task indexAssets = AssetLensCache.IndexAssetsAsync();
-			Setting.IsEnabled = true;
-		}
+		private const int FindInProjectsOrder = 28;
 		
-#if DEBUG_ASSETLENS
-		[MenuItem(ReferenceMenuName.MENU_INDEX_ALL_ASSETS + "_100")]
-#endif
-		private static void IndexAllAssets_100()
+		[MenuItem("Window/Asset Lens/Index Wizard", false, 110)]
+		private static void OpenIndexWizard()
 		{
-			if (!EditorUtility.DisplayDialog(
-				Localize.Inst.indexing_title,
-				Localize.Inst.indexing_message,
-				Localize.Inst.indexing_proceed,
-				Localize.Inst.indexing_cancel))
-			{
-				return;
-			}
-
-			Task indexAssets = AssetLensCache.IndexAssetsAsync(100);
-			Setting.IsEnabled = true;
+			AssetLensIndexWizard.Open();
 		}
 
 		[MenuItem(ReferenceMenuName.MENU_LOG_REFERENCE + " %&r", false, 27)]
@@ -82,60 +52,39 @@ namespace AssetLens.Reference
 			}
 		}
 
+		[MenuItem("Tools/Asset Lens/Settings...", false, 110)]
+		private static void OpenSetting()
+		{
+			ReferenceUtil.Focus(Setting.Inst, EObjectFocusMethod.Selection);
+		}
+
 		[MenuItem(ReferenceMenuName.WINDOW_VIEWER, false, 110)]
 		private static void OpenReferenceViewerWindow()
 		{
 #if UNITY_2020_3_OR_NEWER
-			if (Setting.UseUIElements)
-			{
-				ReferenceViewer.GetWindow();
-				return;
-			}
-#endif
-			
+			ReferenceViewer.GetWindow();
+			return;
+#else
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
 
 			window.titleContent = new GUIContent("Reference Viewer");
 			window.Show();
-		}
-
-		[MenuItem(ReferenceMenuName.WINDOW_REFERENCE_REPLACE, false, 121)]
-		private static void OpenReferenceReplaceWindow()
-		{
-			ReferenceReplacementWindow window = (ReferenceReplacementWindow)EditorWindow.GetWindow(typeof(ReferenceReplacementWindow));
-
-			window.titleContent = new GUIContent("Reference Replacer");
-			window.Show();
-		}
-		
-#if DEBUG_ASSETLENS
-		[MenuItem(ReferenceMenuName.WINDOW_SAFE_DELETE, false, 122)]
-		private static void OpenSafeDeleteWindow()
-		{
-			ReferenceSafeDeleteWindow window = (ReferenceSafeDeleteWindow)EditorWindow.GetWindow(typeof(ReferenceSafeDeleteWindow));
-
-			window.titleContent = new GUIContent("Safe Deleter");
-			window.Show();
-		}
 #endif
-
-		private const int FindInProjectsOrder = 28;
+		}
 
 		[MenuItem(ReferenceMenuName.ASSETMENU_FindReferenceIn, false, FindInProjectsOrder)]
 		public static void FindInProjects()
 		{
 #if UNITY_2020_3_OR_NEWER
-			if (Setting.UseUIElements)
-			{
-				ReferenceViewer.GetWindow();
-				return;
-			}
-#endif
+			ReferenceViewer.GetWindow();
+			return;
+#else
 			ReferenceWindow window = (ReferenceWindow)EditorWindow.GetWindow(typeof(ReferenceWindow));
 
 			window.titleContent = new GUIContent("Reference Viewer");
 			window.Show();
 			window.Focus();
+#endif
 		}
 
 		[MenuItem(ReferenceMenuName.ASSETMENU_FindExplicitReferenceInProject, true, FindInProjectsOrder + 1)]
