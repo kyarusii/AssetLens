@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace AssetLens.Reference
 {
@@ -223,6 +224,39 @@ namespace AssetLens.Reference
 		internal static bool IsManagedBySceneInBuild(string path)
 		{
 			throw new NotImplementedException();
+		}
+
+		internal static void Focus(Object obj, EObjectFocusMethod method = EObjectFocusMethod.Default)
+		{
+			if (method == EObjectFocusMethod.Default)
+			{
+				method = Setting.Inst.ViewObjectFocusMethod;
+			}
+			
+			switch (method)
+			{
+				case EObjectFocusMethod.PropertyWindow:
+				{
+#if UNITY_2021_1_OR_NEWER
+					EditorUtility.OpenPropertyEditor(obj);
+#else
+					Selection.activeObject = obj;
+#endif
+					break;
+				}
+				case EObjectFocusMethod.Selection:
+				{
+					Selection.activeObject = obj;
+					break;
+				}
+				case EObjectFocusMethod.Ping:
+				{
+					EditorGUIUtility.PingObject(obj);
+					break;
+				}
+				default:
+					throw new ArgumentOutOfRangeException(nameof(method), method, null);
+			}
 		}
 	}
 }

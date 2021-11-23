@@ -55,6 +55,7 @@
     "ViewOptionLabel": "Viewer Options",
     "ViewSceneObjectLabel": "Enable when scene object selected",
     "ViewInPlayModeLabel": "Enable in PlayMode",
+    "ViewIndexerVersionLabel": "Show indexer version",
     "InspectorOptionLabel": "Inspector Lens Options",
     "InspectorLensEnableLabel": "Enable",
     "InspectorHideWithNoLinkLabel": "Don't draw when no dependency",
@@ -72,5 +73,9 @@
     "Generate": "Generate",
     "Regenerate": "Regenerate",
     "Start": "Start",
-    "Save": "Save"
+    "Save": "Save",
+    "OpenIndexWizard": "Open Index Wizard",
+    "ResetSetting": "Reset Settings to Default",
+    "CleanCachedIndicies": "Clean up Cached Indicies",
+    "UninstallPackage": "Uninstall Asset Lens"
 }

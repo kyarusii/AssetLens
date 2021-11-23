@@ -45,13 +45,9 @@ namespace AssetLens.Reference
 
 		[Header("글로벌 옵션")]
 		[SerializeField] private bool enabled = false;
-		[SerializeField] private string localization = "English";
-		
-		[Header("1. 인덱싱 옵션")]
-#if DEBUG_ASSETLENS
-		[Obsolete]
-#endif
-		[SerializeField] private bool useEditorUtilityWhenSearchDependencies = false;
+		[HideInInspector] public string localization = "English";
+
+		#region Indexing
 
 		/// <summary>
 		/// GUID 정규식에 따라 인덱싱
@@ -65,20 +61,12 @@ namespace AssetLens.Reference
 		/// 패키지 하위 디렉터리 전체 인덱싱
 		/// </summary>
 		[HideInInspector] public bool IndexPackageSubDir = true;
-		
-		[Header("2.1 뷰어 옵션")]
-#if DEBUG_ASSETLENS
-		[Obsolete]
-#endif
-		[SerializeField] private bool traceSceneObject = false;
-#if DEBUG_ASSETLENS
-		[Obsolete]
-#endif
-		[SerializeField] private bool pauseInPlaymode = true;
-#if DEBUG_ASSETLENS
-		[Obsolete]
-#endif
-		[SerializeField] private bool displayIndexerVersion = false;
+
+		#endregion
+
+		#region View
+
+		#region Reference Viewer
 
 		/// <summary>
 		/// 씬 오브젝트 선택 시 뷰어 활성화
@@ -89,31 +77,26 @@ namespace AssetLens.Reference
 		/// 플레이모드에서 뷰어 활성화
 		/// </summary>
 		[HideInInspector] public bool ViewInPlayMode = false;
+		/// <summary>
+		/// 인덱서 버전 표기
+		/// </summary>
+		[HideInInspector] public bool ViewIndexerVersion = false;
+		/// <summary>
+		/// 에셋 레퍼런스 선택 시 프로퍼티 윈도우 / Selection 사용
+		/// </summary>
+		[HideInInspector] public EObjectFocusMethod ViewObjectFocusMethod = EObjectFocusMethod.PropertyWindow;
 
-		[Header("2.2 렌즈 옵션")]
-#if DEBUG_ASSETLENS
-		[Obsolete]
-#endif
-		[SerializeField] private bool displaySceneObjectInstanceId = false;
-	
+		#endregion
+
+		#region Inspector Lens
+
 		[HideInInspector] public bool InspectorLensEnable = true;
 		[HideInInspector] public bool InspectorHideWithNoLink = false;
-		[HideInInspector] public bool InspectorDrawObjectInstanceId = true;
-		
-		[Header("3. 데이터 관리")]
-		[SerializeField] private bool autoUpgradeCachedData = false;
+		[HideInInspector] public bool InspectorDrawObjectInstanceId = true;		
 
+		#endregion
 
-		[Header("4. SafeDelete 옵션")] 
-		[HideInInspector] public bool SafeDeleteEnabled = true;
-		[HideInInspector] public bool SafeDeleteOpenReferenceReplacer = true;
-		[HideInInspector] public bool SafeDeleteSaveHistory = true;
-
-		/// <summary>
-		/// 작업 후 로그 내역 보이기
-		/// </summary>
-		[Header("5. Ref Replacer")]
-		[HideInInspector] public bool RefReplacerDisplayLog = true;
+		#region Data Management
 
 		/// <summary>
 		/// 이전 버전으로 인덱싱 된 캐시 자동 업데이트
@@ -129,10 +112,23 @@ namespace AssetLens.Reference
 		/// 오버라이드 한 인덱선 버전 정보
 		/// </summary>
 		[HideInInspector] public uint DataOverrideIndexerVersion = INDEX_VERSION;
-		
-		[Header("99. 개발자 옵션")]
-		[SerializeField] private bool useUIElementsWindow = false;
 
+		#endregion
+
+		#endregion
+
+		[Header("4. SafeDelete 옵션")] 
+		[HideInInspector] public bool SafeDeleteEnabled = true;
+		[HideInInspector] public bool SafeDeleteOpenReferenceReplacer = true;
+		[HideInInspector] public bool SafeDeleteSaveHistory = true;
+
+		/// <summary>
+		/// 작업 후 로그 내역 보이기
+		/// </summary>
+		[Header("5. Ref Replacer")]
+		[HideInInspector] public bool RefReplacerDisplayLog = true;
+
+		[Header("99. 개발자 옵션")]
 		[HideInInspector] public string SuccessColorCode = "#50FF00FF";
 		[HideInInspector] public string ErrorColorCode = "#FF5000FF";
 		
@@ -144,17 +140,6 @@ namespace AssetLens.Reference
 		{
 			onSettingChange(Setting.Inst);
 		}
-
-		public static bool DisplaySceneObjectId => GetOrCreateSettings().displaySceneObjectInstanceId;
-		
-		public static bool PauseInPlaymode => GetOrCreateSettings().pauseInPlaymode;
-		
-		public static bool TraceSceneObject => GetOrCreateSettings().traceSceneObject;
-		
-		public static bool UseEditorUtilityWhenSearchDependencies =>
-			GetOrCreateSettings().useEditorUtilityWhenSearchDependencies;
-
-		public static bool DisplayIndexerVersion => GetOrCreateSettings().displayIndexerVersion;
 		
 		public static string Localization {
 			get
@@ -199,21 +184,6 @@ namespace AssetLens.Reference
 			var lastModifiedTime = fi.LastWriteTime;
 			
 			return lastModifiedTime;
-		}
-
-		public static bool UseUIElements {
-			get => GetOrCreateSettings().useUIElementsWindow;
-		}
-
-		public static bool AutoUpgradeCachedData {
-			get
-			{
-#if DEBUG_ASSETLENS
-				return GetOrCreateSettings().autoUpgradeCachedData;
-#else
-				return false;
-#endif
-			}
 		}
 
 		public static bool HasRootDir()

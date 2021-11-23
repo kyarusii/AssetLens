@@ -121,6 +121,8 @@ namespace AssetLens.Reference
 		public string ViewOptionLabel = "Viewer Options";
 		public string ViewSceneObjectLabel = "Enable when scene object selected";
 		public string ViewInPlayModeLabel = "Enable in PlayMode";
+		public string ViewIndexerVersionLabel = "Show indexer version";
+		public string ViewObjectFocusMethodLabel = "Reference Focus Method";
 
 		/*
 		 * Inspector Lens
@@ -150,5 +152,17 @@ namespace AssetLens.Reference
 		public string Regenerate = "Regenerate";
 		public string Start = "Start";
 		public string Save = "Save";
+
+		public string OpenIndexWizard = "Open Index Wizard";
+		public string ResetSetting = "Reset Settings to Default";
+		public string CleanCachedIndicies = "Clean up Cached Indicies";
+		public string UninstallPackage = "Uninstall Asset Lens";
+
+		public string OpenReadme = "Getting Started";
+		public string Documentation = "Documentation";
+		public string ReportIssue = "Report Issue";
+		public string ChangeLog = "Change Log";
+		public string License = "License";
+		public string Credit = "Credit";
 	}
 }

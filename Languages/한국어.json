@@ -55,6 +55,7 @@
     "ViewOptionLabel": "뷰어 설정",
     "ViewSceneObjectLabel": "씬 오브젝트 뷰어 활성화",
     "ViewInPlayModeLabel": "플레이모드에서 뷰어 활성화",
+    "ViewIndexerVersionLabel": "인덱서 버전 표기",
     "InspectorOptionLabel": "인스펙터 렌즈 설정",
     "InspectorLensEnableLabel": "사용",
     "InspectorHideWithNoLinkLabel": "종속성이 없으면 숨기기",
@@ -72,5 +73,9 @@
     "Generate": "생성하기",
     "Regenerate": "다시 생성하기",
     "Start": "시작",
-    "Save": "저장"
+    "Save": "저장",
+    "OpenIndexWizard": "인덱스 마법사 열기",
+    "ResetSetting": "기본 설정으로 되돌리기",
+    "CleanCachedIndicies": "캐시 데이터 비우기",
+    "UninstallPackage": "에셋 렌즈 삭제"
 }
