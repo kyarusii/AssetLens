@@ -16,4 +16,12 @@ namespace AssetLens
 
 		public static Action<string> Log = delegate(string msg) {  };
 	}
+
+	internal static class R
+	{
+		public static string L(string msg)
+		{
+			return $"<color=#D99090FF>[AssetLens]</color> {msg}";
+		}
+	}
 }

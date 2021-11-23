@@ -8,8 +8,8 @@
 }
 
 .btn-round:hover {
-    background-color: darkgray;
-    border-radius: 8px;
+    background-color: lightgray;
+    border-radius: 14px;
     border-width: 0;
 }
 

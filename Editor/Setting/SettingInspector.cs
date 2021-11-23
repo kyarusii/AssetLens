@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 #pragma warning disable CS1998
 
@@ -12,6 +13,7 @@ namespace AssetLens.Reference
 	[CustomEditor(typeof(Setting))]
 	internal sealed class SettingInspector : UnityEditor.Editor
 	{
+		
 		private static bool isCompiling;
 		
 		[InitializeOnLoadMethod]
@@ -136,39 +138,43 @@ namespace AssetLens.Reference
 			{
 				EditorGUILayout.HelpBox(Localize.Inst.setting_initInfo, MessageType.Info);
 				
-				if (GUILayout.Button("Initialize", GUILayout.Height(40)))
+				if (GUILayout.Button("Open Wizard", GUILayout.Height(40)))
 				{
-					OpenDialog();
+					ConfigurationWizard.Open();
+					// OpenDialog();
 				}
 			}
 			
-			async void OpenDialog()
-			{
-				// await ReferenceDialog.OpenIndexAllAssetDialog();
-				// Setting.IsEnabled = true;
-				
-				DialogWindow.OpenDialog(Localize.Inst.dialog_titleContent,
-					Localize.Inst.dialog_noIndexedData, 
-					Localize.Inst.dialog_enablePlugin, 
-					Localize.Inst.dialog_disablePlugin,
-					OnAccept, OnCancel, OnClose);
-
-				async void OnAccept()
-				{
-					await AssetLensCache.IndexAssetsAsync();
-					Setting.IsEnabled = true;
-				}
-
-				void OnCancel()
-				{
-					Setting.IsEnabled = false;
-				}
-
-				void OnClose()
-				{
-					Setting.IsEnabled = false;
-				}
-			}
+			// async void OpenDialog()
+			// {
+			// 	await AssetLensCache.IndexAssetsAsync();
+			// 	Setting.IsEnabled = true;
+			// 	
+			// 	// await ReferenceDialog.OpenIndexAllAssetDialog();
+			// 	// Setting.IsEnabled = true;
+			// 	
+			// 	// DialogWindow.OpenDialog(Localize.Inst.dialog_titleContent,
+			// 	// 	Localize.Inst.dialog_noIndexedData, 
+			// 	// 	Localize.Inst.dialog_enablePlugin, 
+			// 	// 	Localize.Inst.dialog_disablePlugin,
+			// 	// 	OnAccept, OnCancel, OnClose);
+			// 	//
+			// 	// async void OnAccept()
+			// 	// {
+			// 	// 	await AssetLensCache.IndexAssetsAsync();
+			// 	// 	Setting.IsEnabled = true;
+			// 	// }
+			// 	//
+			// 	// void OnCancel()
+			// 	// {
+			// 	// 	Setting.IsEnabled = false;
+			// 	// }
+			// 	//
+			// 	// void OnClose()
+			// 	// {
+			// 	// 	Setting.IsEnabled = false;
+			// 	// }
+			// }
 
 			EditorGUILayout.EndVertical();
 			
@@ -259,6 +265,11 @@ namespace AssetLens.Reference
 			}
 
 			serializedObject.ApplyModifiedProperties();
+		}
+
+		public override VisualElement CreateInspectorGUI()
+		{
+			return base.CreateInspectorGUI();
 		}
 
 		private async void CleanUpCache()
