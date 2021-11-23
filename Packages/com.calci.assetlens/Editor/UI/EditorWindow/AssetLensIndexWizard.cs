@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -71,10 +72,13 @@ namespace AssetLens.UI
 		#region Transition
 
 		private double initTime;
-		private bool initialized;
-		private float delay = 1.0f;
+		private bool started;
+		private bool complete;
+		
+		private const float delay = 0.8f;
+		private const float interval = 0.4f;
 
-		private List<VisualElement> blending = new List<VisualElement>();
+		private readonly List<VisualElement> blending = new List<VisualElement>();
 
 		#endregion
 
@@ -82,16 +86,39 @@ namespace AssetLens.UI
 
 		private void Update()
 		{
-			if (!initialized)
+			if (!complete)
 			{
-				if (EditorApplication.timeSinceStartup - initTime > delay)
+				var now = EditorApplication.timeSinceStartup;
+				if (!started)
 				{
-					foreach (VisualElement visualElement in blending)
+					if (now - initTime > delay)
 					{
-						visualElement.SetEnabled(true);
+						HandleTransition();
+						started = true;
 					}
+				}
+				else
+				{
+					if (now - initTime > interval)
+					{
+						HandleTransition();
+					}
+				}
 
-					initialized = true;
+				void HandleTransition()
+				{
+					var ve = blending.FirstOrDefault();
+
+					if (ve == default)
+					{
+						complete = true;
+						return;
+					}
+						
+					ve.SetEnabled(true);
+					blending.RemoveAt(0);
+
+					initTime = now;
 				}
 			}
 		}
