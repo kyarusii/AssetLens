@@ -85,5 +85,32 @@ namespace AssetLens.Reference
 
 		public string assets_has_dependencies_format = "<color=#7FFF00>{0} uses {1}</color>";
 		public string assets_is_referenced_by_format = "<color=#7FFF00>{0} is used by {1}</color>";
+
+		public string IndexByGuidRegExLabel = "IndexByGuidRegLabel";
+		public string IndexSceneObjectLabel = "IndexSceneObject";
+		public string IndexPackageSubDirLabel = "IndexPackageSubDir";
+		
+		public string IndexByGuidRegExTooltip = "IndexByGuidRegTooltip";
+		public string IndexSceneObjectTooltip = "IndexSceneObjectTooltip";
+		public string IndexPackageSubDirTooltip = "IndexPackageSubDirTooltip";
+
+
+		public string ConfigWizard_IndexOptionLabel = "Indexing Options";
+		public string ConfigWizard_StatusConsoleLabel = "Plugin Status";
+		
+		public string ConfigWizard_EntranceTooltip =
+			"Is this your first time using AssetLens? Press the button to check the quick start guide.";
+		public string ConfigWizard_OpenWhenProjectStartup = "Always open when you start a project.";
+		public string ConfigWizard_StatusLabel = "Status : <color={0}>{1}</color>";
+		public string ConfigWizard_StatusReadyToUse = "Ready To Use";
+		public string ConfigWizard_StatusNotInitialized = "Not Initialized";
+		public string ConfigWizard_ManagedAssetLabel = "Managed Asset : {0}";
+		
+
+		public string Close = "Close";
+		public string Proceed = "Proceed";
+		public string Generate = "Generate";
+		public string Start = "Start";
+		public string Save = "Save";
 	}
 }

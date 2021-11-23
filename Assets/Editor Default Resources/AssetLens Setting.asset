@@ -12,12 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf2f8419622478991552f5656d3475d, type: 3}
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
-  enabled: 1
-  pauseInPlaymode: 1
+  enabled: 0
+  localization: "\uD55C\uAD6D\uC5B4"
   useEditorUtilityWhenSearchDependencies: 0
-  displayIndexerVersion: 1
-  localization: English
-  useUIElementsWindow: 0
-  autoUpgradeCachedData: 0
+  IndexByGuidRegEx: 0
+  IndexSceneObject: 1
+  IndexPackageSubDir: 0
   traceSceneObject: 0
+  pauseInPlaymode: 1
+  displayIndexerVersion: 1
+  ViewSceneObject: 0
+  ViewInPlayMode: 0
   displaySceneObjectInstanceId: 1
+  InspectorLensEnable: 1
+  InspectorHideWithNoLink: 0
+  InspectorDrawObjectInstanceId: 1
+  autoUpgradeCachedData: 0
+  SafeDeleteEnabled: 1
+  SafeDeleteOpenReferenceReplacer: 1
+  SafeDeleteSaveHistory: 1
+  RefReplacerDisplayLog: 1
+  DataAutoUpdate: 1
+  DataOverrideIndexer: 0
+  DataOverrideIndexerVersion: 206
+  useUIElementsWindow: 0
+  SuccessColorCode: '#50FF00FF'
+  ErrorColorCode: '#FF5000FF'

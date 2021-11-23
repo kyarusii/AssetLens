@@ -1,54 +1,55 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using AssetLens.Reference.Component;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AssetLens.Reference
 {
+	using Component;
+
 	public class ConfigurationWizard : UIWindow
 	{
 		/*
-		     * 물어볼 것들
-		     *
-		     * 에셋 렌즈
-		     * 사용 여부
-		     *
-		     * 레퍼런스 뷰어
-		     * - 씬 오브젝트 탐지 여부
-		     * - 플레이모드에서 활성화 여부
-		     * - 디펜던시 탐지에 에디터 유틸리티 함수를 사용할지
-		     *
-		     * 인스펙터 렌즈
-		     * - 사용 여부
-		     * - 씬 오브젝트 탐지 여부
-		     * - 표시할 프로퍼티 선택
-		     *
-		     * 세이프 딜리트
-		     * - 사용 여부
-		     * - 화이트 리스트 (경로) - 미구현
-		     *
-		     * 빌드 렌즈 (미구현)
-		     * - 사용 여부
-		     * - 코드 검사
-		     * - 어드레서블
-		     * - 에셋 번들
-		     * - 빌드된 씬에 간접 연결
-		     * - 리소스 폴더에 간접 연결
-		     */
+	     * 물어볼 것들
+	     *
+	     * 에셋 렌즈
+	     * 사용 여부
+	     *
+	     * 레퍼런스 뷰어
+	     * - 씬 오브젝트 탐지 여부
+	     * - 플레이모드에서 활성화 여부
+	     * - 디펜던시 탐지에 에디터 유틸리티 함수를 사용할지
+	     *
+	     * 인스펙터 렌즈
+	     * - 사용 여부
+	     * - 씬 오브젝트 탐지 여부
+	     * - 표시할 프로퍼티 선택
+	     *
+	     * 세이프 딜리트
+	     * - 사용 여부
+	     * - 화이트 리스트 (경로) - 미구현
+	     *
+	     * 빌드 렌즈 (미구현)
+	     * - 사용 여부
+	     * - 코드 검사
+	     * - 어드레서블
+	     * - 에셋 번들
+	     * - 빌드된 씬에 간접 연결
+	     * - 리소스 폴더에 간접 연결
+	     */
+
+		#region Elements
 
 		private VisualElement main;
-		
+
 		private TopBar topBar;
 		private Label startupSwitchLabel;
 		private Toggle startupSwitch;
 
-		private Label option1Label;
-		private Label option2Label;
-		private Label option3Label;
+		private Label indexByGuidRegExLabel;
+		private Label indexSceneObjectLabel;
+		private Label indexPackageSubDirLabel;
 
 		private Toggle option1;
 		private Toggle option2;
@@ -56,18 +57,27 @@ namespace AssetLens.Reference
 
 		private Label optionLeftTitle;
 		private Label optionRightTitle;
-		
+
 		private DropdownField language;
 
 		private Label statusLabel;
 		private Label managedAssetLabel;
 		private Button proceedButton;
+		private Button closeButton;
+
+		#endregion
+
+		#region Transition
 
 		private double initTime;
 		private bool initialized;
 		private float delay = 1.0f;
 
 		private List<VisualElement> blending = new List<VisualElement>();
+
+		#endregion
+
+		#region Unity
 
 		private void Update()
 		{
@@ -79,18 +89,22 @@ namespace AssetLens.Reference
 					{
 						visualElement.SetEnabled(true);
 					}
-					
+
 					initialized = true;
 				}
 			}
 		}
 
+		#endregion
+
+		#region Core
+
 		protected override void Constructor()
 		{
 			initTime = EditorApplication.timeSinceStartup;
-			
+
 			LoadLayout("ConfigurationWizard");
-			
+
 			QueryElements();
 			ConfigureElements();
 			SetLocalizedNames();
@@ -101,21 +115,28 @@ namespace AssetLens.Reference
 		{
 			main = root.Q<VisualElement>("main");
 			topBar = root.Q<TopBar>("header");
+			
 			startupSwitchLabel = root.Q<Label>("label-display-on-startup");
 			startupSwitch = root.Q<Toggle>("toggle-display-on-startup");
-			option1Label = root.Q<Label>("option-1-label");
-			option2Label = root.Q<Label>("option-2-label");
-			option3Label = root.Q<Label>("option-3-label");
+			
+			indexByGuidRegExLabel = root.Q<Label>("option-1-label");
+			indexSceneObjectLabel = root.Q<Label>("option-2-label");
+			indexPackageSubDirLabel = root.Q<Label>("option-3-label");
+			
 			option1 = root.Q<Toggle>("option-1");
 			option2 = root.Q<Toggle>("option-2");
 			option3 = root.Q<Toggle>("option-3");
 			language = root.Q<DropdownField>("language-dropdown");
+			
 			optionLeftTitle = root.Q<Label>("option-label-left");
 			optionRightTitle = root.Q<Label>("option-label-right");
+			
 			statusLabel = root.Q<Label>("status-label");
 			managedAssetLabel = root.Q<Label>("managed-asset-label");
-			proceedButton = root.Q<Button>("proceed-btn");
 			
+			proceedButton = root.Q<Button>("proceed-btn");
+			closeButton = root.Q<Button>("close-btn");
+
 			blending.Add(root.Q<VisualElement>("header"));
 			blending.Add(root.Q<VisualElement>("title"));
 			blending.Add(root.Q<VisualElement>("title-image"));
@@ -124,56 +145,68 @@ namespace AssetLens.Reference
 			blending.Add(root.Q<VisualElement>("column"));
 		}
 
+		/// <summary>
+		/// 초기값 세팅, 로드
+		/// Set up initial values and load saved values.
+		/// </summary>
 		private void ConfigureElements()
 		{
 			topBar.Remove(topBar.closeButton);
-			startupSwitch.value = GetStartupSwitchValue();
-			
+			startupSwitch.SetValueWithoutNotify(GetStartupSwitchValue());
+
 			language.choices = GetLanguageChoieces();
 			int selected = language.choices.IndexOf(Setting.Localization);
 			language.index = selected;
+			
+			option1.SetValueWithoutNotify(Setting.Inst.IndexByGuidRegEx);
+			option2.SetValueWithoutNotify(Setting.Inst.IndexSceneObject);
+			option3.SetValueWithoutNotify(Setting.Inst.IndexPackageSubDir);
 
 			foreach (VisualElement visualElement in blending)
 			{
 				visualElement.SetEnabled(false);
 			}
-		} 
+		}
 
 		private void SetLocalizedNames()
 		{
-			topBar.questionButton.tooltip = "처음이신가요? \n이 버튼을 눌러 빠른 시작 가이드를 확인하세요.";
-			startupSwitchLabel.text = "프로젝트 시작 시 항상 열기";
-			
 			/*
 			 * Header
 			 */
-			optionLeftTitle.text = "옵션";
-			optionRightTitle.text = "상태";
-			
+			topBar.questionButton.tooltip = Localize.Inst.ConfigWizard_EntranceTooltip;
+			startupSwitchLabel.text = Localize.Inst.ConfigWizard_OpenWhenProjectStartup;
+
+			/*
+			 * Column Header
+			 */
+			optionLeftTitle.text = Localize.Inst.ConfigWizard_IndexOptionLabel;
+			optionRightTitle.text = Localize.Inst.ConfigWizard_StatusConsoleLabel;
+
 			/*
 			 * Left Columns
 			 */
-			option1Label.text = "GUID 기반 검색";
-			option1Label.tooltip = "Off시 유니티 내장 EditorUtility 사용";
-			option2Label.text = "Scene 오브젝트 탐지 허용";
-			option2Label.tooltip = "인스펙터 그리기가 다소 느려질 수 있음";
-			option3Label.text = "캐시 데이터 자동 업데이트";
-			option3Label.tooltip = "캐시된 데이터를 읽을 때, 이전 버전이면 자동으로 업데이트 합니다.";
-			language.label = "Language";
+			indexByGuidRegExLabel.text = Localize.Inst.IndexByGuidRegExLabel;
+			indexByGuidRegExLabel.tooltip = Localize.Inst.IndexByGuidRegExTooltip;
+			indexSceneObjectLabel.text = Localize.Inst.IndexSceneObjectLabel;
+			indexSceneObjectLabel.tooltip = Localize.Inst.IndexSceneObjectTooltip;
+			indexPackageSubDirLabel.text = Localize.Inst.IndexPackageSubDirLabel;
+			indexPackageSubDirLabel.tooltip = Localize.Inst.IndexPackageSubDirTooltip;
+			
+			language.label = Localize.Inst.setting_language;
 
 			/*
 			 * Right Columns
 			 */
-			statusLabel.text = string.Format("Status : <color={0}>{1}</color>",
-				Setting.IsEnabled ? "green" : "red",
-				Setting.IsEnabled ? "Ready To Use" : "No Cached Data"
+			statusLabel.text = string.Format(Localize.Inst.ConfigWizard_StatusLabel,
+				Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode,
+				Setting.IsEnabled ? Localize.Inst.ConfigWizard_StatusReadyToUse : Localize.Inst.ConfigWizard_StatusNotInitialized
 			);
-			
-			DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.ReferenceCacheDirectory);
-			var files = rootDirectory.GetFiles("*.ref");
-			managedAssetLabel.text = string.Format("Managed Asset : {0}", files.Length);
 
-			proceedButton.text = "Create Cache";
+			var files = AssetLensCache.GetIndexedFiles();
+			managedAssetLabel.text = string.Format(Localize.Inst.ConfigWizard_ManagedAssetLabel, files.Length);
+
+			closeButton.text = Localize.Inst.Close;
+			proceedButton.text = Localize.Inst.Save;
 		}
 
 		private void BindCallbacks()
@@ -181,60 +214,97 @@ namespace AssetLens.Reference
 			startupSwitch.RegisterValueChangedCallback(OnStartupSwitchChange);
 			topBar.questionButton.clicked += OnQuestionMark;
 
-			option1.RegisterValueChangedCallback(OnOption1);
-			option2.RegisterValueChangedCallback(OnOption1);
-			option3.RegisterValueChangedCallback(OnOption1);
+			option1.RegisterValueChangedCallback(OnIndexByGuidChanged);
+			option2.RegisterValueChangedCallback(OnIndexSceneObjectChanged);
+			option3.RegisterValueChangedCallback(OnIndexPackageSubDirChanged);
 
 			language.RegisterValueChangedCallback(OnLanguageChange);
+			
 			proceedButton.clickable.clicked += OnProceedButton;
+			closeButton.clickable.clicked += OnCloseButton;
 		}
+
+		#endregion
+
+		#region Callbacks
 
 		private async void OnProceedButton()
 		{
-			Debug.Log("Proceed Button");
+			AssetDatabase.SaveAssets();
+			AssetLensConsole.Log(R.L("인덱싱 시작"));
+
 			await AssetLensCache.IndexAssetsAsync();
 			Setting.IsEnabled = true;
-			Debug.Log("Proceed Done");
-			
+
+			AssetLensConsole.Log(R.L("인덱싱 끝"));
+
+			// 정보 리로드
 			SetLocalizedNames();
+			
+			// @TODO :: 다른 옵션 열기
+			Close();
+		}
+
+		private void OnCloseButton()
+		{
+			Close();
 		}
 
 		private void OnLanguageChange(ChangeEvent<string> evt)
 		{
-			Debug.Log($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}");
-		}
-
-		private List<string> GetLanguageChoieces()
-		{
-			string languageDir = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages");
-			
-			List<string> localNames = new List<string>();
-			string[] languageFiles = Directory.GetFiles(languageDir, "*.json");
-			foreach (string file in languageFiles)
+			if (language.choices.Contains(evt.newValue))
 			{
-				FileInfo fi = new FileInfo(file);
-				localNames.Add(fi.Name.Replace(".json", ""));
+				Setting.Localization = evt.newValue;
+				Localize.Inst = Setting.LoadLocalization;
+
+				SetLocalizedNames();
+				AssetLensConsole.Log(R.L($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}"));
 			}
+			else
+			{
+				AssetLensConsole.Log(R.L($"Skip Change Event : Invalid Language ({evt.newValue})"));
+			}
+		}
+
+		/// <summary>
+		/// GUID 기반 검색
+		/// </summary>
+		/// <param name="evt"></param>
+		private void OnIndexByGuidChanged(ChangeEvent<bool> evt)
+		{
+			AssetLensConsole.Log(R.L($"IndexByGuidRegEx : {evt.previousValue} -> {evt.newValue}"));
+
+			Setting.Inst.IndexByGuidRegEx = evt.newValue;
+		}
+
+		/// <summary>
+		/// 씬 오브젝트 인덱싱
+		/// </summary>
+		/// <param name="evt"></param>
+		private void OnIndexSceneObjectChanged(ChangeEvent<bool> evt)
+		{
+			AssetLensConsole.Log(R.L($"IndexSceneObject : {evt.previousValue} -> {evt.newValue}"));
 			
-			return localNames;
+			Setting.Inst.IndexSceneObject = evt.newValue;
 		}
 
-		private void OnOption1(ChangeEvent<bool> evt)
+		/// <summary>
+		/// 패키지 인덱싱 포함
+		/// </summary>
+		/// <param name="evt"></param>
+		private void OnIndexPackageSubDirChanged(ChangeEvent<bool> evt)
 		{
-			Debug.Log($"OnOption : {evt.previousValue} -> {evt.newValue}");
+			AssetLensConsole.Log(R.L($"IndexPackageSubDir : {evt.previousValue} -> {evt.newValue}"));
+			
+			Setting.Inst.IndexPackageSubDir = evt.newValue;
 		}
 
-		private bool GetStartupSwitchValue()
-		{
-			string startUpKey = $"{Application.productName}.AssetLens.Configuration.ShowOnStartUp";
-			return EditorPrefs.GetBool(startUpKey, true);
-		}
 		private void OnStartupSwitchChange(ChangeEvent<bool> evt)
 		{
 			string startUpKey = $"{Application.productName}.AssetLens.Configuration.ShowOnStartUp";
 			EditorPrefs.SetBool(startUpKey, evt.newValue);
-			
-			Debug.Log($"New Value : {evt.newValue}");
+
+			AssetLensConsole.Log(R.L($"Display On Startup ValueChange : {evt.previousValue} > {evt.newValue}"));
 		}
 
 		private void OnQuestionMark()
@@ -242,6 +312,31 @@ namespace AssetLens.Reference
 			Application.OpenURL("https://github.com/seonghwan-dev/assetlens");
 		}
 
+		#endregion
+
+		#region Utility
+
+		private List<string> GetLanguageChoieces()
+		{
+			string languageDir = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages");
+
+			List<string> localNames = new List<string>();
+			string[] languageFiles = Directory.GetFiles(languageDir, "*.json");
+			foreach (string file in languageFiles)
+			{
+				FileInfo fi = new FileInfo(file);
+				localNames.Add(fi.Name.Replace(".json", ""));
+			}
+
+			return localNames;
+		}
+
+		private bool GetStartupSwitchValue()
+		{
+			string startUpKey = $"{Application.productName}.AssetLens.Configuration.ShowOnStartUp";
+			return EditorPrefs.GetBool(startUpKey, true);
+		}
+		
 #if DEBUG_ASSETLENS
 		[MenuItem("Window/Asset Lens/Configuration Wizard", false, 140)]
 #endif
@@ -249,12 +344,14 @@ namespace AssetLens.Reference
 		{
 			ConfigurationWizard wnd = GetWindow<ConfigurationWizard>();
 
-			const int width = 680; 
+			const int width = 680;
 			const int height = 480;
-			
+
 			wnd.titleContent = new GUIContent("Config Wizard");
 			wnd.minSize = wnd.maxSize = new Vector2(width, height);
 			wnd.Show();
 		}
+
+		#endregion
 	}
 }
