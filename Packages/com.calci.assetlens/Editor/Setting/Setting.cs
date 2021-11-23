@@ -171,12 +171,34 @@ namespace AssetLens.Reference
 		internal static Localize LoadLocalization {
 			get
 			{
-				string locale = GetOrCreateSettings().localization;
-				string fullPath = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages/{locale}.json");
-
-				string json = File.ReadAllText(fullPath);
+				var json = GetLocalizationJson();
 				return JsonUtility.FromJson<Localize>(json);
 			}
+		}
+
+		public static string GetLocalizationPath()
+		{
+			string locale = GetOrCreateSettings().localization;
+			string fullPath = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages/{locale}.json");
+
+			return fullPath;
+		}
+
+		internal static string GetLocalizationJson()
+		{
+			var fullPath = GetLocalizationPath();
+
+			string json = File.ReadAllText(fullPath);
+			return json;
+		}
+
+		internal static DateTime GetLocalizationLastWriteTime()
+		{
+			string path = Setting.GetLocalizationPath();
+			var fi = new FileInfo(path);
+			var lastModifiedTime = fi.LastWriteTime;
+			
+			return lastModifiedTime;
 		}
 
 		public static bool UseUIElements {

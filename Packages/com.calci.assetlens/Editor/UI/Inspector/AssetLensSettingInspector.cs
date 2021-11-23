@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AssetLens.UI
@@ -10,6 +9,9 @@ namespace AssetLens.UI
 	[CustomEditor(typeof(Setting))]
 	public class AssetLensSettingInspector : AssetLensInspector
 	{
+		private VisualElement options;
+		private VisualElement buttons;
+		
 		private Toggle enabled;
 		private DropdownField localization;
 		
@@ -34,8 +36,8 @@ namespace AssetLens.UI
 		{
 			LoadLayout("SettingInspector");
 
-			var ve = new VisualElement();
-			root.Add(ve);
+			options = root.Q<VisualElement>("options");
+			buttons = root.Q<VisualElement>("buttons");
 
 			enabled = new Toggle();
 			localization = new DropdownField();
@@ -95,23 +97,23 @@ namespace AssetLens.UI
 			 * Add
 			 */
 
-			root.Add(globalOptionHeader);
-			root.Add(enabled);
-			root.Add(localization);
+			options.Add(globalOptionHeader);
+			options.Add(enabled);
+			options.Add(localization);
 			
-			root.Add(indexOptionHeader);
-			root.Add(IndexByGuidRegEx);
-			root.Add(IndexSceneObject);
-			root.Add(IndexPackageSubDir);
+			options.Add(indexOptionHeader);
+			options.Add(IndexByGuidRegEx);
+			options.Add(IndexSceneObject);
+			options.Add(IndexPackageSubDir);
 			
-			root.Add(viewOptionHeader);
-			root.Add(ViewSceneObject);
-			root.Add(ViewInPlayMode);
+			options.Add(viewOptionHeader);
+			options.Add(ViewSceneObject);
+			options.Add(ViewInPlayMode);
 			
-			root.Add(inspectorOptionHeader);
-			root.Add(InspectorLensEnable);
-			root.Add(InspectorHideWithNoLink);
-			root.Add(InspectorDrawObjectInstanceId);
+			options.Add(inspectorOptionHeader);
+			options.Add(InspectorLensEnable);
+			options.Add(InspectorHideWithNoLink);
+			options.Add(InspectorDrawObjectInstanceId);
 			
 			globalOptionHeader.AddToClassList("header");
 			indexOptionHeader.AddToClassList("header");
