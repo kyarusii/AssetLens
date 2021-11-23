@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -206,6 +207,21 @@ namespace AssetLens.Reference
 			{
 				rootDirectory.Create();
 			}
+		}
+
+		internal static List<string> GetLanguageChoices()
+		{
+			string languageDir = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages");
+
+			List<string> localeNames = new List<string>();
+			string[] languageFiles = Directory.GetFiles(languageDir, "*.json");
+			foreach (string file in languageFiles)
+			{
+				FileInfo fi = new FileInfo(file);
+				localeNames.Add(fi.Name.Replace(".json", ""));
+			}
+
+			return localeNames;
 		}
 	}
 }

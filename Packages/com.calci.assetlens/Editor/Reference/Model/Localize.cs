@@ -86,6 +86,13 @@ namespace AssetLens.Reference
 		public string assets_has_dependencies_format = "<color=#7FFF00>{0} uses {1}</color>";
 		public string assets_is_referenced_by_format = "<color=#7FFF00>{0} is used by {1}</color>";
 
+		#region Setting
+
+		/*
+		 * Index
+		 */
+		public string IndexOptionLabel = "Indexing Options";
+		
 		public string IndexByGuidRegExLabel = "IndexByGuidRegLabel";
 		public string IndexSceneObjectLabel = "IndexSceneObject";
 		public string IndexPackageSubDirLabel = "IndexPackageSubDir";
@@ -94,7 +101,24 @@ namespace AssetLens.Reference
 		public string IndexSceneObjectTooltip = "IndexSceneObjectTooltip";
 		public string IndexPackageSubDirTooltip = "IndexPackageSubDirTooltip";
 
-		public string IndexWizard_IndexOptionLabel = "Indexing Options";
+		/*
+		 * View
+		 */
+		public string ViewOptionLabel = "Viewer Options";
+		public string ViewSceneObjectLabel = "Enable when scene object selected";
+		public string ViewInPlayModeLabel = "Enable in PlayMode";
+
+		/*
+		 * Inspector Lens
+		 */
+
+		public string InspectorOptionLabel = "Inspector Lens Options";
+		public string InspectorLensEnableLabel = "Enable";
+		public string InspectorHideWithNoLinkLabel = "Don't draw when no dependency";
+		public string InspectorDrawObjectInstanceIdLabel = "Draw Instance ID";
+		
+		#endregion
+
 		public string IndexWizard_StatusConsoleLabel = "Plugin Status";
 		
 		public string IndexWizard_EntranceTooltip =

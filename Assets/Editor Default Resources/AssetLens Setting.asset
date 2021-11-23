@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
   enabled: 1
-  localization: "\uD55C\uAD6D\uC5B4"
+  localization: English
   useEditorUtilityWhenSearchDependencies: 0
-  IndexByGuidRegEx: 0
+  IndexByGuidRegEx: 1
   IndexSceneObject: 1
   IndexPackageSubDir: 0
   traceSceneObject: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
   ViewSceneObject: 0
   ViewInPlayMode: 0
   displaySceneObjectInstanceId: 1
-  InspectorLensEnable: 1
+  InspectorLensEnable: 0
   InspectorHideWithNoLink: 0
   InspectorDrawObjectInstanceId: 1
   autoUpgradeCachedData: 0

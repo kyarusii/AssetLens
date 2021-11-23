@@ -182,7 +182,7 @@ namespace AssetLens.UI
 			topBar.Remove(topBar.closeButton);
 			startupSwitch.SetValueWithoutNotify(GetStartupSwitchValue());
 
-			language.choices = GetLanguageChoieces();
+			language.choices = Setting.GetLanguageChoices();
 			int selected = language.choices.IndexOf(Setting.Localization);
 			language.index = selected;
 			
@@ -207,7 +207,7 @@ namespace AssetLens.UI
 			/*
 			 * Column Header
 			 */
-			optionLeftTitle.text = Localize.Inst.IndexWizard_IndexOptionLabel;
+			optionLeftTitle.text = Localize.Inst.IndexOptionLabel;
 			optionRightTitle.text = Localize.Inst.IndexWizard_StatusConsoleLabel;
 
 			/*
@@ -344,21 +344,6 @@ namespace AssetLens.UI
 
 		#region Utility
 
-		private List<string> GetLanguageChoieces()
-		{
-			string languageDir = Path.GetFullPath($"{FileSystem.PackageDirectory}/Languages");
-
-			List<string> localNames = new List<string>();
-			string[] languageFiles = Directory.GetFiles(languageDir, "*.json");
-			foreach (string file in languageFiles)
-			{
-				FileInfo fi = new FileInfo(file);
-				localNames.Add(fi.Name.Replace(".json", ""));
-			}
-
-			return localNames;
-		}
-
 		private bool GetStartupSwitchValue()
 		{
 			string startUpKey = $"{Application.productName}.AssetLens.Configuration.ShowOnStartUp";
@@ -366,7 +351,7 @@ namespace AssetLens.UI
 		}
 		
 #if DEBUG_ASSETLENS
-		[MenuItem("Window/Asset Lens/Configuration Wizard", false, 140)]
+		[MenuItem("Window/Asset Lens/Index Wizard", false, 140)]
 #endif
 		public static void Open()
 		{

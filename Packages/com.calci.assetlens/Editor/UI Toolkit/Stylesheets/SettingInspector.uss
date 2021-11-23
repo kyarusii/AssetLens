@@ -1,0 +1,10 @@
+.unity-popup-field {
+    margin: 2px 12px;
+    justify-content: space-between;
+}
+
+.unity-popup-field__input {
+    width: 160px;
+    max-width: 160px;
+    min-width: 160px;
+}

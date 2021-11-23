@@ -1,0 +1,8 @@
+.header {
+    margin-right: 10px;
+    margin-bottom: 6px;
+    margin-top: 10px;
+    
+    -unity-font-style: bold;
+    font-size: 13px;
+}

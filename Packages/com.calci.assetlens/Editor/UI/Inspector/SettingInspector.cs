@@ -12,7 +12,7 @@ namespace AssetLens.Reference
 {
 	using AssetLens.UI;
 	
-	[CustomEditor(typeof(Setting))]
+	// [CustomEditor(typeof(Setting))]
 	internal sealed class SettingInspector : UnityEditor.Editor
 	{
 		

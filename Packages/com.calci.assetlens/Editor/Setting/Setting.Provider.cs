@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 
@@ -62,20 +63,27 @@ namespace AssetLens.Reference
 			return instance;
 		}
 
-		internal class AssetDataSettingsProviderRegister
+		internal static class AssetDataSettingsProviderRegister
 		{
 			[SettingsProvider]
 			public static SettingsProvider CreateFromSettingsObject()
 			{
 				Object settingsObj = GetOrCreateSettings();
-				
-				AssetSettingsProvider provider =
-					AssetSettingsProvider.CreateProviderFromObject($"Project/Asset Lens", settingsObj);
 
-				provider.keywords =
-					SettingsProvider.GetSearchKeywordsFromSerializedObject(
-						new SerializedObject(settingsObj));
-				return provider;
+				var sp = new SettingsProvider("Project/Asset Lens", SettingsScope.Project)
+				{
+					activateHandler = (ActivateHandler)
+				};
+
+				return sp;
+			}
+
+			private static void ActivateHandler(string arg1, VisualElement arg2)
+			{
+				var editor = Editor.CreateEditor(GetOrCreateSettings());
+				arg2.Add(editor.CreateInspectorGUI());
+				arg2.style.paddingLeft = 12;
+				arg2.style.paddingRight = 12;
 			}
 		}
 	}
