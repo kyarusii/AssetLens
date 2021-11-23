@@ -8,3 +8,11 @@
     max-width: 160px;
     min-width: 160px;
 }
+
+/*.container {*/
+/*    border-radius: 12px;*/
+/*    margin-top: 12px;*/
+/*    margin-right: 8px;*/
+/*    padding: 8px;*/
+/*    background-color: slategray;*/
+/*}*/

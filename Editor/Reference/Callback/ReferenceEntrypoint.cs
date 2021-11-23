@@ -21,9 +21,14 @@ namespace AssetLens.Reference
 			if (!SessionState.GetBool(configKey, false))
 			{
 				SessionState.SetBool(configKey, true);
+
+				if (!Setting.HasRootDir())
+				{
+					Setting.CreateRootDir();
+				}
 				
 				// 세팅 루트 디렉터리가 없거나 꺼져있다면 마법사 열기
-				if (!Setting.HasRootDir() || !Setting.IsEnabled)
+				if (!Setting.IsEnabled)
 				{
 					AssetLensIndexWizard.Open();
 					return;

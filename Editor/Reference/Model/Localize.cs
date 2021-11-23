@@ -5,14 +5,28 @@ namespace AssetLens.Reference
 	[Serializable]
 	public class Localize
 	{
+		private static DateTime lastModifiedTime;
 		private static Localize _context = default;
 
 		public static Localize Inst {
 			get
 			{
+				// not loaded yet
 				if (_context == null)
 				{
+					lastModifiedTime = Setting.GetLocalizationLastWriteTime();
 					_context = Setting.LoadLocalization;
+
+					AssetLensConsole.Log(R.L("Localization Create"));
+				}
+
+				// file change check
+				if (lastModifiedTime != Setting.GetLocalizationLastWriteTime())
+				{
+					lastModifiedTime = Setting.GetLocalizationLastWriteTime();
+					_context = Setting.LoadLocalization;
+					
+					AssetLensConsole.Log(R.L("Localization Reloaded"));
 				}
 
 				return _context;

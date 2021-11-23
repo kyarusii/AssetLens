@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using UnityEditor;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace AssetLens
 {
@@ -14,7 +15,15 @@ namespace AssetLens
 #endif
 		}
 
+#if DEBUG_ASSETLENS
 		public static Action<string> Log = delegate(string msg) {  };
+#else
+		[Conditional("DEBUG_ASSETLENS")]
+		public static void Log(string msg)
+		{
+		}
+#endif
+		
 	}
 
 	internal static class R
