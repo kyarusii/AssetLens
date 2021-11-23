@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-namespace AssetLens.Reference.Component
+namespace AssetLens.UI.Component
 {
 	public class TopBar : VisualElement
 	{

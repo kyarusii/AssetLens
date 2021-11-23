@@ -109,6 +109,7 @@ namespace AssetLens.Reference
 		public string Close = "Close";
 		public string Proceed = "Proceed";
 		public string Generate = "Generate";
+		public string Regenerate = "Regenerate";
 		public string Start = "Start";
 		public string Save = "Save";
 	}

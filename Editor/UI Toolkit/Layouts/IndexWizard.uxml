@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI Toolkit/Stylesheets/ConfigurationWizard.uss?fileID=7433441132597879392&amp;guid=f67b282c109d1714782d9dbe585755b9&amp;type=3#ConfigurationWizard" />
-    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI Toolkit/Components/TopBar.uss?fileID=7433441132597879392&amp;guid=980ba0d854994fb438f65d175798dbac&amp;type=3#TopBar" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Stylesheets/IndexWizard.uss?fileID=7433441132597879392&amp;guid=f67b282c109d1714782d9dbe585755b9&amp;type=3#IndexWizard" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/TopBar.uss?fileID=7433441132597879392&amp;guid=980ba0d854994fb438f65d175798dbac&amp;type=3#TopBar" />
     <ui:VisualElement name="main" class="root">
-        <AssetLens.Reference.Component.TopBar string-attr="X" name="header" class="blending" />
+        <AssetLens.UI.Component.TopBar string-attr="X" name="header" class="blending" />
         <ui:VisualElement name="title" style="height: 180px; max-height: 180px; min-height: 180px; -unity-text-align: middle-left; white-space: normal; padding-left: 16px; padding-right: 16px; padding-top: 16px; padding-bottom: 16px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;">
             <ui:VisualElement name="title-image" class="blending" style="background-image: url(&apos;project://database/Packages/com.calci.assetlens/Contents/assetlens.png?fileID=2800000&amp;guid=1f5991d5b5314d74c8bb049b730b4fb8&amp;type=3#assetlens&apos;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(75, 69, 83); -unity-text-align: middle-left; white-space: normal; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; min-width: 100%; min-height: 100%;" />
         </ui:VisualElement>
