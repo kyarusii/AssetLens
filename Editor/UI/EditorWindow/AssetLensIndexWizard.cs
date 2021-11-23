@@ -4,11 +4,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace AssetLens.Reference
+namespace AssetLens.UI
 {
-	using Component;
+	using Reference;
+	using Reference.Component;
 
-	public class ConfigurationWizard : UIWindow
+	public sealed class AssetLensIndexWizard : AssetLensEditorWindow
 	{
 		/*
 	     * 물어볼 것들
@@ -107,7 +108,7 @@ namespace AssetLens.Reference
 
 			QueryElements();
 			ConfigureElements();
-			SetLocalizedNames();
+			RefreshLocalizedText();
 			BindCallbacks();
 		}
 
@@ -168,19 +169,19 @@ namespace AssetLens.Reference
 			}
 		}
 
-		private void SetLocalizedNames()
+		private void RefreshLocalizedText()
 		{
 			/*
 			 * Header
 			 */
-			topBar.questionButton.tooltip = Localize.Inst.ConfigWizard_EntranceTooltip;
-			startupSwitchLabel.text = Localize.Inst.ConfigWizard_OpenWhenProjectStartup;
+			topBar.questionButton.tooltip = Localize.Inst.IndexWizard_EntranceTooltip;
+			startupSwitchLabel.text = Localize.Inst.IndexWizard_OpenWhenProjectStartup;
 
 			/*
 			 * Column Header
 			 */
-			optionLeftTitle.text = Localize.Inst.ConfigWizard_IndexOptionLabel;
-			optionRightTitle.text = Localize.Inst.ConfigWizard_StatusConsoleLabel;
+			optionLeftTitle.text = Localize.Inst.IndexWizard_IndexOptionLabel;
+			optionRightTitle.text = Localize.Inst.IndexWizard_StatusConsoleLabel;
 
 			/*
 			 * Left Columns
@@ -197,13 +198,13 @@ namespace AssetLens.Reference
 			/*
 			 * Right Columns
 			 */
-			statusLabel.text = string.Format(Localize.Inst.ConfigWizard_StatusLabel,
+			statusLabel.text = string.Format(Localize.Inst.IndexWizard_StatusLabel,
 				Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode,
-				Setting.IsEnabled ? Localize.Inst.ConfigWizard_StatusReadyToUse : Localize.Inst.ConfigWizard_StatusNotInitialized
+				Setting.IsEnabled ? Localize.Inst.IndexWizard_StatusReadyToUse : Localize.Inst.IndexWizard_StatusNotInitialized
 			);
 
 			var files = AssetLensCache.GetIndexedFiles();
-			managedAssetLabel.text = string.Format(Localize.Inst.ConfigWizard_ManagedAssetLabel, files.Length);
+			managedAssetLabel.text = string.Format(Localize.Inst.IndexWizard_ManagedAssetLabel, files.Length);
 
 			closeButton.text = Localize.Inst.Close;
 			proceedButton.text = Localize.Inst.Save;
@@ -239,7 +240,7 @@ namespace AssetLens.Reference
 			AssetLensConsole.Log(R.L("인덱싱 끝"));
 
 			// 정보 리로드
-			SetLocalizedNames();
+			RefreshLocalizedText();
 			
 			// @TODO :: 다른 옵션 열기
 			Close();
@@ -257,7 +258,7 @@ namespace AssetLens.Reference
 				Setting.Localization = evt.newValue;
 				Localize.Inst = Setting.LoadLocalization;
 
-				SetLocalizedNames();
+				RefreshLocalizedText();
 				AssetLensConsole.Log(R.L($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}"));
 			}
 			else
@@ -342,12 +343,12 @@ namespace AssetLens.Reference
 #endif
 		public static void Open()
 		{
-			ConfigurationWizard wnd = GetWindow<ConfigurationWizard>();
+			AssetLensIndexWizard wnd = GetWindow<AssetLensIndexWizard>();
 
 			const int width = 680;
 			const int height = 480;
 
-			wnd.titleContent = new GUIContent("Config Wizard");
+			wnd.titleContent = new GUIContent(Localize.Inst.IndexWizard_Title);
 			wnd.minSize = wnd.maxSize = new Vector2(width, height);
 			wnd.Show();
 		}

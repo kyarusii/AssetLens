@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace AssetLens.Reference
+namespace AssetLens.UI
 {
-	public sealed class DialogWindow : UIWindow
+	public sealed class DialogWindow : AssetLensEditorWindow
 	{
 		private event Action OnAccept =delegate {  };
 		private event Action OnCancel =delegate {  };

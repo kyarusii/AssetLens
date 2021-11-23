@@ -6,9 +6,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace AssetLens.Reference
+namespace AssetLens.UI
 {
-    public class ReferenceViewer : UIWindow
+    using Reference;
+    
+    public class ReferenceViewer : AssetLensEditorWindow
     {
         private ObjectField selected = default;
         private Toggle lockToggle = default;

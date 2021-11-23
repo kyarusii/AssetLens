@@ -9,6 +9,8 @@ using Object = UnityEngine.Object;
 
 namespace AssetLens.Reference
 {
+	using UI;
+	
 	public sealed class ReferenceWindow : EditorWindow
 	{
 		public static bool isDirty = false;
