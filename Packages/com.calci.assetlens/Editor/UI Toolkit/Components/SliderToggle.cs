@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace AssetLens.Reference.Component
+namespace AssetLens.UI.Component
 {
 	public class SliderToggle : VisualElement
 	{

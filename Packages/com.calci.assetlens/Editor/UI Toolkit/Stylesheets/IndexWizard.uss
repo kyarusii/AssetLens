@@ -1,10 +1,14 @@
+/*
+Buttons
+ */
 .btn-round {
     transition: all 0.2s;
     border-radius: 4px;
     width: 100px;
     height: 28px;
     border-width: 0;
-    margin: 0px;
+    margin: 0;
+    color: white;
 }
 
 .btn-round:hover {
@@ -31,6 +35,10 @@
 .btn-primary:active {
     background-color: darkblue;
 }
+
+/*
+컴포넌트 별 세팅
+ */
 
 .label {
     padding-left: 12px;
@@ -71,53 +79,15 @@
     margin: 10px;
 }
 
-.root:disabled {
-    opacity: 0;
-}
-
-.root:enabled {
-    opacity: 1;
-}
-
 .top-bar {
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-.toggle-left {
-    flex-direction: row-reverse;
-}
-
-.sliderToggle {
-    height: 36px;
-    width: 100px;
-    border-radius: 18px;
-    background-color: royalblue;
-    transition: all 1s;
-    flex-direction: row;
-}
-
-.sliderToggle:hover .sliderToggle-slider {
-    translate: 100% 0;
-}
-
-.sliderToggle-background {
-}
-
-.sliderToggle .sliderToggle-slider {
-    transition: all 1s;
-    translate: 0;
-    margin: 2px;
-    background-color: white;
-    border-radius: 16px;
-    width: 32px;
-    height: 32px;
-}
-
-.sliderToggle-slider:checked {
-}
-
+/*
+스위치 토글
+ */
 .switch-toggle {
     transition: all 0.6s;
     width: 80px;
@@ -166,6 +136,10 @@
     -unity-text-align: middle-left;
     -unity-font-style: normal;
 }
+
+/*
+블렌딩
+ */
 
 .blending {
     transition: all 1s;

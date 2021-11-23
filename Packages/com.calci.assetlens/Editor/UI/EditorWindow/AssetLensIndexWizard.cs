@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace AssetLens.UI
 {
 	using Reference;
-	using Reference.Component;
+	using Component;
 
 	public sealed class AssetLensIndexWizard : AssetLensEditorWindow
 	{
@@ -131,7 +131,7 @@ namespace AssetLens.UI
 		{
 			initTime = EditorApplication.timeSinceStartup;
 
-			LoadLayout("ConfigurationWizard");
+			LoadLayout("IndexWizard");
 
 			QueryElements();
 			ConfigureElements();
@@ -234,7 +234,7 @@ namespace AssetLens.UI
 			managedAssetLabel.text = string.Format(Localize.Inst.IndexWizard_ManagedAssetLabel, files.Length);
 
 			closeButton.text = Localize.Inst.Close;
-			proceedButton.text = Localize.Inst.Save;
+			proceedButton.text = Setting.IsEnabled ? Localize.Inst.Regenerate : Localize.Inst.Generate;
 		}
 
 		private void BindCallbacks()
