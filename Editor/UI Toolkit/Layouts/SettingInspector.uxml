@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Stylesheets/SettingInspector.uss?fileID=7433441132597879392&amp;guid=424f3a46ea29aba4d97a262ed842282d&amp;type=3#SettingInspector" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/SwitchToggle.uss?fileID=7433441132597879392&amp;guid=7c390d666cc3d3b40a39b9b26febbbd2&amp;type=3#SwitchToggle" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/Header.uss?fileID=7433441132597879392&amp;guid=77c28c7a2dc874544b5a305dd7c729a3&amp;type=3#Header" />
+</ui:UXML>

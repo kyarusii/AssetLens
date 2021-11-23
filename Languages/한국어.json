@@ -51,7 +51,7 @@
     "IndexByGuidRegExTooltip": "Off시 유니티 내장 EditorUtility 사용",
     "IndexSceneObjectTooltip": "큰 볼륨의 씬이 있으면 인덱싱에 다소 시간이 걸릴 수 있음",
     "IndexPackageSubDirTooltip": "Packages와 Library/PackageCache 하위 에셋도 인덱싱에 포함합니다.",
-    "IndexWizard_IndexOptionLabel": "인덱싱 설정",
+    "IndexOptionLabel": "인덱싱 설정",
     "IndexWizard_EntranceTooltip": "에셋렌즈 사용이 처음이신가요? 이 버튼을 눌러 빠른 시작 가이드를 확인하세요.",
     "IndexWizard_OpenWhenProjectStartup": "프로젝트 시작 시 항상 열기",
     "IndexWizard_StatusLabel": "상태 : <color={0}>{1}</color>",
