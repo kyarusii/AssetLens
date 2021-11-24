@@ -1,3 +1,29 @@
+## 0.4.0 (2021-11-24)
+
+### Fix
+
+- compile error
+- typo CleanCachedIndicies > CleanCachedIndices
+- setting inspector
+- rename configuration wizard and remove unnecessary things
+- sequential transition
+- change subdirectory structures
+
+### Perf
+
+- localized text update event delegate
+- SettingProvider with UI Toolkit
+
+### Refactor
+
+- Localize -> L
+- clean up directory
+
+### Feat
+
+- Localization 파일 수정 감지
+- configuration wizard
+
 ## 0.3.3 (2021-11-17)
 
 ### Fix
