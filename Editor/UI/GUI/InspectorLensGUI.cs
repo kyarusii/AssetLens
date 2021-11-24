@@ -99,8 +99,8 @@ namespace AssetLens.UI
 
 				// usage or usages in default
 				string textContent = usedBy.Count < 2
-					? string.Format(Localize.Inst.fmt_inspector_usageCount_singular, usedBy.Count)
-					: string.Format(Localize.Inst.fmt_inspector_usageCount_multiple, usedBy.Count);
+					? string.Format(L.Inst.fmt_inspector_usageCount_singular, usedBy.Count)
+					: string.Format(L.Inst.fmt_inspector_usageCount_multiple, usedBy.Count);
 
 				EditorGUILayout.BeginHorizontal(new GUIStyle
 					{ fixedHeight = 17, margin = new RectOffset { top = 1, bottom = 1 } });

@@ -24,10 +24,10 @@ namespace AssetLens.Reference
 		private static void IndexAllAssets()
 		{
 			if (!EditorUtility.DisplayDialog(
-				Localize.Inst.indexing_title,
-				Localize.Inst.indexing_message,
-				Localize.Inst.indexing_proceed,
-				Localize.Inst.indexing_cancel))
+				L.Inst.indexing_title,
+				L.Inst.indexing_message,
+				L.Inst.indexing_proceed,
+				L.Inst.indexing_cancel))
 			{
 				return;
 			}
@@ -42,10 +42,10 @@ namespace AssetLens.Reference
 		private static void IndexAllAssets_100()
 		{
 			if (!EditorUtility.DisplayDialog(
-				Localize.Inst.indexing_title,
-				Localize.Inst.indexing_message,
-				Localize.Inst.indexing_proceed,
-				Localize.Inst.indexing_cancel))
+				L.Inst.indexing_title,
+				L.Inst.indexing_message,
+				L.Inst.indexing_proceed,
+				L.Inst.indexing_cancel))
 			{
 				return;
 			}

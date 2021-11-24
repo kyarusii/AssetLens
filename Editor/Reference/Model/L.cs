@@ -1,14 +1,16 @@
 ﻿using System;
 
-namespace AssetLens.Reference
+namespace AssetLens
 {
+	using Reference;
+	
 	[Serializable]
-	public class Localize
+	internal sealed class L
 	{
 		private static DateTime lastModifiedTime;
-		private static Localize _context = default;
+		private static L _context = default;
 
-		public static Localize Inst {
+		public static L Inst {
 			get
 			{
 				// not loaded yet
@@ -38,7 +40,7 @@ namespace AssetLens.Reference
 			}
 		}
 
-		public static event Action<Localize> onUpdate = delegate(Localize localize) {  };
+		public static event Action<L> onUpdate = delegate(L localize) {  };
 
 		public string name = "Language";
 		public string displayName = "Asset Lens";

@@ -23,7 +23,6 @@ namespace AssetLens
 		{
 		}
 #endif
-		
 	}
 
 	internal static class R
