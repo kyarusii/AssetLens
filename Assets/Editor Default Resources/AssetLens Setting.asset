@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf2f8419622478991552f5656d3475d, type: 3}
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
-  enabled: 1
+  enabled: 0
   localization: English
   IndexByGuidRegEx: 1
   IndexSceneObject: 1
   IndexPackageSubDir: 1
-  ViewSceneObject: 1
-  ViewInPlayMode: 1
-  ViewIndexerVersion: 1
+  ViewSceneObject: 0
+  ViewInPlayMode: 0
+  ViewIndexerVersion: 0
   ViewObjectFocusMethod: 1
   InspectorLensEnable: 1
-  InspectorHideWithNoLink: 1
+  InspectorHideWithNoLink: 0
   InspectorDrawObjectInstanceId: 1
   DataAutoUpdate: 1
   DataOverrideIndexer: 0
