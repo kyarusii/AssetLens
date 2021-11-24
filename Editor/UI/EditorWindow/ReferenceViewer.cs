@@ -9,9 +9,12 @@ using Object = UnityEngine.Object;
 namespace AssetLens.UI
 {
     using Reference;
-    
-    public sealed class ReferenceViewer : AssetLensEditorWindow
+    using Component;
+
+    internal sealed class ReferenceViewer : AssetLensEditorWindow
     {
+        private TopBar topBar;
+        
         private ObjectField selected = default;
         private Toggle lockToggle = default;
 
@@ -21,7 +24,7 @@ namespace AssetLens.UI
         private Label dependencies_label;
         private Label used_by_label;
 
-        private VisualElement no_selection;
+        private HelpBox no_selection;
         private VisualElement additional_info;
 
         private Label versionTypeLabel;
@@ -38,12 +41,49 @@ namespace AssetLens.UI
         protected override void Constructor()
         {
             LoadLayout("ReferenceViewer");
+            
+            QueryElements();
+            InitElements();
 
-            selected = root.Q<ObjectField>("selectedObject");
-            selected.objectType = typeof(Object);
-            selected.SetEnabled(false);
+#if DEBUG_ASSETLENS
+            // CreateFeatureButtons();
+#endif
+             
+            dependencies_container.SetHorizontalVisibility(false);
+            used_by_container.SetHorizontalVisibility(false);
 
-            lockToggle = root.Q<Toggle>("lockToggle");
+            ConfigureSelection();
+            OnDockingStateChange();
+        }
+
+        private void OnAddedAsTab()
+        {
+            OnDockingStateChange();
+        }
+
+        private void OnTabDetached()
+        {
+            OnDockingStateChange();
+        }
+
+        private void OnDockingStateChange()
+        {
+            if (docked)
+            {
+                topBar.SetEnabled(true);
+            }
+            else
+            {
+                topBar.SetEnabled(false);
+            }
+        }
+
+        private void QueryElements()
+        {
+            topBar = root.Q<TopBar>("top-bar");
+            selected = root.Q<ObjectField>("selection-field");
+
+            lockToggle = root.Q<Toggle>("lock-toggle");
 
             dependencies_container = root.Q<ScrollView>("dependencies-container");
             used_by_container = root.Q<ScrollView>("used-by-container");
@@ -51,13 +91,39 @@ namespace AssetLens.UI
             dependencies_label = root.Q<Label>("dependencies-label");
             used_by_label = root.Q<Label>("used-by-label");
 
-            no_selection = root.Q<VisualElement>("no-selection");
-            additional_info = root.Q<VisualElement>("additional-info");
+            no_selection = root.Q<HelpBox>("no-selection-helpbox");
+            additional_info = root.Q<VisualElement>("selection-info");
 
-            versionTypeLabel = new Label();
-            lastModified = new Label();
+            versionTypeLabel = root.Q<Label>("version-info");
+            lastModified = root.Q<Label>("modification-info");
+        }
 
-#if DEBUG_ASSETLENS
+        private void InitElements()
+        {
+            selected.objectType = typeof(Object);
+            selected.SetEnabled(false);
+            
+            topBar.closeButton.clickable.clicked += OnCloseButton;
+            topBar.questionButton.clickable.clicked += OnQuestionButton;
+        }
+
+        private void OnCloseButton()
+        {
+            Close();
+        }
+
+        private void OnQuestionButton()
+        {
+            AssetLensConsole.Verbose(R.L("OnQuestionButton"));
+        }
+
+        private void RefreshLocalizedText()
+        {
+            
+        }
+
+        private void CreateFeatureButtons()
+        {
             var featureRoot = root.Q<VisualElement>("feature-buttons");
             substitute_button = new Button();
             featureRoot.Add(substitute_button);
@@ -107,19 +173,6 @@ namespace AssetLens.UI
                 }
             };
 
-            additional_info.Add(versionTypeLabel);
-            additional_info.Add(lastModified);
-#endif
-
-#if UNITY_2021_1_OR_NEWER
-            dependencies_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
-            used_by_container.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
-#else
-            dependencies_container.horizontalScroller.visible = false;
-            used_by_container.horizontalScroller.visible = false;
-#endif
-            
-            ConfigureSelection();
         }
 
         private void Update()
@@ -216,10 +269,11 @@ namespace AssetLens.UI
             if (Setting.Inst.ViewIndexerVersion)
             {
                 selected.style.display = DisplayStyle.Flex;
-                no_selection.style.display = DisplayStyle.None;
                 additional_info.style.display = DisplayStyle.Flex;
             }
             
+            no_selection.style.display = DisplayStyle.None;
+
             string path = AssetDatabase.GetAssetPath(current);
             string guid = AssetDatabase.AssetPathToGUID(path);
 
@@ -231,7 +285,10 @@ namespace AssetLens.UI
 
             RefData data = RefData.Get(guid);
 
-            versionTypeLabel.text = $"{data.GetVersionText()} ({data.objectType})";
+            var versionText = data.GetVersionText();
+            var objectType = data.objectType;
+
+            versionTypeLabel.text = $"{versionText} ({objectType})";
             lastModified.text = $"Last Modified : {data.GetLastEditTime()}";
 
             foreach (string assetGuid in data.ownGuids)

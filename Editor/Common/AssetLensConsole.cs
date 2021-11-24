@@ -25,15 +25,7 @@ namespace AssetLens
 		}
 #endif
 		
-	
-#if DEBUG_ASSETLENS
 		public static Action<string> Verbose = delegate(string msg) {  };
-#else
-		[Conditional("DEBUG_ASSETLENS")]
-		public static void Verbose(string msg)
-		{
-		}
-#endif
 	}
 
 	internal static class R
