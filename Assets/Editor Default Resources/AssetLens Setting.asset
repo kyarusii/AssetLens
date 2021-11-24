@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
   enabled: 1
-  localization: English
+  localization: "\uD55C\uAD6D\uC5B4"
   IndexByGuidRegEx: 1
   IndexSceneObject: 1
   IndexPackageSubDir: 0

@@ -56,6 +56,7 @@
     "ViewSceneObjectLabel": "씬 오브젝트 뷰어 활성화",
     "ViewInPlayModeLabel": "플레이모드에서 뷰어 활성화",
     "ViewIndexerVersionLabel": "인덱서 버전 표기",
+    "ViewObjectFocusMethodLabel": "레퍼런스 포커스 방식",
     "InspectorOptionLabel": "인스펙터 렌즈 설정",
     "InspectorLensEnableLabel": "사용",
     "InspectorHideWithNoLinkLabel": "종속성이 없으면 숨기기",
@@ -77,5 +78,11 @@
     "OpenIndexWizard": "인덱스 마법사 열기",
     "ResetSetting": "기본 설정으로 되돌리기",
     "CleanCachedIndicies": "캐시 데이터 비우기",
-    "UninstallPackage": "에셋 렌즈 삭제"
+    "UninstallPackage": "에셋 렌즈 플러그인 제거",
+    "OpenReadme": "빠른 시작 가이드",
+    "Documentation": "API 문서",
+    "ReportIssue": "이슈 등록",
+    "ChangeLog": "변경사항",
+    "License": "라이센스 및 면책조항",
+    "Credit": "만든 사람 : Seonghwan"
 }
