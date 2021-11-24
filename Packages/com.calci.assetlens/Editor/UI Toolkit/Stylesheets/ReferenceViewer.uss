@@ -17,7 +17,6 @@
 .reference-view-container {
     height: 22px;
     width: auto;
-    margin-left: 20px;
 }
 
 .reference-view-image {
@@ -33,7 +32,6 @@
 }
 
 .default-asset-view {
-    margin-left: 20px;
 }
 
 .list-container {
@@ -43,6 +41,30 @@
 
 .dark-container {
     background-color: dimgrey;
-    margin: 10px;
-    padding: 10px;
+    margin: 4px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.dark-container .unity-label {
+    color: white;
+}
+
+.selection-container {
+}
+
+.unity-object-field {
+    margin: 4px;
+}
+
+.top-bar:disabled {
+    display: none;
+}
+
+.root {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.container {
 }
