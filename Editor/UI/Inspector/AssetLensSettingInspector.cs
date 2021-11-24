@@ -79,8 +79,6 @@ namespace AssetLens.UI
 		{
 			LoadLayout("SettingInspector");
 			
-			Assert.IsNotNull(root);
-			
 			LoadStylesheet("SettingInspector");
 			
 			string path = FileSystem.ComponentDirectory  + "SwitchToggle.uss";
@@ -229,7 +227,7 @@ namespace AssetLens.UI
 			// localization.choices = Setting.GetLanguageChoices();
 			// localization.SetChoices(Setting.GetLanguageChoices());
 			
-			
+			localization.SetChoices(Setting.GetLanguageChoices());
 
 			/*
 			 * Callbacks

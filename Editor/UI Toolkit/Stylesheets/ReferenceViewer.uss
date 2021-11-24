@@ -68,3 +68,7 @@
 
 .container {
 }
+
+#header-right-column {
+    justify-content: center;
+}

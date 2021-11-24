@@ -26,7 +26,7 @@
                     <ui:Label text="Status : &lt;color=#50FF00FF&gt;Active&lt;/color&gt;" display-tooltip-when-elided="true" name="status-label" style="align-items: center; justify-content: space-between; width: 100%; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;" />
                     <ui:Label text="Managed Asset : 9,999" display-tooltip-when-elided="true" name="managed-asset-label" style="align-items: center; justify-content: space-between; width: 100%; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;" />
                 </ui:VisualElement>
-                <ui:Toggle label="Toggle" value="false" name="toggle-display-on-startup" class="switch-toggle" style="transition-property: flex-direction; scale: 0.5 0.5; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0;" />
+                <ui:Toggle label="Toggle" value="false" name="toggle-display-on-startup" class="switch-toggle" style="transition-property: flex-direction; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0;" />
                 <ui:VisualElement style="flex-direction: row-reverse;">
                     <ui:Button text="Proceed" display-tooltip-when-elided="true" focusable="true" name="proceed-btn" class="btn-round btn-primary" />
                     <ui:Button text="Close" display-tooltip-when-elided="true" focusable="true" name="close-btn" class="btn-round" style="margin-right: 5px; background-color: rgb(105, 105, 105);" />

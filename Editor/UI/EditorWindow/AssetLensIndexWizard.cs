@@ -163,12 +163,7 @@ namespace AssetLens.UI
 			main = root.Q<VisualElement>("main");
 			topBar = root.Q<TopBar>("header");
 			
-			// startupSwitchLabel = root.Q<Label>("label-display-on-startup");
 			startupSwitch = root.Q<Toggle>("toggle-display-on-startup");
-			
-			// indexByGuidRegExLabel = root.Q<Label>("option-1-label");
-			// indexSceneObjectLabel = root.Q<Label>("option-2-label");
-			// indexPackageSubDirLabel = root.Q<Label>("option-3-label");
 			
 			option1 = root.Q<Toggle>("option-1");
 			option2 = root.Q<Toggle>("option-2");
@@ -176,11 +171,9 @@ namespace AssetLens.UI
 #if UNITY_2021_1_OR_NEWER
 			language = new DropdownField();
 			root.Q<VisualElement>("vertical").Add(language);
-			// language = root.Q<DropdownField>("language-dropdown");
 #else
 			language = new TextField();
 			root.Q<VisualElement>("vertical").Add(language);
-			// language = root.Q<TextField>("language-dropdown");
 #endif
 			
 			optionLeftTitle = root.Q<Label>("option-label-left");
@@ -210,8 +203,8 @@ namespace AssetLens.UI
 			startupSwitch.SetValueWithoutNotify(GetStartupSwitchValue());
 
 #if UNITY_2021_1_OR_NEWER
-			// language.choices = Setting.GetLanguageChoices();
 			language.SetChoices(Setting.GetLanguageChoices());
+			
 			int selected = language.GetChoices().IndexOf(Setting.Localization);
 			language.index = selected;
 #else
@@ -264,10 +257,11 @@ namespace AssetLens.UI
 			 */
 			string status = Setting.IsEnabled ? L.Inst.IndexWizard_StatusReadyToUse : L.Inst.IndexWizard_StatusNotInitialized;
 #if UNITY_2021_2_OR_NEWER
-			var colorCode = Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode;
+			string colorCode = Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode;
 			status = $"<color={colorCode}>{status}</color>";
 #endif
 
+			status = string.Format(L.Inst.IndexWizard_StatusLabel, status);
 			statusLabel.text = status;
 
 			var files = AssetLensCache.GetIndexedFiles();

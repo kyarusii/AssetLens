@@ -31,6 +31,8 @@ namespace AssetLens.UI
 
         private Label versionTypeLabel;
         private Label lastModified;
+
+        private Label PackageLabel;
         
         private Button substitute_button;
 
@@ -55,6 +57,7 @@ namespace AssetLens.UI
             
             QueryElements();
             InitElements();
+            RefreshLocalizedText();
 
 #if DEBUG_ASSETLENS
             // CreateFeatureButtons();
@@ -66,6 +69,16 @@ namespace AssetLens.UI
             ConfigureSelection();
             OnDockingStateChange();
         }
+        
+        private void Awake()
+        {
+            L.onUpdate += OnLocalizationChange;
+        }
+
+        private void OnDestroy()
+        {
+            L.onUpdate -= OnLocalizationChange;
+        }
 
         private void OnAddedAsTab()
         {
@@ -75,6 +88,11 @@ namespace AssetLens.UI
         private void OnTabDetached()
         {
             OnDockingStateChange();
+        }
+        
+        private void OnLocalizationChange(L l)
+        {
+            RefreshLocalizedText();
         }
 
         private void OnDockingStateChange()
@@ -93,6 +111,7 @@ namespace AssetLens.UI
 
         private void QueryElements()
         {
+            PackageLabel = root.Q<Label>("ci-label");
             topBar = root.Q<TopBar>("top-bar");
             selected = root.Q<ObjectField>("selection-field");
 
@@ -136,7 +155,13 @@ namespace AssetLens.UI
 
         private void RefreshLocalizedText()
         {
-            
+#if UNITY_2021_1_OR_NEWER
+            no_selection.messageType = HelpBoxMessageType.Info;
+            no_selection.text = L.Inst.inspector_nothing_selected;
+#endif
+
+            lockToggle.label = L.Inst.inspector_lockSelect;
+            PackageLabel.text = L.Inst.DisplayName;
         }
 
         private void CreateFeatureButtons()
