@@ -43,6 +43,15 @@ namespace AssetLens.UI
         protected override void Constructor()
         {
             LoadLayout("ReferenceViewer");
+            LoadStylesheet("ReferenceViewer");
+            
+            string path = FileSystem.ComponentDirectory + "TopBar.uss";
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+            root.styleSheets.Add(styleSheet);
+            
+            path = FileSystem.ComponentDirectory + "Header.uss";
+            styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+            root.styleSheets.Add(styleSheet);
             
             QueryElements();
             InitElements();
@@ -96,7 +105,9 @@ namespace AssetLens.UI
             used_by_label = root.Q<Label>("used-by-label");
 
 #if UNITY_2020_1_OR_NEWER
-            no_selection = root.Q<HelpBox>("no-selection-helpbox");
+            // no_selection = root.Q<HelpBox>("no-selection-helpbox");
+            no_selection = new HelpBox();
+            root.Q<VisualElement>("help-box-container").Add(no_selection);
 #endif
             additional_info = root.Q<VisualElement>("selection-info");
 
