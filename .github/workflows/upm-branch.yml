@@ -5,6 +5,7 @@ on:
     - main
 jobs:
   split-upm:
+    if: "startsWith(github.event.head_commit.message, 'bump:')"
     name: split upm branch
     runs-on: ubuntu-latest
     steps:
