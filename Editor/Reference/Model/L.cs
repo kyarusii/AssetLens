@@ -18,8 +18,9 @@ namespace AssetLens
 				{
 					lastModifiedTime = Setting.GetLocalizationLastWriteTime();
 					_context = Setting.LoadLocalization;
-
-					AssetLensConsole.Log(R.L("Localization Create"));
+					onUpdate(_context);
+					
+					AssetLensConsole.Log(R.D("Localization Create"));
 				}
 
 				// file change check
@@ -27,8 +28,10 @@ namespace AssetLens
 				{
 					lastModifiedTime = Setting.GetLocalizationLastWriteTime();
 					_context = Setting.LoadLocalization;
+					onUpdate(_context);
 					
-					AssetLensConsole.Log(R.L("Localization Reloaded"));
+					
+					AssetLensConsole.Log(R.D("Localization Reloaded"));
 				}
 
 				return _context;

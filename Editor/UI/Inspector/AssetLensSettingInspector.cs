@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -66,6 +68,7 @@ namespace AssetLens.UI
 		/// 뭔가 하고 있다!
 		/// </summary>
 		private bool working = false;
+		private bool init = false;
 		
 		protected override void Constructor()
 		{
@@ -88,6 +91,14 @@ namespace AssetLens.UI
 			InitOptions();
 			InitButtons();
 			InitHelp();
+
+			init = true;
+			
+			/*
+			* localized text
+			*/
+
+			RefreshLocalizedText();
 		}
 
 		private void InitOptions()
@@ -186,11 +197,27 @@ namespace AssetLens.UI
 			indexOptionHeader.AddToClassList("header-2");
 			viewOptionHeader.AddToClassList("header-2");
 			inspectorOptionHeader.AddToClassList("header-2");
-			
-			/*
-			* localized text
-			*/
 
+			/*
+			 * Init
+			 */
+			localization.choices = Setting.GetLanguageChoices();
+
+			/*
+			 * Callbacks
+			 */
+
+			localization.RegisterValueChangedCallback(OnLanguageChange);
+
+			// indexOptionHeader.RegisterValueChangedCallback(OnIndexOptionHeaderChange);
+			// viewOptionHeader.RegisterValueChangedCallback(OnViewOptionHeaderChange);
+			// inspectorOptionHeader.RegisterValueChangedCallback(OnInspectorOptionHeaderChange);
+		}
+
+		private void RefreshLocalizedText()
+		{
+			if (!init) return;
+			
 			enabled.label = L.Inst.setting_enabled;
 			localization.label = L.Inst.setting_language;
 			
@@ -199,6 +226,9 @@ namespace AssetLens.UI
 			viewOptionHeader.text = L.Inst.ViewOptionLabel;
 			inspectorOptionHeader.text = L.Inst.InspectorOptionLabel;
 
+			/*
+			 * Options
+			 */
 			IndexByGuidRegEx.label = L.Inst.IndexByGuidRegExLabel;
 			IndexSceneObject.label = L.Inst.IndexSceneObjectLabel;
 			IndexPackageSubDir.label = L.Inst.IndexPackageSubDirLabel;
@@ -211,16 +241,40 @@ namespace AssetLens.UI
 			InspectorLensEnable.label = L.Inst.InspectorLensEnableLabel;
 			InspectorHideWithNoLink.label = L.Inst.InspectorHideWithNoLinkLabel;
 			InspectorDrawObjectInstanceId.label = L.Inst.InspectorDrawObjectInstanceIdLabel;
-
-			localization.choices = Setting.GetLanguageChoices();
 			
 			/*
-			 * Callbacks
+			 * Buttons
 			 */
+			openIndexWizard.text = L.Inst.OpenIndexWizard;
+			resetSetting.text = L.Inst.ResetSetting;
+			cleanupCache.text = L.Inst.CleanCachedIndicies;
+			uninstallPackage.text = L.Inst.UninstallPackage;
+			
+			/*
+			 * Help
+			 */
+			openReadme.text = L.Inst.OpenReadme;
+			documentation.text = L.Inst.Documentation;
+			reportIssue.text = L.Inst.ReportIssue;
+			changelog.text = L.Inst.ChangeLog;
+			license.text = L.Inst.License;
+			credit.text = L.Inst.Credit;
+		}
+		
+		private void OnLanguageChange(ChangeEvent<string> evt)
+		{
+			if (localization.choices.Contains(evt.newValue))
+			{
+				Setting.Localization = evt.newValue;
+				L.Inst = Setting.LoadLocalization;
 
-			// indexOptionHeader.RegisterValueChangedCallback(OnIndexOptionHeaderChange);
-			// viewOptionHeader.RegisterValueChangedCallback(OnViewOptionHeaderChange);
-			// inspectorOptionHeader.RegisterValueChangedCallback(OnInspectorOptionHeaderChange);
+				RefreshLocalizedText();
+				AssetLensConsole.Log(R.D($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}"));
+			}
+			else
+			{
+				AssetLensConsole.Log(R.D($"Skip Change Event : Invalid Language ({evt.newValue})"));
+			}
 		}
 
 		private void OnViewOptionHeaderChange(ChangeEvent<bool> evt)
@@ -245,11 +299,6 @@ namespace AssetLens.UI
 			cleanupCache = root.Q<Button>("clean-cached-indecies");
 			uninstallPackage = root.Q<Button>("uninstall-package");
 
-			openIndexWizard.text = L.Inst.OpenIndexWizard;
-			resetSetting.text = L.Inst.ResetSetting;
-			cleanupCache.text = L.Inst.CleanCachedIndicies;
-			uninstallPackage.text = L.Inst.UninstallPackage;
-			
 			openIndexWizard.clickable.clicked += OnOpenIndexWizard;
 			resetSetting.clickable.clicked += OnResetSetting;
 			cleanupCache.clickable.clicked += CleanupCacheData;
@@ -267,13 +316,6 @@ namespace AssetLens.UI
 			license = root.Q<Button>("license");
 			credit = root.Q<Button>("credit");
 
-			openReadme.text = L.Inst.OpenReadme;
-			documentation.text = L.Inst.Documentation;
-			reportIssue.text = L.Inst.ReportIssue;
-			changelog.text = L.Inst.ChangeLog;
-			license.text = L.Inst.License;
-			credit.text = L.Inst.Credit;
-
 			openReadme.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev/AssetLens/blob/main/README.md#quickstart");
 			documentation.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev/AssetLens");
 			reportIssue.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev/AssetLens/issues");
@@ -281,18 +323,26 @@ namespace AssetLens.UI
 			license.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev/AssetLens/blob/main/LICENSE");
 			credit.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev");
 			
+			openReadme.tooltip = "Open Web Page - https://github.com/seonghwan-dev/AssetLens/blob/main/README.md#quickstart";
+			documentation.tooltip = "Open Web Page - https://github.com/seonghwan-dev/AssetLens";
+			reportIssue.tooltip = "Open Web Page - https://github.com/seonghwan-dev/AssetLens/issues";
+			changelog.tooltip = "Open Web Page - https://github.com/seonghwan-dev/AssetLens/blob/main/CHANGELOG.md";
+			license.tooltip = "Open Web Page - https://github.com/seonghwan-dev/AssetLens/blob/main/LICENSE";
+			credit.tooltip = "Open Web Page - https://github.com/seonghwan-dev";
+			
 			documentation.SetEnabled(false);
 		}
 
 		private async void OnUninstallPackage()
 		{
 			if (working) return;
+			SetPanelInteractable(false);
 			
 			working = true;
 			Setting.IsEnabled = false;
 			
 			int processedAssetCount = await AssetLensCache.CleanUpAssetsAsync();
-			AssetLensConsole.Log(R.L($"{processedAssetCount} asset caches removed!"));
+			AssetLensConsole.Log(R.D($"{processedAssetCount} asset caches removed!"));
 			
 			Directory.Delete(FileSystem.ReferenceCacheDirectory);
 
@@ -301,38 +351,66 @@ namespace AssetLens.UI
 			string projectManifest = await File.ReadAllTextAsync(FileSystem.Manifest);
 			if (!projectManifest.Contains(Constants.PackageName))
 			{
-				AssetLensConsole.Log(R.L("Cannot be uninstalled under development."));
+				AssetLensConsole.Log(R.D("Cannot be uninstalled under development."));
 				return;
 			}
 #endif
 
-			// @TODO :: NEED TEST
 			string resultMessage = await PackageSystem.Uninstall();
 			working = false;
 			
-			AssetLensConsole.Log(R.L(resultMessage));
+			AssetLensConsole.Log(R.D(resultMessage));
+			SetPanelInteractable(true);
 		}
 
 		private async void CleanupCacheData()
 		{
 			if (working) return;
+			SetPanelInteractable(false);
 			
 			working = true;
 			
 			int processedAssetCount = await AssetLensCache.CleanUpAssetsAsync();
-			AssetLensConsole.Log($"{processedAssetCount} asset caches removed!");
+			AssetLensConsole.Verbose(R.L($"{processedAssetCount} asset caches removed!"));
+
+			await Task.Delay(1000);
 
 			working = false;
+			SetPanelInteractable(true);
 		}
 
 		private void OnResetSetting()
 		{
-			
+			throw new NotImplementedException();
 		}
 
 		private void OnOpenIndexWizard()
 		{
 			AssetLensIndexWizard.Open();
+		}
+
+		private void SetPanelInteractable(bool enable)
+		{
+			root.SetEnabled(enable);
+		}
+
+		private void Awake()
+		{
+			L.onUpdate += OnLocalizationChange;
+
+			// AssetLensConsole.Log(R.D("Setting Inspector Awake"));
+		}
+
+		private void OnDestroy()
+		{
+			L.onUpdate -= OnLocalizationChange;
+			
+			// AssetLensConsole.Log(R.D("Setting Inspector Destroy"));
+		}
+
+		private void OnLocalizationChange(L l)
+		{
+			RefreshLocalizedText();
 		}
 	}
 }

@@ -259,12 +259,12 @@ namespace AssetLens.UI
 		private async void OnProceedButton()
 		{
 			AssetDatabase.SaveAssets();
-			AssetLensConsole.Log(R.L("인덱싱 시작"));
+			AssetLensConsole.Log(R.D("인덱싱 시작"));
 
 			await AssetLensCache.IndexAssetsAsync();
 			Setting.IsEnabled = true;
 
-			AssetLensConsole.Log(R.L("인덱싱 끝"));
+			AssetLensConsole.Log(R.D("인덱싱 끝"));
 
 			// 정보 리로드
 			RefreshLocalizedText();
@@ -289,11 +289,11 @@ namespace AssetLens.UI
 				L.Inst = Setting.LoadLocalization;
 
 				RefreshLocalizedText();
-				AssetLensConsole.Log(R.L($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}"));
+				AssetLensConsole.Log(R.D($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}"));
 			}
 			else
 			{
-				AssetLensConsole.Log(R.L($"Skip Change Event : Invalid Language ({evt.newValue})"));
+				AssetLensConsole.Log(R.D($"Skip Change Event : Invalid Language ({evt.newValue})"));
 			}
 		}
 
@@ -303,7 +303,7 @@ namespace AssetLens.UI
 		/// <param name="evt"></param>
 		private void OnIndexByGuidChanged(ChangeEvent<bool> evt)
 		{
-			AssetLensConsole.Log(R.L($"IndexByGuidRegEx : {evt.previousValue} -> {evt.newValue}"));
+			AssetLensConsole.Log(R.D($"IndexByGuidRegEx : {evt.previousValue} -> {evt.newValue}"));
 
 			Setting.Inst.IndexByGuidRegEx = evt.newValue;
 		}
@@ -314,7 +314,7 @@ namespace AssetLens.UI
 		/// <param name="evt"></param>
 		private void OnIndexSceneObjectChanged(ChangeEvent<bool> evt)
 		{
-			AssetLensConsole.Log(R.L($"IndexSceneObject : {evt.previousValue} -> {evt.newValue}"));
+			AssetLensConsole.Log(R.D($"IndexSceneObject : {evt.previousValue} -> {evt.newValue}"));
 			
 			Setting.Inst.IndexSceneObject = evt.newValue;
 		}
@@ -325,7 +325,7 @@ namespace AssetLens.UI
 		/// <param name="evt"></param>
 		private void OnIndexPackageSubDirChanged(ChangeEvent<bool> evt)
 		{
-			AssetLensConsole.Log(R.L($"IndexPackageSubDir : {evt.previousValue} -> {evt.newValue}"));
+			AssetLensConsole.Log(R.D($"IndexPackageSubDir : {evt.previousValue} -> {evt.newValue}"));
 			
 			Setting.Inst.IndexPackageSubDir = evt.newValue;
 		}
@@ -335,7 +335,7 @@ namespace AssetLens.UI
 			string startUpKey = $"{Application.productName}.AssetLens.Configuration.ShowOnStartUp";
 			EditorPrefs.SetBool(startUpKey, evt.newValue);
 
-			AssetLensConsole.Log(R.L($"Display On Startup ValueChange : {evt.previousValue} > {evt.newValue}"));
+			AssetLensConsole.Log(R.D($"Display On Startup ValueChange : {evt.previousValue} > {evt.newValue}"));
 		}
 
 		private void OnQuestionMark()

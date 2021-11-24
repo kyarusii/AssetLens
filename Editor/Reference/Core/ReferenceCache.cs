@@ -4,7 +4,6 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace AssetLens.Reference
@@ -44,7 +43,7 @@ namespace AssetLens.Reference
 
 			string msg = await ReadWork(taskCount);
 
-			Debug.Log(msg);
+			AssetLensConsole.Verbose(R.L(msg));
 			
 			ReferenceSerializer.SetLocalVersion((int)Setting.INDEX_VERSION);
 

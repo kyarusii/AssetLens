@@ -56,6 +56,7 @@
     "ViewSceneObjectLabel": "Enable when scene object selected",
     "ViewInPlayModeLabel": "Enable in PlayMode",
     "ViewIndexerVersionLabel": "Show indexer version",
+    "ViewObjectFocusMethodLabel": "Reference Focus Method",
     "InspectorOptionLabel": "Inspector Lens Options",
     "InspectorLensEnableLabel": "Enable",
     "InspectorHideWithNoLinkLabel": "Don't draw when no dependency",
@@ -77,5 +78,11 @@
     "OpenIndexWizard": "Open Index Wizard",
     "ResetSetting": "Reset Settings to Default",
     "CleanCachedIndicies": "Clean up Cached Indicies",
-    "UninstallPackage": "Uninstall Asset Lens"
+    "UninstallPackage": "Uninstall Asset Lens",
+    "OpenReadme": "Getting Started",
+    "Documentation": "Documentation",
+    "ReportIssue": "Report Issue",
+    "ChangeLog": "Change Log",
+    "License": "License",
+    "Credit": "Credit"
 }
