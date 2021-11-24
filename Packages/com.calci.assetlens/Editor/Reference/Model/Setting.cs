@@ -153,11 +153,11 @@ namespace AssetLens.Reference
 			}
 		}
 		
-		internal static Localize LoadLocalization {
+		internal static L LoadLocalization {
 			get
 			{
 				var json = GetLocalizationJson();
-				return JsonUtility.FromJson<Localize>(json);
+				return JsonUtility.FromJson<L>(json);
 			}
 		}
 

@@ -56,7 +56,7 @@ namespace AssetLens.Reference
 				{
 					StringBuilder sb = new StringBuilder();
 
-					var ln = Localize.Inst;
+					var ln = L.Inst;
 
 					sb.AppendLine(ln.remove_messageContent);
 					sb.AppendLine();

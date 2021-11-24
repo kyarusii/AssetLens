@@ -63,7 +63,7 @@ namespace AssetLens.Reference
 
 				while (fileMap.Keys.Count != allCount)
 				{
-					EditorUtility.DisplayProgressBar(Localize.Inst.processing_title,
+					EditorUtility.DisplayProgressBar(L.Inst.processing_title,
 						$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
 
 					// refresh rate

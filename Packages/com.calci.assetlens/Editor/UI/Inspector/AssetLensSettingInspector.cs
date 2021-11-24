@@ -191,26 +191,26 @@ namespace AssetLens.UI
 			* localized text
 			*/
 
-			enabled.label = Localize.Inst.setting_enabled;
-			localization.label = Localize.Inst.setting_language;
+			enabled.label = L.Inst.setting_enabled;
+			localization.label = L.Inst.setting_language;
 			
 			globalOptionHeader.text = "Setting";
-			indexOptionHeader.text = Localize.Inst.IndexOptionLabel;
-			viewOptionHeader.text = Localize.Inst.ViewOptionLabel;
-			inspectorOptionHeader.text = Localize.Inst.InspectorOptionLabel;
+			indexOptionHeader.text = L.Inst.IndexOptionLabel;
+			viewOptionHeader.text = L.Inst.ViewOptionLabel;
+			inspectorOptionHeader.text = L.Inst.InspectorOptionLabel;
 
-			IndexByGuidRegEx.label = Localize.Inst.IndexByGuidRegExLabel;
-			IndexSceneObject.label = Localize.Inst.IndexSceneObjectLabel;
-			IndexPackageSubDir.label = Localize.Inst.IndexPackageSubDirLabel;
+			IndexByGuidRegEx.label = L.Inst.IndexByGuidRegExLabel;
+			IndexSceneObject.label = L.Inst.IndexSceneObjectLabel;
+			IndexPackageSubDir.label = L.Inst.IndexPackageSubDirLabel;
 			
-			ViewSceneObject.label = Localize.Inst.ViewSceneObjectLabel;
-			ViewInPlayMode.label = Localize.Inst.ViewInPlayModeLabel;
-			ViewIndexerVersion.label = Localize.Inst.ViewIndexerVersionLabel;
-			ViewObjectFocusMethod.label = Localize.Inst.ViewObjectFocusMethodLabel;
+			ViewSceneObject.label = L.Inst.ViewSceneObjectLabel;
+			ViewInPlayMode.label = L.Inst.ViewInPlayModeLabel;
+			ViewIndexerVersion.label = L.Inst.ViewIndexerVersionLabel;
+			ViewObjectFocusMethod.label = L.Inst.ViewObjectFocusMethodLabel;
 			
-			InspectorLensEnable.label = Localize.Inst.InspectorLensEnableLabel;
-			InspectorHideWithNoLink.label = Localize.Inst.InspectorHideWithNoLinkLabel;
-			InspectorDrawObjectInstanceId.label = Localize.Inst.InspectorDrawObjectInstanceIdLabel;
+			InspectorLensEnable.label = L.Inst.InspectorLensEnableLabel;
+			InspectorHideWithNoLink.label = L.Inst.InspectorHideWithNoLinkLabel;
+			InspectorDrawObjectInstanceId.label = L.Inst.InspectorDrawObjectInstanceIdLabel;
 
 			localization.choices = Setting.GetLanguageChoices();
 			
@@ -245,10 +245,10 @@ namespace AssetLens.UI
 			cleanupCache = root.Q<Button>("clean-cached-indecies");
 			uninstallPackage = root.Q<Button>("uninstall-package");
 
-			openIndexWizard.text = Localize.Inst.OpenIndexWizard;
-			resetSetting.text = Localize.Inst.ResetSetting;
-			cleanupCache.text = Localize.Inst.CleanCachedIndicies;
-			uninstallPackage.text = Localize.Inst.UninstallPackage;
+			openIndexWizard.text = L.Inst.OpenIndexWizard;
+			resetSetting.text = L.Inst.ResetSetting;
+			cleanupCache.text = L.Inst.CleanCachedIndicies;
+			uninstallPackage.text = L.Inst.UninstallPackage;
 			
 			openIndexWizard.clickable.clicked += OnOpenIndexWizard;
 			resetSetting.clickable.clicked += OnResetSetting;
@@ -267,12 +267,12 @@ namespace AssetLens.UI
 			license = root.Q<Button>("license");
 			credit = root.Q<Button>("credit");
 
-			openReadme.text = Localize.Inst.OpenReadme;
-			documentation.text = Localize.Inst.Documentation;
-			reportIssue.text = Localize.Inst.ReportIssue;
-			changelog.text = Localize.Inst.ChangeLog;
-			license.text = Localize.Inst.License;
-			credit.text = Localize.Inst.Credit;
+			openReadme.text = L.Inst.OpenReadme;
+			documentation.text = L.Inst.Documentation;
+			reportIssue.text = L.Inst.ReportIssue;
+			changelog.text = L.Inst.ChangeLog;
+			license.text = L.Inst.License;
+			credit.text = L.Inst.Credit;
 
 			openReadme.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev/AssetLens/blob/main/README.md#quickstart");
 			documentation.clickable.clicked += () => Application.OpenURL("https://github.com/seonghwan-dev/AssetLens");

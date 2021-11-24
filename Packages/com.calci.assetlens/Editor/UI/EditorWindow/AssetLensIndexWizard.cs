@@ -201,40 +201,40 @@ namespace AssetLens.UI
 			/*
 			 * Header
 			 */
-			topBar.questionButton.tooltip = Localize.Inst.IndexWizard_EntranceTooltip;
-			startupSwitchLabel.text = Localize.Inst.IndexWizard_OpenWhenProjectStartup;
+			topBar.questionButton.tooltip = L.Inst.IndexWizard_EntranceTooltip;
+			startupSwitchLabel.text = L.Inst.IndexWizard_OpenWhenProjectStartup;
 
 			/*
 			 * Column Header
 			 */
-			optionLeftTitle.text = Localize.Inst.IndexOptionLabel;
-			optionRightTitle.text = Localize.Inst.IndexWizard_StatusConsoleLabel;
+			optionLeftTitle.text = L.Inst.IndexOptionLabel;
+			optionRightTitle.text = L.Inst.IndexWizard_StatusConsoleLabel;
 
 			/*
 			 * Left Columns
 			 */
-			indexByGuidRegExLabel.text = Localize.Inst.IndexByGuidRegExLabel;
-			indexByGuidRegExLabel.tooltip = Localize.Inst.IndexByGuidRegExTooltip;
-			indexSceneObjectLabel.text = Localize.Inst.IndexSceneObjectLabel;
-			indexSceneObjectLabel.tooltip = Localize.Inst.IndexSceneObjectTooltip;
-			indexPackageSubDirLabel.text = Localize.Inst.IndexPackageSubDirLabel;
-			indexPackageSubDirLabel.tooltip = Localize.Inst.IndexPackageSubDirTooltip;
+			indexByGuidRegExLabel.text = L.Inst.IndexByGuidRegExLabel;
+			indexByGuidRegExLabel.tooltip = L.Inst.IndexByGuidRegExTooltip;
+			indexSceneObjectLabel.text = L.Inst.IndexSceneObjectLabel;
+			indexSceneObjectLabel.tooltip = L.Inst.IndexSceneObjectTooltip;
+			indexPackageSubDirLabel.text = L.Inst.IndexPackageSubDirLabel;
+			indexPackageSubDirLabel.tooltip = L.Inst.IndexPackageSubDirTooltip;
 			
-			language.label = Localize.Inst.setting_language;
+			language.label = L.Inst.setting_language;
 
 			/*
 			 * Right Columns
 			 */
-			statusLabel.text = string.Format(Localize.Inst.IndexWizard_StatusLabel,
+			statusLabel.text = string.Format(L.Inst.IndexWizard_StatusLabel,
 				Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode,
-				Setting.IsEnabled ? Localize.Inst.IndexWizard_StatusReadyToUse : Localize.Inst.IndexWizard_StatusNotInitialized
+				Setting.IsEnabled ? L.Inst.IndexWizard_StatusReadyToUse : L.Inst.IndexWizard_StatusNotInitialized
 			);
 
 			var files = AssetLensCache.GetIndexedFiles();
-			managedAssetLabel.text = string.Format(Localize.Inst.IndexWizard_ManagedAssetLabel, files.Length);
+			managedAssetLabel.text = string.Format(L.Inst.IndexWizard_ManagedAssetLabel, files.Length);
 
-			closeButton.text = Localize.Inst.Close;
-			proceedButton.text = Setting.IsEnabled ? Localize.Inst.Regenerate : Localize.Inst.Generate;
+			closeButton.text = L.Inst.Close;
+			proceedButton.text = Setting.IsEnabled ? L.Inst.Regenerate : L.Inst.Generate;
 		}
 
 		private void BindCallbacks()
@@ -286,7 +286,7 @@ namespace AssetLens.UI
 			if (language.choices.Contains(evt.newValue))
 			{
 				Setting.Localization = evt.newValue;
-				Localize.Inst = Setting.LoadLocalization;
+				L.Inst = Setting.LoadLocalization;
 
 				RefreshLocalizedText();
 				AssetLensConsole.Log(R.L($"OnLanguageChanged : {evt.previousValue} -> {evt.newValue}"));
@@ -360,7 +360,7 @@ namespace AssetLens.UI
 			const int width = 680;
 			const int height = 480;
 
-			wnd.titleContent = new GUIContent(Localize.Inst.IndexWizard_Title);
+			wnd.titleContent = new GUIContent(L.Inst.IndexWizard_Title);
 			wnd.minSize = wnd.maxSize = new Vector2(width, height);
 			wnd.Show();
 		}

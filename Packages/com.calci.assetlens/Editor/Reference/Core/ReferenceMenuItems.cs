@@ -39,7 +39,7 @@ namespace AssetLens.Reference
 			{
 				string foundPath = AssetDatabase.GUIDToAssetPath(foundGuid);
 				
-				Debug.Log(string.Format(Localize.Inst.assets_has_dependencies_format, fi.Name, foundPath),
+				Debug.Log(string.Format(L.Inst.assets_has_dependencies_format, fi.Name, foundPath),
 					AssetDatabase.LoadAssetAtPath<Object>(foundPath));
 			}
 
@@ -47,7 +47,7 @@ namespace AssetLens.Reference
 			{
 				string foundPath = AssetDatabase.GUIDToAssetPath(foundGuid);
 
-				Debug.Log(string.Format(Localize.Inst.assets_is_referenced_by_format, fi.Name, foundPath), 
+				Debug.Log(string.Format(L.Inst.assets_is_referenced_by_format, fi.Name, foundPath), 
 					AssetDatabase.LoadAssetAtPath<Object>(foundPath));
 			}
 		}
