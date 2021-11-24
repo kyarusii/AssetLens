@@ -1,3 +1,9 @@
+## 0.4.1 (2021-11-24)
+
+### Fix
+
+- Apply the missing localization string correctly
+
 ## 0.4.0 (2021-11-24)
 
 ### Fix
