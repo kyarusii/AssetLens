@@ -24,7 +24,9 @@ namespace AssetLens.UI
         private Label dependencies_label;
         private Label used_by_label;
 
+#if UNITY_2020_1_OR_NEWER
         private HelpBox no_selection;
+#endif
         private VisualElement additional_info;
 
         private Label versionTypeLabel;
@@ -68,6 +70,7 @@ namespace AssetLens.UI
 
         private void OnDockingStateChange()
         {
+#if UNITY_2020_1_OR_NEWER
             if (docked)
             {
                 topBar.SetEnabled(true);
@@ -76,6 +79,7 @@ namespace AssetLens.UI
             {
                 topBar.SetEnabled(false);
             }
+#endif
         }
 
         private void QueryElements()
@@ -91,7 +95,9 @@ namespace AssetLens.UI
             dependencies_label = root.Q<Label>("dependencies-label");
             used_by_label = root.Q<Label>("used-by-label");
 
+#if UNITY_2020_1_OR_NEWER
             no_selection = root.Q<HelpBox>("no-selection-helpbox");
+#endif
             additional_info = root.Q<VisualElement>("selection-info");
 
             versionTypeLabel = root.Q<Label>("version-info");
@@ -271,8 +277,10 @@ namespace AssetLens.UI
                 selected.style.display = DisplayStyle.Flex;
                 additional_info.style.display = DisplayStyle.Flex;
             }
-            
+
+#if UNITY_2020_1_OR_NEWER
             no_selection.style.display = DisplayStyle.None;
+#endif
 
             string path = AssetDatabase.GetAssetPath(current);
             string guid = AssetDatabase.AssetPathToGUID(path);
@@ -312,7 +320,10 @@ namespace AssetLens.UI
                 dependencies_label.style.visibility = Visibility.Hidden;
                 used_by_label.style.visibility = Visibility.Hidden;
 
+#if UNITY_2020_1_OR_NEWER
                 no_selection.style.display = DisplayStyle.Flex;
+#endif
+                
                 selected.style.display = DisplayStyle.None;
                 additional_info.style.display = DisplayStyle.None;
             }

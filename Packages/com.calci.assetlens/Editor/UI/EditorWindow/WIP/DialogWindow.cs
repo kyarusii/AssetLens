@@ -99,33 +99,33 @@ namespace AssetLens.UI
 		{
 			DialogWindow wnd = CreateInstance<DialogWindow>();
 
-			wnd.titleText = title;
-			wnd.contentText = content;
-			wnd.acceptText = ok;
-			wnd.cancelText = cancel;
-			
-			wnd.OnAccept += onAccept;
-			wnd.OnCancel += onCancel;
-			wnd.OnClose += onClose;
-
-			var size = new Vector2(360, 140);
-			wnd.minSize = wnd.maxSize = size;
-			
-			Rect main = EditorGUIUtility.GetMainWindowPosition();
-			Rect pos = wnd.position;
-			
-			float centerWidth = (main.width - pos.width) * 0.5f;
-			float centerHeight = (main.height - pos.height) * 0.5f;
-			pos.x = main.x + centerWidth;
-			pos.y = main.y + centerHeight;
-			
-			wnd.position = pos;
-			
-			wnd.titleContent = new GUIContent("Dialog");
-			// wnd.Focus();
-			// wnd.Repaint();
-			wnd.ShowPopup();
-			// wnd.ShowModal();
+			// wnd.titleText = title;
+			// wnd.contentText = content;
+			// wnd.acceptText = ok;
+			// wnd.cancelText = cancel;
+			//
+			// wnd.OnAccept += onAccept;
+			// wnd.OnCancel += onCancel;
+			// wnd.OnClose += onClose;
+			//
+			// var size = new Vector2(360, 140);
+			// wnd.minSize = wnd.maxSize = size;
+			//
+			// Rect main = EditorGUIUtility.GetMainWindowPosition();
+			// Rect pos = wnd.position;
+			//
+			// float centerWidth = (main.width - pos.width) * 0.5f;
+			// float centerHeight = (main.height - pos.height) * 0.5f;
+			// pos.x = main.x + centerWidth;
+			// pos.y = main.y + centerHeight;
+			//
+			// wnd.position = pos;
+			//
+			// wnd.titleContent = new GUIContent("Dialog");
+			// // wnd.Focus();
+			// // wnd.Repaint();
+			// wnd.ShowPopup();
+			// // wnd.ShowModal();
 
 			return wnd;
 		}
@@ -135,32 +135,32 @@ namespace AssetLens.UI
 		{
 			DialogWindow wnd = CreateInstance<DialogWindow>();
 
-			wnd.titleText = title;
-			wnd.contentText = content;
-			wnd.acceptText = ok;
-			wnd.cancelText = cancel;
-			
-			wnd.OnAccept += onAccept;
-			wnd.OnCancel += onCancel;
-			wnd.OnClose += onClose;
-
-			var size = new Vector2(360, 140);
-			wnd.minSize = wnd.maxSize = size;
-			
-			Rect main = EditorGUIUtility.GetMainWindowPosition();
-			Rect pos = wnd.position;
-			
-			float centerWidth = (main.width - pos.width) * 0.5f;
-			float centerHeight = (main.height - pos.height) * 0.5f;
-			pos.x = main.x + centerWidth;
-			pos.y = main.y + centerHeight;
-			
-			wnd.position = pos;
-			
-			wnd.titleContent = new GUIContent("Dialog");
-			wnd.Focus();
-			wnd.Repaint();
-			wnd.ShowModal();
+			// wnd.titleText = title;
+			// wnd.contentText = content;
+			// wnd.acceptText = ok;
+			// wnd.cancelText = cancel;
+			//
+			// wnd.OnAccept += onAccept;
+			// wnd.OnCancel += onCancel;
+			// wnd.OnClose += onClose;
+			//
+			// var size = new Vector2(360, 140);
+			// wnd.minSize = wnd.maxSize = size;
+			//
+			// Rect main = EditorGUIUtility.GetMainWindowPosition();
+			// Rect pos = wnd.position;
+			//
+			// float centerWidth = (main.width - pos.width) * 0.5f;
+			// float centerHeight = (main.height - pos.height) * 0.5f;
+			// pos.x = main.x + centerWidth;
+			// pos.y = main.y + centerHeight;
+			//
+			// wnd.position = pos;
+			//
+			// wnd.titleContent = new GUIContent("Dialog");
+			// wnd.Focus();
+			// wnd.Repaint();
+			// wnd.ShowModal();
 		}
 	}
 }

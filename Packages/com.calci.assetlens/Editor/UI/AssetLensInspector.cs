@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AssetLens.UI
@@ -23,6 +24,8 @@ namespace AssetLens.UI
 		{
 			VisualTreeAsset visualTree = GetLayout(filename);
 			
+			UnityEngine.Assertions.Assert.IsNotNull(visualTree);
+			
 #if UNITY_2020_3_OR_NEWER
 			var clonedLayout = visualTree.Instantiate();
 #else
@@ -35,6 +38,7 @@ namespace AssetLens.UI
 		protected VisualTreeAsset GetLayout(string filename)
 		{
 			string path = FileSystem.LayoutDirectory + filename + ".uxml";
+			
 			return AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
 		}
 

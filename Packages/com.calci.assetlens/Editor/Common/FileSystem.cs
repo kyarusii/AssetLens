@@ -13,9 +13,11 @@ namespace AssetLens
 			Application.dataPath.Replace("Assets", "Packages/manifest.json");
 
 		internal const string SettingDirectory = "Assets/Editor Default Resources";
-		
-		internal const string LayoutDirectory = PackageDirectory + "/Editor/UI Toolkit/Layouts/";
-		internal const string StylesheetDirectory = PackageDirectory + "/Editor/UI Toolkit/Stylesheets/";
+
+		internal const string UIToolkitDir = PackageDirectory + "/Editor/UI Toolkit/";
+		internal const string LayoutDirectory = UIToolkitDir + "Layouts/";
+		internal const string StylesheetDirectory = UIToolkitDir + "Stylesheets/";
+		internal const string ComponentDirectory = UIToolkitDir + "Components/";
 
 	}
 }

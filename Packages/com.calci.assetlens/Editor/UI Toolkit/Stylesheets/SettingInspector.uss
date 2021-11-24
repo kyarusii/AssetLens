@@ -21,13 +21,11 @@
 }
 
 .group {
-    transition: all 0.2s;
+    /*transition: all 0.2s;*/
 }
 
 .group:disabled {
-    /*height: 0.0%;*/
 }
 
 .group .unity-toggle__input {
-    /*display: none;*/
 }

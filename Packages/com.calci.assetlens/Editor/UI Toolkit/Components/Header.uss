@@ -1,5 +1,5 @@
 .header-wrapped {
-    transition: all 0.3s;
+    /*transition: all 0.3s;*/
     
     margin-right: 20px;
     margin-bottom: 8px;

@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
   enabled: 1
-  localization: "\uD55C\uAD6D\uC5B4"
+  localization: English
   IndexByGuidRegEx: 1
   IndexSceneObject: 1
-  IndexPackageSubDir: 0
-  ViewSceneObject: 0
+  IndexPackageSubDir: 1
+  ViewSceneObject: 1
   ViewInPlayMode: 1
   ViewIndexerVersion: 1
-  ViewObjectFocusMethod: 3
+  ViewObjectFocusMethod: 1
   InspectorLensEnable: 1
-  InspectorHideWithNoLink: 0
+  InspectorHideWithNoLink: 1
   InspectorDrawObjectInstanceId: 1
   DataAutoUpdate: 1
   DataOverrideIndexer: 0
