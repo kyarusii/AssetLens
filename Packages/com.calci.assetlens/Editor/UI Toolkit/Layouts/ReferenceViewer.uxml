@@ -7,7 +7,7 @@
             <ui:VisualElement name="ci" style="min-width: 50%; padding-top: 4px; padding-bottom: 4px;">
                 <ui:Label text="Asset Lens" display-tooltip-when-elided="true" name="ci-label" style="font-size: 18px; -unity-font-style: bold; margin-left: 12px; margin-right: 12px; margin-top: 12px; margin-bottom: 12px;" />
             </ui:VisualElement>
-            <ui:VisualElement style="min-width: 50%; align-items: flex-end;">
+            <ui:VisualElement name="header-right-column" style="min-width: 50%; align-items: flex-end;">
                 <AssetLens.UI.Component.TopBar name="top-bar" />
                 <ui:Toggle name="lock-toggle" label="lock-toggle" class="right" />
             </ui:VisualElement>
