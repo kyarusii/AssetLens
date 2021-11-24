@@ -160,7 +160,7 @@ namespace AssetLens
 
 		public string OpenIndexWizard = "Open Index Wizard";
 		public string ResetSetting = "Reset Settings to Default";
-		public string CleanCachedIndicies = "Clean up Cached Indicies";
+		public string CleanCachedIndices = "Clean up Cached Indicies";
 		public string UninstallPackage = "Uninstall Asset Lens";
 
 		public string OpenReadme = "Getting Started";

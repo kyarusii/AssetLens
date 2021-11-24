@@ -77,7 +77,7 @@
     "Save": "저장",
     "OpenIndexWizard": "인덱스 마법사 열기",
     "ResetSetting": "기본 설정으로 되돌리기",
-    "CleanCachedIndicies": "캐시 데이터 비우기",
+    "CleanCachedIndices": "캐시 데이터 비우기",
     "UninstallPackage": "에셋 렌즈 플러그인 제거",
     "OpenReadme": "빠른 시작 가이드",
     "Documentation": "API 문서",
