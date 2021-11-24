@@ -46,12 +46,12 @@ namespace AssetLens.UI
 		private VisualElement main;
 
 		private TopBar topBar;
-		private Label startupSwitchLabel;
+		// private Label startupSwitchLabel;
 		private Toggle startupSwitch;
 
-		private Label indexByGuidRegExLabel;
-		private Label indexSceneObjectLabel;
-		private Label indexPackageSubDirLabel;
+		// private Label indexByGuidRegExLabel;
+		// private Label indexSceneObjectLabel;
+		// private Label indexPackageSubDirLabel;
 
 		private Toggle option1;
 		private Toggle option2;
@@ -60,7 +60,11 @@ namespace AssetLens.UI
 		private Label optionLeftTitle;
 		private Label optionRightTitle;
 
+#if UNITY_2021_1_OR_NEWER
 		private DropdownField language;
+#else
+		private TextField language;
+#endif
 
 		private Label statusLabel;
 		private Label managedAssetLabel;
@@ -86,6 +90,7 @@ namespace AssetLens.UI
 
 		private void Update()
 		{
+#if UNITY_2021_2_OR_NEWER
 			if (!complete)
 			{
 				var now = EditorApplication.timeSinceStartup;
@@ -121,6 +126,7 @@ namespace AssetLens.UI
 					initTime = now;
 				}
 			}
+#endif
 		}
 
 		#endregion
@@ -132,6 +138,19 @@ namespace AssetLens.UI
 			initTime = EditorApplication.timeSinceStartup;
 
 			LoadLayout("IndexWizard");
+			LoadStylesheet("IndexWizard");
+
+			string path = FileSystem.ComponentDirectory + "TopBar.uss";
+			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+			root.styleSheets.Add(styleSheet);
+
+			path = FileSystem.ComponentDirectory + "Header.uss";
+			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+			root.styleSheets.Add(styleSheet);
+			
+			path = FileSystem.ComponentDirectory + "RoundSquareButton.uss";
+			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+			root.styleSheets.Add(styleSheet);
 
 			QueryElements();
 			ConfigureElements();
@@ -144,17 +163,25 @@ namespace AssetLens.UI
 			main = root.Q<VisualElement>("main");
 			topBar = root.Q<TopBar>("header");
 			
-			startupSwitchLabel = root.Q<Label>("label-display-on-startup");
+			// startupSwitchLabel = root.Q<Label>("label-display-on-startup");
 			startupSwitch = root.Q<Toggle>("toggle-display-on-startup");
 			
-			indexByGuidRegExLabel = root.Q<Label>("option-1-label");
-			indexSceneObjectLabel = root.Q<Label>("option-2-label");
-			indexPackageSubDirLabel = root.Q<Label>("option-3-label");
+			// indexByGuidRegExLabel = root.Q<Label>("option-1-label");
+			// indexSceneObjectLabel = root.Q<Label>("option-2-label");
+			// indexPackageSubDirLabel = root.Q<Label>("option-3-label");
 			
 			option1 = root.Q<Toggle>("option-1");
 			option2 = root.Q<Toggle>("option-2");
 			option3 = root.Q<Toggle>("option-3");
-			language = root.Q<DropdownField>("language-dropdown");
+#if UNITY_2021_1_OR_NEWER
+			language = new DropdownField();
+			root.Q<VisualElement>("vertical").Add(language);
+			// language = root.Q<DropdownField>("language-dropdown");
+#else
+			language = new TextField();
+			root.Q<VisualElement>("vertical").Add(language);
+			// language = root.Q<TextField>("language-dropdown");
+#endif
 			
 			optionLeftTitle = root.Q<Label>("option-label-left");
 			optionRightTitle = root.Q<Label>("option-label-right");
@@ -182,18 +209,28 @@ namespace AssetLens.UI
 			topBar.Remove(topBar.closeButton);
 			startupSwitch.SetValueWithoutNotify(GetStartupSwitchValue());
 
-			language.choices = Setting.GetLanguageChoices();
-			int selected = language.choices.IndexOf(Setting.Localization);
+#if UNITY_2021_1_OR_NEWER
+			// language.choices = Setting.GetLanguageChoices();
+			language.SetChoices(Setting.GetLanguageChoices());
+			int selected = language.GetChoices().IndexOf(Setting.Localization);
 			language.index = selected;
+#else
+			language.value = Setting.Inst.localization;
+#endif
 			
 			option1.SetValueWithoutNotify(Setting.Inst.IndexByGuidRegEx);
 			option2.SetValueWithoutNotify(Setting.Inst.IndexSceneObject);
 			option3.SetValueWithoutNotify(Setting.Inst.IndexPackageSubDir);
 
+#if UNITY_2021_2_OR_NEWER
 			foreach (VisualElement visualElement in blending)
 			{
 				visualElement.SetEnabled(false);
 			}
+#endif
+
+			var tex = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.calci.assetlens/Contents/assetlens.png");
+			root.Q<VisualElement>("title-image").style.backgroundImage = new StyleBackground(tex);
 		}
 
 		private void RefreshLocalizedText()
@@ -202,7 +239,7 @@ namespace AssetLens.UI
 			 * Header
 			 */
 			topBar.questionButton.tooltip = L.Inst.IndexWizard_EntranceTooltip;
-			startupSwitchLabel.text = L.Inst.IndexWizard_OpenWhenProjectStartup;
+			startupSwitch.label = L.Inst.IndexWizard_OpenWhenProjectStartup;
 
 			/*
 			 * Column Header
@@ -213,22 +250,25 @@ namespace AssetLens.UI
 			/*
 			 * Left Columns
 			 */
-			indexByGuidRegExLabel.text = L.Inst.IndexByGuidRegExLabel;
-			indexByGuidRegExLabel.tooltip = L.Inst.IndexByGuidRegExTooltip;
-			indexSceneObjectLabel.text = L.Inst.IndexSceneObjectLabel;
-			indexSceneObjectLabel.tooltip = L.Inst.IndexSceneObjectTooltip;
-			indexPackageSubDirLabel.text = L.Inst.IndexPackageSubDirLabel;
-			indexPackageSubDirLabel.tooltip = L.Inst.IndexPackageSubDirTooltip;
+			option1.label = L.Inst.IndexByGuidRegExLabel;
+			option1.tooltip = L.Inst.IndexByGuidRegExTooltip;
+			option2.label = L.Inst.IndexSceneObjectLabel;
+			option2.tooltip = L.Inst.IndexSceneObjectTooltip;
+			option3.label = L.Inst.IndexPackageSubDirLabel;
+			option3.tooltip = L.Inst.IndexPackageSubDirTooltip;
 			
 			language.label = L.Inst.setting_language;
 
 			/*
 			 * Right Columns
 			 */
-			statusLabel.text = string.Format(L.Inst.IndexWizard_StatusLabel,
-				Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode,
-				Setting.IsEnabled ? L.Inst.IndexWizard_StatusReadyToUse : L.Inst.IndexWizard_StatusNotInitialized
-			);
+			string status = Setting.IsEnabled ? L.Inst.IndexWizard_StatusReadyToUse : L.Inst.IndexWizard_StatusNotInitialized;
+#if UNITY_2021_2_OR_NEWER
+			var colorCode = Setting.IsEnabled ? Setting.Inst.SuccessColorCode : Setting.Inst.ErrorColorCode;
+			status = $"<color={colorCode}>{status}</color>";
+#endif
+
+			statusLabel.text = status;
 
 			var files = AssetLensCache.GetIndexedFiles();
 			managedAssetLabel.text = string.Format(L.Inst.IndexWizard_ManagedAssetLabel, files.Length);
@@ -283,7 +323,11 @@ namespace AssetLens.UI
 
 		private void OnLanguageChange(ChangeEvent<string> evt)
 		{
-			if (language.choices.Contains(evt.newValue))
+#if UNITY_2021_1_OR_NEWER
+			if (language.GetChoices().Contains(evt.newValue))
+#else
+			if (Setting.GetLanguageChoices().Contains(language.value))
+#endif
 			{
 				Setting.Localization = evt.newValue;
 				L.Inst = Setting.LoadLocalization;

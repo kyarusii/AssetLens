@@ -143,7 +143,11 @@ namespace AssetLens.Reference
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(currentBuildTarget, symbols);
 			
 			AssetDatabase.SaveAssets();
+#if UNITY_2021_1_OR_NEWER
 			CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.None);
+#else
+			CompilationPipeline.RequestScriptCompilation();
+#endif
 		}
 	}
 }

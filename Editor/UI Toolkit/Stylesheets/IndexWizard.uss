@@ -1,51 +1,6 @@
 /*
-Buttons
- */
-.btn-round {
-    transition: all 0.2s;
-    border-radius: 4px;
-    width: 100px;
-    height: 28px;
-    border-width: 0;
-    margin: 0;
-    color: white;
-}
-
-.btn-round:hover {
-    background-color: lightgray;
-    border-radius: 14px;
-    border-width: 0;
-}
-
-.btn-round:active {
-    color: white;
-    background-color: dimgray;
-}
-
-.btn-primary {
-    transition: all 0.2s;
-    background-color: dodgerblue;
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: royalblue;
-}
-
-.btn-primary:active {
-    background-color: darkblue;
-}
-
-/*
 컴포넌트 별 세팅
  */
-
-.label {
-    padding-left: 12px;
-    padding-right: 12px;
-    -unity-text-align: middle-center;
-    -unity-font-style: normal;
-}
 
 .label-title {
     padding-left: 12px;
@@ -71,7 +26,7 @@ Buttons
 }
 
 .root {
-    transition: all 1s;
+    /*transition: all 1s;*/
     width: 660px;
     height: 460px;
     background-color: rgb(221, 160, 160);
@@ -86,66 +41,47 @@ Buttons
 }
 
 /*
-스위치 토글
- */
-.switch-toggle {
-    transition: all 0.6s;
-    width: 80px;
-    height: 36px;
-    background-color: dimgray;
-    border-radius: 18px;
-}
-
-.switch-toggle:checked {
-    background-color: royalblue;
-}
-
-.switch-toggle .unity-label {
-    opacity: 0;
-    width: 0;
-    height: 0;
-    min-height: 0;
-    min-width: 0;
-    max-height: 0;
-    max-width: 0;
-    display: none;
-}
-
-.switch-toggle .unity-toggle__input {
-    transition: all 0.2s;
-    width: 28px;
-    max-width: 28px;
-    min-width: 28px;
-    margin: 4px;
-    border-radius: 16px;
-    background-color: antiquewhite;
-    translate: 0 0;
-}
-
-.switch-toggle:checked .unity-toggle__input {
-    translate: 44px 0;
-}
-
-.switch-toggle .unity-toggle__checkmark {
-    display: none;
-}
-
-.unity-label {
-    font-size: 12px;
-    color: rgb(75, 69, 83);
-    -unity-text-align: middle-left;
-    -unity-font-style: normal;
-}
-
-/*
 블렌딩
  */
 
 .blending {
-    transition: all 1s;
+    /*transition: all 1s;*/
     opacity: 1;
 }
 
 .blending:disabled {
     opacity: 0;
+}
+
+.unity-label {
+    color: rgb(75, 69, 83);
+}
+
+.unity-toggle {
+    justify-content: space-between;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.unity-toggle .unity-toggle__input {
+    max-width: 20px;
+}
+
+.unity-text-field {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+#right .unity-button {
+    min-width: 80px;
+    min-height: 24px;
+}
+
+#column-header .unity-label {
+    font-size: 13px;
+    -unity-font-style: bold;
+}
+
+#title {
+    padding-bottom: 0;
 }

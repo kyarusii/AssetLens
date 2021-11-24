@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
 namespace AssetLens.UI
@@ -17,7 +18,11 @@ namespace AssetLens.UI
 		private VisualElement buttons;
 		
 		private Toggle enabled;
+#if UNITY_2021_1_OR_NEWER
 		private DropdownField localization;
+#else
+		private TextField localization;
+#endif
 
 		#region Options Field
 
@@ -73,6 +78,22 @@ namespace AssetLens.UI
 		protected override void Constructor()
 		{
 			LoadLayout("SettingInspector");
+			
+			Assert.IsNotNull(root);
+			
+			LoadStylesheet("SettingInspector");
+			
+			string path = FileSystem.ComponentDirectory  + "SwitchToggle.uss";
+			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+			root.styleSheets.Add(styleSheet);
+			
+			path = FileSystem.ComponentDirectory  + "RoundSquareButton.uss";
+			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+			root.styleSheets.Add(styleSheet);
+			
+			path = FileSystem.ComponentDirectory  + "Header.uss";
+			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+			root.styleSheets.Add(styleSheet);
 
 			options = root.Q<VisualElement>("options");
 			buttons = root.Q<VisualElement>("buttons");
@@ -86,7 +107,11 @@ namespace AssetLens.UI
 			InspectorGroup.AddToClassList("group");
 
 			enabled = new Toggle();
+#if UNITY_2021_1_OR_NEWER
 			localization = new DropdownField();
+#else
+			localization = new TextField();
+#endif
 
 			InitOptions();
 			InitButtons();
@@ -201,7 +226,10 @@ namespace AssetLens.UI
 			/*
 			 * Init
 			 */
-			localization.choices = Setting.GetLanguageChoices();
+			// localization.choices = Setting.GetLanguageChoices();
+			// localization.SetChoices(Setting.GetLanguageChoices());
+			
+			
 
 			/*
 			 * Callbacks
@@ -263,7 +291,11 @@ namespace AssetLens.UI
 		
 		private void OnLanguageChange(ChangeEvent<string> evt)
 		{
-			if (localization.choices.Contains(evt.newValue))
+#if UNITY_2021_1_OR_NEWER
+			if (localization.GetChoices().Contains(evt.newValue))
+#else
+			if (Setting.GetLanguageChoices().Contains(localization.value))
+#endif
 			{
 				Setting.Localization = evt.newValue;
 				L.Inst = Setting.LoadLocalization;

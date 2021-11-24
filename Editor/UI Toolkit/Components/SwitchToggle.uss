@@ -4,7 +4,7 @@
 }
 
 .unity-toggle .unity-toggle__input {
-    transition: all 0.6s;
+    /*transition: all 0.6s;*/
     width: 40px;
     height: 20px;
     min-width: 40px;
@@ -17,10 +17,13 @@
 
 .unity-toggle:checked .unity-toggle__input {
     background-color: royalblue;
+    
+    /* ~2020.3 */
+    flex-direction: column-reverse;
 }
 
 .unity-toggle .unity-toggle__checkmark {
-    transition: all 0.6s;
+    /*transition: all 0.6s;*/
     width: 16px;
     max-width: 16px;
     min-width: 16px;
@@ -29,10 +32,14 @@
     border-radius: 2px;
     background-color: antiquewhite;
     background-image: none;
-    translate: 0 0;
-    transition-timing-function: ease-out-bounce;
+    /*translate: 0 0;*/
+    /*transition-timing-function: ease-out-bounce;*/
 }
 
 .unity-toggle:checked .unity-toggle__checkmark {
-    translate: 20px 0;
+    /*translate: 20px 0;*/
+}
+
+.unity-toggle:checked {
+    
 }
