@@ -247,7 +247,7 @@ namespace AssetLens.UI
 			 */
 			openIndexWizard.text = L.Inst.OpenIndexWizard;
 			resetSetting.text = L.Inst.ResetSetting;
-			cleanupCache.text = L.Inst.CleanCachedIndicies;
+			cleanupCache.text = L.Inst.CleanCachedIndices;
 			uninstallPackage.text = L.Inst.UninstallPackage;
 			
 			/*
