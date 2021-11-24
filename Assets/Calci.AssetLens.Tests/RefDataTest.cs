@@ -29,7 +29,7 @@ namespace AssetLens.Tests
         [Test]
         public void SampleAssetIndexedCheck()
         {
-            AssetLensCache.CleanupAssets();
+            AssetLensCache.CleanupCaches();
             AssetLensCache.IndexAssets();
             
             const string materialPath = "Assets/Content/Materials/MAT_Green.mat";

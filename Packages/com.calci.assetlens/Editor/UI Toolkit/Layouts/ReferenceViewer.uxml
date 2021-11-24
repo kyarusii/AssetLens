@@ -1,0 +1,33 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Stylesheets/ReferenceViewer.uss?fileID=7433441132597879392&amp;guid=3638da1b0ab74674b9b4a67d928927af&amp;type=3#ReferenceViewer" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/SwitchToggle.uss?fileID=7433441132597879392&amp;guid=7c390d666cc3d3b40a39b9b26febbbd2&amp;type=3#SwitchToggle" />
+    <Style src="project://database/Packages/com.calci.assetlens/Editor/UI%20Toolkit/Components/TopBar.uss?fileID=7433441132597879392&amp;guid=980ba0d854994fb438f65d175798dbac&amp;type=3#TopBar" />
+    <ui:VisualElement name="root" class="root">
+        <ui:VisualElement name="top" style="flex-direction: row;">
+            <ui:VisualElement name="ci" style="min-width: 50%; padding-top: 4px; padding-bottom: 4px;">
+                <ui:Label text="Asset Lens" display-tooltip-when-elided="true" name="ci-label" style="font-size: 18px; -unity-font-style: bold; margin-left: 12px; margin-right: 12px; margin-top: 12px; margin-bottom: 12px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="min-width: 50%; align-items: flex-end;">
+                <AssetLens.UI.Component.TopBar name="top-bar" />
+                <ui:Toggle name="lock-toggle" label="lock-toggle" class="right" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="selection-container" class="selection-container">
+            <uie:ObjectField name="selection-field" label="Selected" allow-scene-objects="false" />
+            <ui:HelpBox name="no-selection-helpbox" text="no-selection-helpbox" message-type="Info" />
+            <ui:VisualElement name="selection-info" class="dark-container">
+                <ui:Label text="version-info" display-tooltip-when-elided="true" name="version-info" />
+                <ui:Label text="modification-info" display-tooltip-when-elided="true" name="modification-info" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="dependency-container" class="container">
+            <ui:Label name="dependencies-label" class="title-label" />
+            <ui:ScrollView name="dependencies-container" class="list-container" />
+        </ui:VisualElement>
+        <ui:VisualElement name="usage-container" class="container">
+            <ui:Label name="used-by-label" class="title-label" />
+            <ui:ScrollView name="used-by-container" class="list-container" />
+        </ui:VisualElement>
+        <ui:VisualElement name="feature-buttons" />
+    </ui:VisualElement>
+</ui:UXML>

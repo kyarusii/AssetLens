@@ -1,0 +1,70 @@
+.window-header {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    height: 24px;
+}
+
+.right {
+    align-items: flex-end;
+}
+
+.title-label {
+    -unity-font-style: bold;
+    font-size: 12px;
+    margin: 10px;
+}
+
+.reference-view-container {
+    height: 22px;
+    width: auto;
+}
+
+.reference-view-image {
+    width: 16px;
+    height: 16px;
+}
+
+.reference-view-button {
+    width: auto;
+    display: flex;
+    -unity-text-align: middle-left;
+    height: 20px;
+}
+
+.default-asset-view {
+}
+
+.list-container {
+    min-height: 60px;
+    max-height: 150px;
+}
+
+.dark-container {
+    background-color: dimgrey;
+    margin: 4px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.dark-container .unity-label {
+    color: white;
+}
+
+.selection-container {
+}
+
+.unity-object-field {
+    margin: 4px;
+}
+
+.top-bar:disabled {
+    display: none;
+}
+
+.root {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.container {
+}

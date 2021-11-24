@@ -3,19 +3,19 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
-using UnityEditor.Build;
 using UnityEditor.Compilation;
 using UnityEngine;
 
 namespace AssetLens.Reference
 {
-#if DEBUG_ASSETLENS
 	internal class ReferenceDevelopmentMenu
 	{
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Add New Language")]
+#endif
 		private static void CreateLocalizeProfile()
 		{
-			Localize ctx = new Localize();
+			L ctx = new L();
 
 			string json = JsonUtility.ToJson(ctx, true);
 			string selectedPath = EditorUtility.SaveFilePanel("Create Localization",
@@ -29,10 +29,12 @@ namespace AssetLens.Reference
 			}
 		}
 
+#if DEBUG_ASSETLENS
 		/// <summary>
 		/// Localize 클래스의 필드에 따라 값이 없는 데이터만 밀어 넣어줍니다.
 		/// </summary>
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Update Language profiles")]
+#endif
 		private static void UpdateLocalizeContext()
 		{
 			string languagesRoot = FileSystem.PackageDirectory + "/Languages";
@@ -41,7 +43,7 @@ namespace AssetLens.Reference
 			foreach (string file in files)
 			{
 				string json = File.ReadAllText(file);
-				Localize obj = JsonUtility.FromJson<Localize>(json);
+				L obj = JsonUtility.FromJson<L>(json);
 
 				json = JsonUtility.ToJson(obj, true);
 
@@ -49,7 +51,9 @@ namespace AssetLens.Reference
 			}
 		}
 
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Find Assets In Packages")]
+#endif
 		private static void FindAssetsInPackages()
 		{
 			IEnumerable<string> assets = AssetDatabase.FindAssets("", new[] { "Packages" })
@@ -63,21 +67,26 @@ namespace AssetLens.Reference
 				Debug.Log(asset);
 			}
 		}
-		
+#if DEBUG_ASSETLENS	
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Index Include Packages")]
+#endif
 		private static void IndexingIncludePackages()
 		{
 			var indexAssets = AssetLensCache.IndexAssetsAsync();
 		}
 
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Get Version")]
+#endif
 		private static async void GetVersion()
 		{
 			string result = await PackageSystem.GetVersion();
 			Debug.Log(result);
 		}
 
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Try Parse Selection")]
+#endif
 		private static async void TryParseGuids()
 		{
 			Object target = Selection.activeObject;
@@ -92,8 +101,10 @@ namespace AssetLens.Reference
 				Debug.Log($"{AssetDatabase.GUIDToAssetPath(guid)}, {guid}");
 			}
 		}
-		
+	
+#if DEBUG_ASSETLENS
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Try Parse Selection 2")]
+#endif
 		private static async void TryParseGuids2()
 		{
 			HashSet<string> owningGuids = new HashSet<string>();
@@ -119,8 +130,9 @@ namespace AssetLens.Reference
 				Debug.Log($"{AssetDatabase.GUIDToAssetPath(guid)}, {guid}");
 			}
 		}
-		
+#if DEBUG_ASSETLENS	
 		[MenuItem(ReferenceMenuName.TOOL + "_DEV/Exit Debug Mode", false, 120)]
+#endif
 		private static void ExitDebugMode()
 		{
 			BuildTargetGroup currentBuildTarget = EditorUserBuildSettings.selectedBuildTargetGroup;
@@ -131,8 +143,11 @@ namespace AssetLens.Reference
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(currentBuildTarget, symbols);
 			
 			AssetDatabase.SaveAssets();
+#if UNITY_2021_1_OR_NEWER
 			CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.None);
+#else
+			CompilationPipeline.RequestScriptCompilation();
+#endif
 		}
 	}
-#endif
 }

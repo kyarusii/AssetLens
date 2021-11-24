@@ -4,13 +4,13 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace AssetLens.Reference
 {
 	internal static class AssetLensCache
 	{
+		internal const string CacheSearchPattern = "*.ref";
 		internal static async Task IndexAssetsAsync(uint version = Setting.INDEX_VERSION, bool indexCustomPackages = true, int taskCount = 20)
 		{
 			Stopwatch stopwatch = new Stopwatch();
@@ -43,7 +43,7 @@ namespace AssetLens.Reference
 
 			string msg = await ReadWork(taskCount);
 
-			Debug.Log(msg);
+			AssetLensConsole.Verbose(R.L(msg));
 			
 			ReferenceSerializer.SetLocalVersion((int)Setting.INDEX_VERSION);
 
@@ -62,7 +62,7 @@ namespace AssetLens.Reference
 
 				while (fileMap.Keys.Count != allCount)
 				{
-					EditorUtility.DisplayProgressBar(Localize.Inst.processing_title,
+					EditorUtility.DisplayProgressBar(L.Inst.processing_title,
 						$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
 
 					// refresh rate
@@ -159,7 +159,7 @@ namespace AssetLens.Reference
 		{
 			await Task.Delay(10);
 
-			string[] cacheFiles = Directory.GetFiles(FileSystem.ReferenceCacheDirectory, "*.ref");
+			string[] cacheFiles = GetIndexedFiles();
 			foreach (string cacheFile in cacheFiles)
 			{
 				File.Delete(cacheFile);
@@ -309,7 +309,7 @@ namespace AssetLens.Reference
 			}
 		}
 
-		internal static int CleanupAssets()
+		internal static int CleanupCaches()
 		{
 			string[] cacheFiles = Directory.GetFiles(FileSystem.ReferenceCacheDirectory, "*.ref");
 			foreach (string cacheFile in cacheFiles)
@@ -318,6 +318,11 @@ namespace AssetLens.Reference
 			}
 			
 			return cacheFiles.Length;
+		}
+
+		internal static string[] GetIndexedFiles()
+		{
+			return Directory.GetFiles(FileSystem.ReferenceCacheDirectory, CacheSearchPattern);
 		}
 	}
 }

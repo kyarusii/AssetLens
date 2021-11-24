@@ -13,11 +13,23 @@ MonoBehaviour:
   m_Name: AssetLens Setting
   m_EditorClassIdentifier: 
   enabled: 1
-  pauseInPlaymode: 1
-  useEditorUtilityWhenSearchDependencies: 0
-  displayIndexerVersion: 1
   localization: English
-  useUIElementsWindow: 0
-  autoUpgradeCachedData: 0
-  traceSceneObject: 0
-  displaySceneObjectInstanceId: 1
+  IndexByGuidRegEx: 1
+  IndexSceneObject: 1
+  IndexPackageSubDir: 1
+  ViewSceneObject: 1
+  ViewInPlayMode: 1
+  ViewIndexerVersion: 1
+  ViewObjectFocusMethod: 1
+  InspectorLensEnable: 1
+  InspectorHideWithNoLink: 1
+  InspectorDrawObjectInstanceId: 1
+  DataAutoUpdate: 1
+  DataOverrideIndexer: 0
+  DataOverrideIndexerVersion: 206
+  SafeDeleteEnabled: 1
+  SafeDeleteOpenReferenceReplacer: 1
+  SafeDeleteSaveHistory: 1
+  RefReplacerDisplayLog: 1
+  SuccessColorCode: '#50FF00FF'
+  ErrorColorCode: '#FF5000FF'

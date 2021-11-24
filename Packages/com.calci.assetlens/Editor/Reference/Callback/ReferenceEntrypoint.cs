@@ -1,54 +1,45 @@
-﻿using System.IO;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace AssetLens.Reference
 {
+	using UI;
+	
 	internal static class ReferenceEntrypoint
 	{
 		[InitializeOnLoadMethod]
-		private static async void InitializeOnLoadMethod()
+		private static void InitializeOnLoadMethod()
 		{
-			string key = $"{Application.productName}.AssetLens.InitCheck";
-			if (!SessionState.GetBool(key, false))
+			// this allows that EditorWindow is not closed by initializing editor layouts on project startup.
+			EditorApplication.delayCall += DelayedCall;
+		}
+		
+		private static void DelayedCall()
+		{
+			// Configuration 확인
+			string configKey = $"{Application.productName}.AssetLens.Configuration.Session";
+			if (!SessionState.GetBool(configKey, false))
 			{
-				// when there is no directory for cached object.
-				DirectoryInfo rootDirectory = new DirectoryInfo(FileSystem.ReferenceCacheDirectory);
-				if (!rootDirectory.Exists)
-				{ 
-					rootDirectory.Create();
+				SessionState.SetBool(configKey, true);
 
-					// force re-indexing
-					if (ReferenceSerializer.HasLocalVersion())
-					{
-						int version = ReferenceSerializer.GetLocalVersion();
-						if (version < 100)
-						{
-							if (EditorUtility.DisplayDialog(
-								Localize.Inst.dialog_titleContent,
-								Localize.Inst.dialog_indexedAssetExpired,
-								Localize.Inst.dialog_enablePlugin,
-								Localize.Inst.dialog_disablePlugin))
-							{
-								await AssetLensCache.CleanUpAssetsAsync();
-								await AssetLensCache.IndexAssetsAsync();
-						
-								Setting.IsEnabled = true;
-							}
-							else
-							{
-								Setting.IsEnabled = false;
-							}
-						}
-					
-						return;
-					}
-
-					// first indexing
-					await ReferenceDialog.OpenIndexAllAssetDialog();
+				if (!Setting.HasRootDir())
+				{
+					Setting.CreateRootDir();
 				}
 				
-				SessionState.SetBool(key, true);
+				// 세팅 루트 디렉터리가 없거나 꺼져있다면 마법사 열기
+				if (!Setting.IsEnabled)
+				{
+					AssetLensIndexWizard.Open();
+					return;
+				}
+
+				// 에디터 시작시 열지 확인
+				string startUpKey = $"{Application.productName}.AssetLens.Configuration.ShowOnStartUp";
+				if (EditorPrefs.GetBool(startUpKey, true))
+				{
+					AssetLensIndexWizard.Open();
+				}
 			}
 		}
 	}
