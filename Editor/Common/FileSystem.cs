@@ -18,6 +18,7 @@ namespace AssetLens
 		internal const string LayoutDirectory = UIToolkitDir + "Layouts/";
 		internal const string StylesheetDirectory = UIToolkitDir + "Stylesheets/";
 		internal const string ComponentDirectory = UIToolkitDir + "Components/";
-
+		
+		internal const string LocalStylesheetDirectory = SettingDirectory + "/Stylesheets/";
 	}
 }

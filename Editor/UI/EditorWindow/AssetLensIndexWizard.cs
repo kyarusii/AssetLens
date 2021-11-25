@@ -138,11 +138,12 @@ namespace AssetLens.UI
 			initTime = EditorApplication.timeSinceStartup;
 
 			LoadLayout("IndexWizard");
+			root.AddStylesheet("IndexWizard");
 			
 #if UNITY_2021_2_OR_NEWER
-			LoadStylesheet("2021.2/IndexWizard");
+			// LoadStylesheet("2021.2/IndexWizard");
 #else
-			LoadStylesheet("IndexWizard");
+			// LoadStylesheet("IndexWizard");
 #endif
 			
 			root.AddTopBar();

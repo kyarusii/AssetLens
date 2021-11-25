@@ -218,8 +218,10 @@ namespace AssetLens.UI
 			 */
 			// localization.choices = Setting.GetLanguageChoices();
 			// localization.SetChoices(Setting.GetLanguageChoices());
-			
+
+#if UNITY_2021_1_OR_NEWER
 			localization.SetChoices(Setting.GetLanguageChoices());
+#endif
 
 			/*
 			 * Callbacks
