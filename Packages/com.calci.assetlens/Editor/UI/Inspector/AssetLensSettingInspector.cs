@@ -81,18 +81,10 @@ namespace AssetLens.UI
 			
 			LoadStylesheet("SettingInspector");
 			
-			string path = FileSystem.ComponentDirectory  + "SwitchToggle.uss";
-			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-			root.styleSheets.Add(styleSheet);
+			root.AddSquareRoundButton();
+			root.AddHeader();
+			root.AddSwitchToggle();
 			
-			path = FileSystem.ComponentDirectory  + "RoundSquareButton.uss";
-			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-			root.styleSheets.Add(styleSheet);
-			
-			path = FileSystem.ComponentDirectory  + "Header.uss";
-			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-			root.styleSheets.Add(styleSheet);
-
 			options = root.Q<VisualElement>("options");
 			buttons = root.Q<VisualElement>("buttons");
 
@@ -226,8 +218,10 @@ namespace AssetLens.UI
 			 */
 			// localization.choices = Setting.GetLanguageChoices();
 			// localization.SetChoices(Setting.GetLanguageChoices());
-			
+
+#if UNITY_2021_1_OR_NEWER
 			localization.SetChoices(Setting.GetLanguageChoices());
+#endif
 
 			/*
 			 * Callbacks

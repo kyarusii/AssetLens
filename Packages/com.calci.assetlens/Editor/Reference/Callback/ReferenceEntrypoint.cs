@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace AssetLens.Reference
@@ -15,6 +16,36 @@ namespace AssetLens.Reference
 		}
 		
 		private static void DelayedCall()
+		{
+#if UNITY_2021_2_OR_NEWER
+			HandleTransitionUSS();
+#endif
+			HandleIndexWizard();
+		}
+
+		private static void HandleTransitionUSS()
+		{
+			var dir = FileSystem.StylesheetDirectory + "2021.2~";
+			var fullPath = Path.GetFullPath(dir);
+			var files = Directory.GetFiles(fullPath);
+
+			var root = "Assets/Editor Default Resources/Stylesheets";
+			if (!Directory.Exists(root))
+			{
+				Directory.CreateDirectory(root);
+			}
+
+			foreach (string file in files)
+			{
+				var fi = new FileInfo(file);
+				fi.CopyTo(root + "/" + fi.Name, true);
+			}
+
+			AssetDatabase.ImportAsset(root);
+			AssetDatabase.Refresh();
+		}
+
+		private static void HandleIndexWizard()
 		{
 			// Configuration 확인
 			string configKey = $"{Application.productName}.AssetLens.Configuration.Session";
@@ -40,7 +71,7 @@ namespace AssetLens.Reference
 				{
 					AssetLensIndexWizard.Open();
 				}
-			}
+			}			
 		}
 	}
 }

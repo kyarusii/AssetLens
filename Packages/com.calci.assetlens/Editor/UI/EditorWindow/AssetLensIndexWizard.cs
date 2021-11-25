@@ -138,19 +138,17 @@ namespace AssetLens.UI
 			initTime = EditorApplication.timeSinceStartup;
 
 			LoadLayout("IndexWizard");
-			LoadStylesheet("IndexWizard");
-
-			string path = FileSystem.ComponentDirectory + "TopBar.uss";
-			StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-			root.styleSheets.Add(styleSheet);
-
-			path = FileSystem.ComponentDirectory + "Header.uss";
-			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-			root.styleSheets.Add(styleSheet);
+			root.AddStylesheet("IndexWizard");
 			
-			path = FileSystem.ComponentDirectory + "RoundSquareButton.uss";
-			styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-			root.styleSheets.Add(styleSheet);
+#if UNITY_2021_2_OR_NEWER
+			// LoadStylesheet("2021.2/IndexWizard");
+#else
+			// LoadStylesheet("IndexWizard");
+#endif
+			
+			root.AddTopBar();
+			root.AddHeader();
+			root.AddSquareRoundButton();
 
 			QueryElements();
 			ConfigureElements();

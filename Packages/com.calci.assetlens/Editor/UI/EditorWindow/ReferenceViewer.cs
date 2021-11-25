@@ -47,13 +47,8 @@ namespace AssetLens.UI
             LoadLayout("ReferenceViewer");
             LoadStylesheet("ReferenceViewer");
             
-            string path = FileSystem.ComponentDirectory + "TopBar.uss";
-            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-            root.styleSheets.Add(styleSheet);
-            
-            path = FileSystem.ComponentDirectory + "Header.uss";
-            styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
-            root.styleSheets.Add(styleSheet);
+            root.AddHeader();
+            root.AddTopBar();
             
             QueryElements();
             InitElements();
