@@ -17,7 +17,9 @@ namespace AssetLens.Reference
 		
 		private static void DelayedCall()
 		{
+#if DEBUG_ASSETLENS
 			HandleTransitionUSS();
+#endif
 			HandleIndexWizard();
 		}
 
