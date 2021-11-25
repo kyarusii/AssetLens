@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace AssetLens.Reference
@@ -15,6 +16,23 @@ namespace AssetLens.Reference
 		}
 		
 		private static void DelayedCall()
+		{
+			HandleTransitionUSS();
+			HandleIndexWizard();
+		}
+
+		private static void HandleTransitionUSS()
+		{
+			var packageCacheDir = Application.dataPath.Replace("Assets", "Library/PackageCache");
+			var directories =  Directory.GetDirectories(packageCacheDir, "com.calci.assetlens*");
+
+			foreach (string directory in directories)
+			{
+				Debug.Log(directory);
+			}
+		}
+
+		private static void HandleIndexWizard()
 		{
 			// Configuration 확인
 			string configKey = $"{Application.productName}.AssetLens.Configuration.Session";
@@ -40,7 +58,7 @@ namespace AssetLens.Reference
 				{
 					AssetLensIndexWizard.Open();
 				}
-			}
+			}			
 		}
 	}
 }
