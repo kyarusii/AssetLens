@@ -27,7 +27,7 @@ namespace AssetLens.UI
 		{
 #if UNITY_2021_2_OR_NEWER
 			// transitions
-			var path = FileSystem.StylesheetDirectory  + $"2021.2/{name}.uss";
+			var path = FileSystem.LocalStylesheetDirectory  + $"{name}.uss";
 			
 			if (File.Exists(Path.GetFullPath(path)))
 			{

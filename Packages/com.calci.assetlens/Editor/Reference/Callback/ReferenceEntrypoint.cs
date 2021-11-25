@@ -17,7 +17,7 @@ namespace AssetLens.Reference
 		
 		private static void DelayedCall()
 		{
-#if DEBUG_ASSETLENS
+#if UNITY_2021_2_OR_NEWER
 			HandleTransitionUSS();
 #endif
 			HandleIndexWizard();
@@ -25,13 +25,24 @@ namespace AssetLens.Reference
 
 		private static void HandleTransitionUSS()
 		{
-			var packageCacheDir = Application.dataPath.Replace("Assets", "Library/PackageCache");
-			var directories =  Directory.GetDirectories(packageCacheDir, "com.calci.assetlens*");
+			var dir = FileSystem.StylesheetDirectory + "2021.2~";
+			var fullPath = Path.GetFullPath(dir);
+			var files = Directory.GetFiles(fullPath);
 
-			foreach (string directory in directories)
+			var root = "Assets/Editor Default Resources/Stylesheets";
+			if (!Directory.Exists(root))
 			{
-				Debug.Log(directory);
+				Directory.CreateDirectory(root);
 			}
+
+			foreach (string file in files)
+			{
+				var fi = new FileInfo(file);
+				fi.CopyTo(root + "/" + fi.Name, true);
+			}
+
+			AssetDatabase.ImportAsset(root);
+			AssetDatabase.Refresh();
 		}
 
 		private static void HandleIndexWizard()
