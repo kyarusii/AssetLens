@@ -35,7 +35,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 [![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
 
 Replace stable version at version definition in json `x.x.x`  
-example) `"com.calci.assetlens": "0.3.0"`  
+example) `"com.calci.assetlens": "0.4.2"`  
 ```json
 {
     "dependencies": {
@@ -71,9 +71,9 @@ openupm add com.calci.assetlens
 - Select an asset you want to know which asset references it and run `Find References In Project` context menu.  
 
 ## Fundamentals
-- Create a cache file per a asset file, see also [RefData.cs](Packages/com.calci.assetlens/Editor/Reference/Model/RefData.cs)
-- Detect asset changes from `AssetPostprocessor`, see also [AssetLensPostprocessor.cs](Packages/com.calci.assetlens/Editor/Reference/Callback/ReferencePostprocessor.cs)
-- Detect an attempt to delete an asset from `AssetModificationProcessor`, see also [AssetLensModification.cs](Packages/com.calci.assetlens/Editor/Reference/Callback/ReferenceModification.cs)
+- Create a cache file per a asset file, see also [RefData.cs]
+- Detect asset changes from `AssetPostprocessor`, see also [AssetLensPostprocessor.cs]
+- Detect an attempt to delete an asset from `AssetModificationProcessor`, see also [AssetLensModification.cs]
 
 ## Features
 - Display asset usage count in inspector.
@@ -135,3 +135,7 @@ Select menu in `Help/Asset Lens/Enter Debug Mode` or Add an scripting define sym
 
 ### Tests
 must be passed test in 2019.4, 2020.3, 2021.1, 2021.2
+
+[RefData.cs]: https://github.com/seonghwan-dev/AssetLens/blob/main/Packages/com.calci.assetlens/Editor/Reference/Model/RefData.cs
+[AssetLensPostprocessor.cs]: https://github.com/seonghwan-dev/AssetLens/blob/main/Packages/com.calci.assetlens/Editor/Reference/Callback/ReferencePostprocessor.cs
+[AssetLensModification.cs]: https://github.com/seonghwan-dev/AssetLens/blob/main/Packages/com.calci.assetlens/Editor/Reference/Callback/ReferenceModification.cs
