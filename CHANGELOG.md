@@ -1,3 +1,11 @@
+## 0.4.2 (2021-11-25)
+
+### Fix
+
+- Local Stylesheets in 2021.2
+- comment out wip function
+- transition in 2021.2
+
 ## 0.4.1 (2021-11-24)
 
 ### Fix
