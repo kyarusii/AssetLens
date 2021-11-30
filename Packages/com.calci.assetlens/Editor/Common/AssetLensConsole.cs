@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
+using Object = UnityEngine.Object;
 
 namespace AssetLens
 {
@@ -14,6 +15,7 @@ namespace AssetLens
 			Log += Debug.Log;
 #endif
 			Verbose += Debug.Log;
+			Ping += Debug.Log;
 		}
 
 #if DEBUG_ASSETLENS
@@ -26,6 +28,7 @@ namespace AssetLens
 #endif
 		
 		public static Action<string> Verbose = delegate(string msg) {  };
+		public static Action<string, UnityEngine.Object> Ping = delegate(string s, Object o) {  };
 	}
 
 	internal static class R

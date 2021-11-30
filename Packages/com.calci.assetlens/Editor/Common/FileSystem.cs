@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 namespace AssetLens
 {
@@ -20,5 +22,17 @@ namespace AssetLens
 		internal const string ComponentDirectory = UIToolkitDir + "Components/";
 		
 		internal const string LocalStylesheetDirectory = SettingDirectory + "/Stylesheets/";
+
+#if DEBUG_ASSETLENS
+		[MenuItem("Tools/Asset Lens_DEV/Open/Cache Directory")]
+#endif
+		internal static void OpenCaheDirectory()
+		{
+			// 탐색기 열어서 선택해줌
+			// EditorUtility.RevealInFinder(ReferenceCacheDirectory);
+			
+			// 탐색기로 열어줌
+			Application.OpenURL($"file://{Path.GetFullPath(ReferenceCacheDirectory)}");
+		}
 	}
 }

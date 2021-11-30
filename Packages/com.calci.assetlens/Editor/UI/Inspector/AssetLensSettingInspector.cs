@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
 namespace AssetLens.UI
@@ -30,6 +29,7 @@ namespace AssetLens.UI
 		private Label indexOptionHeader;
 		private Label viewOptionHeader;
 		private Label inspectorOptionHeader;
+		private Label LogOptionHeader;
 
 		private VisualElement IndexGroup;
 		private Toggle IndexByGuidRegEx;
@@ -46,6 +46,10 @@ namespace AssetLens.UI
 		private Toggle InspectorLensEnable;
 		private Toggle InspectorHideWithNoLink;
 		private Toggle InspectorDrawObjectInstanceId;
+		
+		private VisualElement LogGroup;
+		private Toggle LogReferenceAdd;
+		private Toggle LogReferenceRemove;
 		
 		#endregion
 
@@ -91,10 +95,12 @@ namespace AssetLens.UI
 			IndexGroup = new VisualElement();
 			ViewGroup = new VisualElement();
 			InspectorGroup = new VisualElement();
+			LogGroup = new VisualElement();
 			
 			IndexGroup.AddToClassList("group");
 			ViewGroup.AddToClassList("group");
 			InspectorGroup.AddToClassList("group");
+			LogGroup.AddToClassList("group");
 
 			enabled = new Toggle();
 #if UNITY_2021_1_OR_NEWER
@@ -122,6 +128,7 @@ namespace AssetLens.UI
 			indexOptionHeader = new Label();
 			viewOptionHeader = new Label();
 			inspectorOptionHeader = new Label();
+			LogOptionHeader = new Label();
 
 			// indexOptionHeader.value = true;
 			// viewOptionHeader.value = true;
@@ -139,6 +146,9 @@ namespace AssetLens.UI
 			InspectorLensEnable = new Toggle();
 			InspectorHideWithNoLink = new Toggle();
 			InspectorDrawObjectInstanceId = new Toggle();
+
+			LogReferenceAdd = new Toggle();
+			LogReferenceRemove = new Toggle();
 			
 			/*
 			 * Bind
@@ -159,6 +169,9 @@ namespace AssetLens.UI
 			InspectorHideWithNoLink.Bind(serializedObject);
 			InspectorDrawObjectInstanceId.Bind(serializedObject);
 			
+			LogReferenceAdd.Bind(serializedObject);
+			LogReferenceRemove.Bind(serializedObject);
+			
 			/*
 			 * Binding Path
 			 */
@@ -178,6 +191,9 @@ namespace AssetLens.UI
 			InspectorLensEnable.bindingPath = nameof(InspectorLensEnable);
 			InspectorHideWithNoLink.bindingPath = nameof(InspectorHideWithNoLink);
 			InspectorDrawObjectInstanceId.bindingPath = nameof(InspectorDrawObjectInstanceId);
+			
+			LogReferenceAdd.bindingPath = nameof(LogReferenceAdd);
+			LogReferenceRemove.bindingPath = nameof(LogReferenceRemove);
 			
 			/*
 			 * Add
@@ -208,10 +224,17 @@ namespace AssetLens.UI
 			InspectorGroup.Add(InspectorHideWithNoLink);
 			InspectorGroup.Add(InspectorDrawObjectInstanceId);
 			
+			options.Add(LogOptionHeader);
+			options.Add(LogGroup);
+			
+			LogGroup.Add(LogReferenceAdd);
+			LogGroup.Add(LogReferenceRemove);
+			
 			globalOptionHeader.AddToClassList("header-1");
 			indexOptionHeader.AddToClassList("header-2");
 			viewOptionHeader.AddToClassList("header-2");
 			inspectorOptionHeader.AddToClassList("header-2");
+			LogOptionHeader.AddToClassList("header-2");
 
 			/*
 			 * Init
@@ -245,6 +268,7 @@ namespace AssetLens.UI
 			indexOptionHeader.text = L.Inst.IndexOptionLabel;
 			viewOptionHeader.text = L.Inst.ViewOptionLabel;
 			inspectorOptionHeader.text = L.Inst.InspectorOptionLabel;
+			LogOptionHeader.text = L.Inst.LogOptionLabel;
 
 			/*
 			 * Options
@@ -261,6 +285,9 @@ namespace AssetLens.UI
 			InspectorLensEnable.label = L.Inst.InspectorLensEnableLabel;
 			InspectorHideWithNoLink.label = L.Inst.InspectorHideWithNoLinkLabel;
 			InspectorDrawObjectInstanceId.label = L.Inst.InspectorDrawObjectInstanceIdLabel;
+
+			LogReferenceAdd.label = L.Inst.LogReferenceAdd;
+			LogReferenceRemove.label = L.Inst.LogReferenceRemove;
 			
 			/*
 			 * Buttons
