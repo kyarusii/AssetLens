@@ -300,9 +300,11 @@ namespace AssetLens.Reference
 					lostRefAsset.referedByGuids.Remove(guid);
 					lostRefAsset.Save();
 
-					string assetPath = AssetDatabase.GUIDToAssetPath(previous);
-
-					Debug.Log("레퍼런스 삭제", AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+					if (Setting.Inst.LogReferenceRemove)
+					{
+						string assetPath = AssetDatabase.GUIDToAssetPath(previous);
+						AssetLensConsole.Ping(R.L(L.Inst.LogReferenceRemoveMessage), AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+					}
 				}
 			}
 
@@ -315,8 +317,11 @@ namespace AssetLens.Reference
 					newRefAsset.referedByGuids.Add(guid);
 					newRefAsset.Save();
 
-					string assetPath = AssetDatabase.GUIDToAssetPath(current);
-					Debug.Log("레퍼런스 추가", AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+					if (Setting.Inst.LogReferenceAdd)
+					{
+						string assetPath = AssetDatabase.GUIDToAssetPath(current);
+						AssetLensConsole.Ping(R.L(L.Inst.LogReferenceAddMessage), AssetDatabase.LoadAssetAtPath<Object>(assetPath));
+					}
 				}
 			}
 

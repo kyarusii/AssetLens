@@ -128,6 +128,13 @@ namespace AssetLens.Reference
 		[Header("5. Ref Replacer")]
 		[HideInInspector] public bool RefReplacerDisplayLog = true;
 
+		#region Logging
+
+		[HideInInspector] public bool LogReferenceAdd = true;
+		[HideInInspector] public bool LogReferenceRemove = true;
+
+		#endregion
+
 		[Header("99. 개발자 옵션")]
 		[HideInInspector] public string SuccessColorCode = "#50FF00FF";
 		[HideInInspector] public string ErrorColorCode = "#FF5000FF";

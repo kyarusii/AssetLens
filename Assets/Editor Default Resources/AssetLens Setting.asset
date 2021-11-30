@@ -31,5 +31,7 @@ MonoBehaviour:
   SafeDeleteOpenReferenceReplacer: 1
   SafeDeleteSaveHistory: 1
   RefReplacerDisplayLog: 1
+  LogReferenceAdd: 1
+  LogReferenceRemove: 1
   SuccessColorCode: '#50FF00FF'
   ErrorColorCode: '#FF5000FF'
