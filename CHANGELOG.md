@@ -1,3 +1,10 @@
+## 0.4.3 (2021-11-30)
+
+### Fix
+
+- Add Logging Options
+- file system shortcut
+
 ## 0.4.2 (2021-11-25)
 
 ### Fix
