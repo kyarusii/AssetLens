@@ -116,6 +116,16 @@ namespace AssetLens
 		public string InspectorHideWithNoLinkLabel = "Don't draw when no dependency";
 		public string InspectorDrawObjectInstanceIdLabel = "Draw Instance ID";
 		
+		/*
+		 * Logging
+		 */
+
+		public string LogOptionLabel = "Logging Options";
+		public string LogReferenceAdd = "Print Reference Add Log";
+		public string LogReferenceRemove = "Print Reference Remove Log";
+		public string LogReferenceAddMessage = "Reference Added!";
+		public string LogReferenceRemoveMessage = "Reference Removed!";
+		
 		#endregion
 
 		public string IndexWizard_StatusConsoleLabel = "Plugin Status";
