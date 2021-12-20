@@ -13,6 +13,16 @@ namespace AssetLens.UI
 
     internal sealed class ReferenceViewer : AssetLensEditorWindow
     {
+        internal enum EDrawMode
+        {
+            NOT_SELECTED ,
+            
+            OBJECT ,
+            DIRECTORY,
+            
+            NOT_INITIALIZED ,
+        }
+        
         private TopBar topBar;
         
         private ObjectField selected = default;
@@ -41,6 +51,7 @@ namespace AssetLens.UI
         private bool needRebuild;
 
         private Object current;
+        private EDrawMode drawMode;
         
         protected override void Constructor()
         {
@@ -49,6 +60,7 @@ namespace AssetLens.UI
             
             root.AddHeader();
             root.AddTopBar();
+            // root.AddSwitchToggle();
             
             QueryElements();
             InitElements();
@@ -242,6 +254,17 @@ namespace AssetLens.UI
             {
                 return;
             }
+
+            if (!Setting.IsEnabled)
+            {
+                // @TODO :: 초기화 되지 않음 페이지 뷰 보이기
+                drawMode = EDrawMode.NOT_INITIALIZED;
+                goto escape;
+            }
+            else
+            {
+                drawMode = EDrawMode.OBJECT;
+            }
             
             current = Selection.activeObject;
 
@@ -274,9 +297,11 @@ namespace AssetLens.UI
                 {
                     if (ReferenceUtil.GUID.GetAssetCategory(guid) == EAssetCategory.Object)
                     {
-                        RefData data = RefData.Get(guid);
+                        // RefData data = RefData.Get(guid);
                     }    
                 }
+
+                drawMode = EDrawMode.NOT_SELECTED;
             }
             
             escape: ;
@@ -299,7 +324,9 @@ namespace AssetLens.UI
             // when selected object is null
             if (null == current)
             {
+                drawMode = EDrawMode.NOT_SELECTED;
                 DontDraw();
+                
                 return;
             }
             
@@ -318,7 +345,9 @@ namespace AssetLens.UI
 
             if (Directory.Exists(path))
             {
+                drawMode = EDrawMode.DIRECTORY;
                 DontDraw();
+                
                 return;
             }
 
@@ -348,15 +377,25 @@ namespace AssetLens.UI
             
             void DontDraw()
             {
-                dependencies_label.style.visibility = Visibility.Hidden;
-                used_by_label.style.visibility = Visibility.Hidden;
-
+                // 그리지 않기
+                if (drawMode == EDrawMode.NOT_SELECTED || drawMode == EDrawMode.DIRECTORY)
+                {
+                    dependencies_label.style.visibility = Visibility.Hidden;
+                    used_by_label.style.visibility = Visibility.Hidden;
+                
+                    selected.style.display = DisplayStyle.None;
+                    additional_info.style.display = DisplayStyle.None;                    
+                }
+                
 #if UNITY_2020_1_OR_NEWER
                 no_selection.style.display = DisplayStyle.Flex;
+
+                if (drawMode == EDrawMode.NOT_INITIALIZED)
+                {
+                    no_selection.text = L.Inst.inspector_not_initialized;
+                    no_selection.messageType = HelpBoxMessageType.Error;
+                }
 #endif
-                
-                selected.style.display = DisplayStyle.None;
-                additional_info.style.display = DisplayStyle.None;
             }
 
             VisualElement CreateRefDataButton(string targetGuid)
