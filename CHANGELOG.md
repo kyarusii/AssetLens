@@ -1,3 +1,10 @@
+## 0.4.4 (2021-12-20)
+
+### Fix
+
+- Handle ArgumentException when plugin was not initialized yet.
+- Handle ArgumentException when plugin was not initialized yet.
+
 ## 0.4.3 (2021-11-30)
 
 ### Fix
