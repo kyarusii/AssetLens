@@ -31,7 +31,9 @@ The pain point that mainly considered with Unity is that when we delete an asset
 </a>
 
 ## Installation
-### Unity Package Manager (NPM)
+<details><summary>Download with NPM (Unity Package Manager) </summary>
+<p>
+
 [![NPM](https://nodei.co/npm/com.calci.assetlens.png?compact=true)](https://npmjs.org/package/com.calci.assetlens)
 
 Replace stable version at version definition in json `x.x.x`  
@@ -57,12 +59,31 @@ example) `"com.calci.assetlens": "0.4.2"`
     ]
 }
 ```
+</p>
+</details>
 
-### OpenUPM
+<details><summary>Download with OpenUPM </summary>
+<p>
+  
 [![openupm](https://img.shields.io/npm/v/com.calci.assetlens?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.calci.assetlens/)
 ```bash
 openupm add com.calci.assetlens
 ```
+</p>
+  
+</details>
+
+<details>
+<summary>GitHub Link</summary>
+  
+  <p>
+    
+```bash
+https://github.com/seonghwan-dev/assetlens.git#upm
+```
+  </p>
+  
+</details>
 
 ## QuickStart
 - Open Asset Lens Setting in `Edit/Project Settings...`  
