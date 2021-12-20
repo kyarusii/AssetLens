@@ -66,6 +66,7 @@ namespace AssetLens
 		public string fmt_inspector_referencedBy = "Usages : {0}";
 		
 		public string inspector_nothing_selected = "Nothing selected";
+		public string inspector_not_initialized = "Please initialize asset lens first.";
 		public string inspector_selected = "Selected";
 		public string inspector_missingObject = "Missing Object";
 		public string inspector_editorUtilityMissingObjectHelpBox = nameof(inspector_editorUtilityMissingObjectHelpBox);
