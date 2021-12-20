@@ -432,7 +432,7 @@ namespace AssetLens.UI
 
 		private void OnResetSetting()
 		{
-			throw new NotImplementedException();
+			// throw new NotImplementedException();
 		}
 
 		private void OnOpenIndexWizard()

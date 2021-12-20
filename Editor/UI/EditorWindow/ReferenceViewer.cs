@@ -60,6 +60,7 @@ namespace AssetLens.UI
             
             root.AddHeader();
             root.AddTopBar();
+            // root.AddSwitchToggle();
             
             QueryElements();
             InitElements();
