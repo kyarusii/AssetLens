@@ -3,8 +3,6 @@
 ## About **Asset Lens**
 **Asset Lens** is a dependency tracking plugin for UnityEditor that provides additional information such as the number of usage.
 
-[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)
-
 This plugin is based on pre-cached complementary guid map to trace which asset has dependencies to specific asset. 
 The pain point that mainly considered with Unity is that when we delete an asset, we don't know which asset is using it. 
 
@@ -12,7 +10,10 @@ The pain point that mainly considered with Unity is that when we delete an asset
 - All assets must be serialized as force-text option in ProjectSetting/Editor
 
 ### Compatibility
+We recommend the version `2021.2.0f1` or `latest` because of UI Toolkit(former UI Elements).  
+But plug-in still work well in lower version.  
   
+Specifically tested semantic version is :  
   
 <a href="unityhub://2019.4.32f1/"><img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/></a>
 <a href="unityhub://2020.3.21f1/"><img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/></a>
@@ -117,6 +118,10 @@ Displays the number of other resources using the selected asset.
 - Details : Open Reference Viewer as EditorWindow instantly.  
 - Refresh : Reserialized cached reference data asset.  
 - GUID : Displays the guid of selected asset. onClick events will copy guid to your clipboard.  
+
+## Community
+### Discord
+[<p align="center"><img src="https://discordapp.com/api/guilds/889046470655893574/widget.png?style=banner2"></p>](https://discord.gg/h9WPFRNFBY)
 
 
 ## Roadmap
