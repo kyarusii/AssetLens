@@ -13,7 +13,7 @@ The pain point that mainly considered with Unity is that when we delete an asset
 We recommend the version `2021.2.0f1` or `latest` because of UI Toolkit(former UI Elements).  
 But plug-in still work well in lower version.  
   
-Specifically tested semantic version is :  
+> Specifically tested semantic version is :  
   
 <a href="unityhub://2019.4.32f1/"><img src="https://img.shields.io/badge/unity-2019.4f_LTS-blue.svg?logo=unity"/></a>
 <a href="unityhub://2020.3.21f1/"><img src="https://img.shields.io/badge/unity-2020.3f_LTS-blue.svg?logo=unity"/></a>
@@ -87,10 +87,27 @@ https://github.com/seonghwan-dev/assetlens.git#upm
 </details>
 
 ## QuickStart
-- Open Asset Lens Setting in `Edit/Project Settings...`  
-- Hit the button `Initialize` to index all assets in project.  
-- Configure the settings for convenience.  
-- Select an asset you want to know which asset references it and run `Find References In Project` context menu.  
+When you install plugin, indexing wizard will be shown.  
+
+<p align="center">
+<img width="512" alt="image" src="https://user-images.githubusercontent.com/79823287/147115098-4cbbf2bd-1a43-44ab-8447-ce2e88c2e25f.png">
+</p>
+
+1. Hit the bluish `generate` button and then wait for progress bar.  
+2. When it finished, wizard will be close automatically. 
+3. Select any asset you want to see which asset uses that.  
+4. There is 2 options to show dependencies between assets.  
+  4-1. hit `detail` button on top of the inspector. then editor window will be shown.  
+  4-2. set mouse cursor to the asset in project view and hit right click and select context menu named `Find Reference In Project`.  
+  
+<details><summary>Show Option Description</summary>  
+  
+- `Indexes by GUID Regular Expression` : find dependencies by GUID Regex or EditorUtility.CollectDependencies.  
+- `Trace scene object hierarchically` : WIP (not in feature currently)  
+- `Inlcude subdirectories of Packages` : Include assets under Packages/ or not.  
+- `Always open when you start a project` : if you want to see this wizard on startup again, disable this option.  
+  </details>
+
 
 ## Fundamentals
 - Create a cache file per a asset file, see also [RefData.cs]
@@ -139,27 +156,23 @@ Displays the number of other resources using the selected asset.
 ## Roadmap
 Not stable yet, but under development.
 
-
-[x] Inspector Lens.
-[ ]
-
 ### Reference Viewer
-[x] Reference View for Persistent Assets.
-[ ] Reference View for Scene Objects.
-[ ] Sortable Multi-Column viewer.
-[ ] Dependency graph for Scene Objects.
+[x] Reference View for Persistent Assets.  
+[ ] Reference View for Scene Objects.  
+[ ] Sortable Multi-Column viewer.  
+[ ] Dependency graph for Scene Objects.  
 
-### Inspector Lens.
-[x] Display how many assets are related to selected asset at the top of the inspector.
-[ ] Pop-up window of linked assets such as nested prefab inspector.
+### Inspector Lens.  
+[x] Display how many assets are related to selected asset at the top of the inspector.  
+[ ] Pop-up window of linked assets such as nested prefab inspector.  
 
-### Safe Delete
-[x] Alert before the asset that is used by other asset will be deleted.
-[ ] (Experimental) Replace reference during delete asset. (Reference Replacer)
+### Safe Delete  
+[x] Alert before the asset that is used by other asset will be deleted.  
+[ ] (Experimental) Replace reference during delete asset. (Reference Replacer)  
 
-### Build Lens
-[ ] Find the assets will be included in build
-[ ] Asset bundle, Addressable, Linked assets with scenes in build setting, resources.
+### Build Lens  
+[ ] Find the assets will be included in build  
+[ ] Asset bundle, Addressable, Linked assets with scenes in build setting, resources.  
 
 ---
 ## Contributes
