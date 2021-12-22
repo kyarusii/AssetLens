@@ -306,6 +306,10 @@ namespace AssetLens.UI
 			
 			// Focus Setting
 			ReferenceUtil.Focus(Setting.Inst, EObjectFocusMethod.Selection);
+			// Save Setting
+			
+			EditorUtility.SetDirty(Setting.Inst);
+			AssetDatabase.SaveAssets();
 		}
 
 		private void OnCloseButton()
