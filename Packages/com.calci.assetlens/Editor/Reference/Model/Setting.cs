@@ -85,6 +85,14 @@ namespace AssetLens.Reference
 		/// 에셋 레퍼런스 선택 시 프로퍼티 윈도우 / Selection 사용
 		/// </summary>
 		[HideInInspector] public EObjectFocusMethod ViewObjectFocusMethod = EObjectFocusMethod.PropertyWindow;
+		/// <summary>
+		/// Update 문에서 갱신할지
+		/// </summary>
+		[HideInInspector] public bool ViewRefreshOnUpdate = true;
+		// /// <summary>
+		// /// Update 문 갱신 주기 (ms)
+		// /// </summary>
+		// [HideInInspector] public EViewRefreshRate ViewRefreshRate = EViewRefreshRate.SOMETIME;
 
 		#endregion
 

@@ -15,6 +15,7 @@ namespace AssetLens
 			Log += Debug.Log;
 #endif
 			Verbose += Debug.Log;
+			Warn += Debug.LogWarning;
 			Ping += Debug.Log;
 		}
 
@@ -28,6 +29,8 @@ namespace AssetLens
 #endif
 		
 		public static Action<string> Verbose = delegate(string msg) {  };
+		public static Action<string> Warn = delegate(string msg) {  };
+		
 		public static Action<string, UnityEngine.Object> Ping = delegate(string s, Object o) {  };
 	}
 
