@@ -61,6 +61,16 @@ namespace AssetLens.UI
 			}
 #endif
 		}
+
+		internal static VisualElement CopyTree(this VisualTreeAsset asset)
+		{
+#if UNITY_2020_3_OR_NEWER
+			var clonedLayout = asset.Instantiate();
+#else
+            var clonedLayout = asset.CloneTree();
+#endif
+			return clonedLayout;
+		}
 		
 #endif
 	}

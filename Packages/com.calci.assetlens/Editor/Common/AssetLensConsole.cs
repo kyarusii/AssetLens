@@ -35,7 +35,7 @@ namespace AssetLens
 	{
 		public static string D(string msg)
 		{
-			return $"<color=#D99090FF>[AssetLens:Dev]</color> {msg}";
+			return $"<color=#9090D9FF>[AssetLens:Dev]</color> {msg}";
 		}
 		
 		public static string L(string msg)

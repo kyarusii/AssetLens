@@ -112,6 +112,8 @@ namespace AssetLens.UI
 			InitOptions();
 			InitButtons();
 			InitHelp();
+			
+			AddCallbacks();
 
 			init = true;
 			
@@ -120,6 +122,12 @@ namespace AssetLens.UI
 			*/
 
 			RefreshLocalizedText();
+
+			// setting은 인스펙터에서만 조절가능하므로,
+			Setting.CanSetDirty = true;
+			Setting.SetSettingDirty();
+
+			AssetLensConsole.Log(R.D("We can execute Setting.onSettingChange from now on."));
 		}
 
 		private void InitOptions()
@@ -151,6 +159,29 @@ namespace AssetLens.UI
 			LogReferenceRemove = new Toggle();
 			
 			/*
+ * Binding Path
+ */
+
+			enabled.bindingPath = nameof(enabled);
+			localization.bindingPath = nameof(localization);
+			
+			IndexByGuidRegEx.bindingPath = nameof(IndexByGuidRegEx);
+			IndexSceneObject.bindingPath = nameof(IndexSceneObject);
+			IndexPackageSubDir.bindingPath = nameof(IndexPackageSubDir);
+			
+			ViewSceneObject.bindingPath = nameof(ViewSceneObject);
+			ViewInPlayMode.bindingPath = nameof(ViewInPlayMode);
+			ViewIndexerVersion.bindingPath = nameof(ViewIndexerVersion);
+			ViewObjectFocusMethod.bindingPath = nameof(ViewObjectFocusMethod);
+			
+			InspectorLensEnable.bindingPath = nameof(InspectorLensEnable);
+			InspectorHideWithNoLink.bindingPath = nameof(InspectorHideWithNoLink);
+			InspectorDrawObjectInstanceId.bindingPath = nameof(InspectorDrawObjectInstanceId);
+			
+			LogReferenceAdd.bindingPath = nameof(LogReferenceAdd);
+			LogReferenceRemove.bindingPath = nameof(LogReferenceRemove);
+			
+			/*
 			 * Bind
 			 */
 			enabled.Bind(serializedObject);
@@ -172,28 +203,7 @@ namespace AssetLens.UI
 			LogReferenceAdd.Bind(serializedObject);
 			LogReferenceRemove.Bind(serializedObject);
 			
-			/*
-			 * Binding Path
-			 */
 
-			enabled.bindingPath = nameof(enabled);
-			localization.bindingPath = nameof(localization);
-			
-			IndexByGuidRegEx.bindingPath = nameof(IndexByGuidRegEx);
-			IndexSceneObject.bindingPath = nameof(IndexSceneObject);
-			IndexPackageSubDir.bindingPath = nameof(IndexPackageSubDir);
-			
-			ViewSceneObject.bindingPath = nameof(ViewSceneObject);
-			ViewInPlayMode.bindingPath = nameof(ViewInPlayMode);
-			ViewIndexerVersion.bindingPath = nameof(ViewIndexerVersion);
-			ViewObjectFocusMethod.bindingPath = nameof(ViewObjectFocusMethod);
-			
-			InspectorLensEnable.bindingPath = nameof(InspectorLensEnable);
-			InspectorHideWithNoLink.bindingPath = nameof(InspectorHideWithNoLink);
-			InspectorDrawObjectInstanceId.bindingPath = nameof(InspectorDrawObjectInstanceId);
-			
-			LogReferenceAdd.bindingPath = nameof(LogReferenceAdd);
-			LogReferenceRemove.bindingPath = nameof(LogReferenceRemove);
 			
 			/*
 			 * Add
@@ -255,6 +265,27 @@ namespace AssetLens.UI
 			// indexOptionHeader.RegisterValueChangedCallback(OnIndexOptionHeaderChange);
 			// viewOptionHeader.RegisterValueChangedCallback(OnViewOptionHeaderChange);
 			// inspectorOptionHeader.RegisterValueChangedCallback(OnInspectorOptionHeaderChange);
+		}
+
+		private void AddCallbacks()
+		{
+			enabled.RegisterValueChangedCallback(SetSettingDirty);
+			
+			IndexByGuidRegEx.RegisterValueChangedCallback(SetSettingDirty);
+			IndexSceneObject.RegisterValueChangedCallback(SetSettingDirty);
+			IndexPackageSubDir.RegisterValueChangedCallback(SetSettingDirty);
+			
+			ViewSceneObject.RegisterValueChangedCallback(SetSettingDirty);
+			ViewInPlayMode.RegisterValueChangedCallback(SetSettingDirty);
+			ViewIndexerVersion.RegisterValueChangedCallback(SetSettingDirty);
+			ViewObjectFocusMethod.RegisterValueChangedCallback(SetSettingDirty);
+			
+			InspectorLensEnable.RegisterValueChangedCallback(SetSettingDirty);
+			InspectorHideWithNoLink.RegisterValueChangedCallback(SetSettingDirty);
+			InspectorDrawObjectInstanceId.RegisterValueChangedCallback(SetSettingDirty);
+			
+			LogReferenceAdd.RegisterValueChangedCallback(SetSettingDirty);
+			LogReferenceRemove.RegisterValueChangedCallback(SetSettingDirty);
 		}
 
 		private void RefreshLocalizedText()
@@ -341,6 +372,21 @@ namespace AssetLens.UI
 		private void OnIndexOptionHeaderChange(ChangeEvent<bool> evt)
 		{
 			IndexGroup.SetEnabled(evt.newValue);
+		}
+
+		private void SetSettingDirty(ChangeEvent<bool> changeEvent)
+		{
+			SetSettingDirty();
+		}
+		
+		private void SetSettingDirty(ChangeEvent<Enum> evt)
+		{
+			SetSettingDirty();
+		}
+
+		private void SetSettingDirty()
+		{
+			Setting.SetSettingDirty();
 		}
 
 		private void InitButtons()

@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,14 +15,18 @@ namespace AssetLens.UI
 
     internal sealed class ReferenceViewer : AssetLensEditorWindow
     {
-        internal enum EDrawMode
+        public enum EDisplayMode
         {
-            NOT_SELECTED ,
+            Undefined,
             
-            OBJECT ,
-            DIRECTORY,
+            Empty = 0,
+
+            GameObject,
+            SceneObject,
+            Directory,
             
-            NOT_INITIALIZED ,
+            ActivationGuide,
+            InvalidDataWarning,
         }
         
         private TopBar topBar;
@@ -46,45 +52,41 @@ namespace AssetLens.UI
         
         private Button substitute_button;
 
+        private VisualElement sub_ActivationGuide;
+        private VisualElement sub_Directory;
+        private VisualElement sub_EmptyPanel;
+        private VisualElement sub_GameObject;
+        private VisualElement sub_InvalidData;
+        private VisualElement sub_SceneObject;
+
         private double lastUpdateTime;
         
-        private bool needRebuild;
-
         private Object current;
-        private EDrawMode drawMode;
+        private EDisplayMode displayMode = EDisplayMode.Undefined;
+        private bool forceUpdate = false;
+
+        #region Unity Event
         
-        protected override void Constructor()
+        [UnityEditor.Callbacks.DidReloadScripts]
+        private static void ReloadScriptCallback()
         {
-            LoadLayout("ReferenceViewer");
-            LoadStylesheet("ReferenceViewer");
-            
-            root.AddHeader();
-            root.AddTopBar();
-            // root.AddSwitchToggle();
-            
-            QueryElements();
-            InitElements();
-            RefreshLocalizedText();
-
-#if DEBUG_ASSETLENS
-            // CreateFeatureButtons();
-#endif
-             
-            dependencies_container.SetHorizontalVisibility(false);
-            used_by_container.SetHorizontalVisibility(false);
-
-            ConfigureSelection();
-            OnDockingStateChange();
+            var view = Resources.FindObjectsOfTypeAll<ReferenceViewer>();
+            if (view != null && view.Length > 0)
+            {
+                AssetLensConsole.Log(R.D($"Reload Scripts : {view.Length}"));
+                
+                view.First().RegisterCallbacks();
+            }
         }
-        
+
         private void Awake()
         {
-            L.onUpdate += OnLocalizationChange;
+            RegisterCallbacks();
         }
 
         private void OnDestroy()
         {
-            L.onUpdate -= OnLocalizationChange;
+            UnregisterCallbacks();
         }
 
         private void OnAddedAsTab()
@@ -95,6 +97,37 @@ namespace AssetLens.UI
         private void OnTabDetached()
         {
             OnDockingStateChange();
+        }
+        
+        private void Update()
+        {
+            // temporal interval to refresh after compiling.
+            // need to change initialize on load
+            if (Time.realtimeSinceStartup - lastUpdateTime > 0.1f)
+            {
+                UpdateData();
+            }
+        }
+
+        private void OnSelectionChange()
+        {
+            forceUpdate = true;
+            UpdateData();
+        }
+
+        private void OnFocus()
+        {
+            UpdateData();
+        }
+
+        #endregion
+
+        #region Callbacks
+
+        private void OnSettingUpdate()
+        {
+            forceUpdate = true;
+            UpdateData();
         }
         
         private void OnLocalizationChange(L l)
@@ -115,8 +148,80 @@ namespace AssetLens.UI
             }
 #endif
         }
+        
+        private void OnCloseButton()
+        {
+            Close();
+        }
 
-        private void QueryElements()
+        private void OnQuestionButton()
+        {
+            AssetLensConsole.Verbose(R.L("OnQuestionButton"));
+        }
+
+        #endregion
+
+        #region Overrides
+
+        protected override void Constructor()
+        {
+            LoadLayout("ReferenceViewer");
+            LoadStylesheet("ReferenceViewer");
+            
+            root.AddHeader();
+            root.AddTopBar();
+            // root.AddSwitchToggle();
+
+            CreateBody();
+            SetupSubBody();
+            
+            InitElements();  
+            RefreshLocalizedText();
+
+            dependencies_container.SetHorizontalVisibility(false);
+            used_by_container.SetHorizontalVisibility(false);
+
+            UpdateData(); 
+            OnDockingStateChange();
+        }
+
+        #endregion
+
+        private void RegisterCallbacks()
+        {
+            L.onUpdate += OnLocalizationChange;
+            Setting.onSettingChange += OnSettingUpdate;
+        }
+
+        private void UnregisterCallbacks()
+        {
+            L.onUpdate -= OnLocalizationChange;
+            Setting.onSettingChange -= OnSettingUpdate;
+        }
+
+        private void CreateBody()
+        {
+            var body = root.Q<VisualElement>("body");
+            sub_ActivationGuide = GetLayout("SubPanel/RV_ActivationGuide").CopyTree();
+            body.Add(sub_ActivationGuide);
+
+            sub_Directory = GetLayout("SubPanel/RV_Directory").CopyTree();
+            body.Add(sub_Directory);
+            
+            sub_EmptyPanel = GetLayout("SubPanel/RV_Empty").CopyTree();
+            body.Add(sub_EmptyPanel);
+            
+            sub_GameObject = GetLayout("SubPanel/RV_GameObject").CopyTree();
+            body.Add(sub_GameObject);
+            
+            sub_InvalidData = GetLayout("SubPanel/RV_InvalidDataWarning").CopyTree();
+            body.Add(sub_InvalidData);
+            
+            sub_SceneObject = GetLayout("SubPanel/RV_SceneObject").CopyTree();
+            body.Add(sub_SceneObject);
+        }
+
+        private void SetupSubBody()
         {
             PackageLabel = root.Q<Label>("ci-label");
             topBar = root.Q<TopBar>("top-bar");
@@ -148,16 +253,6 @@ namespace AssetLens.UI
             
             topBar.closeButton.clickable.clicked += OnCloseButton;
             topBar.questionButton.clickable.clicked += OnQuestionButton;
-        }
-
-        private void OnCloseButton()
-        {
-            Close();
-        }
-
-        private void OnQuestionButton()
-        {
-            AssetLensConsole.Verbose(R.L("OnQuestionButton"));
         }
 
         private void RefreshLocalizedText()
@@ -224,97 +319,172 @@ namespace AssetLens.UI
 
         }
 
-        private void Update()
+
+
+
+        private bool IsTargetLocked()
         {
-            // temporal interval to refresh after compiling.
-            // need to change initialize on load
-            if (Time.realtimeSinceStartup - lastUpdateTime > 0.1f)
+            return lockToggle == null || lockToggle.value;
+        }
+
+        /// <summary>
+        /// 새로 그려야 하는지 확인해야 하는 상황
+        /// 1. 선택 변경
+        /// 2. 리컴파일
+        /// 3. 설정 변경
+        /// 3.1 현지화 변경
+        /// </summary>
+        private void UpdateData()
+        {
+            var previousMode = displayMode;
+            var previousObject = current;
+            
+            DecideMode();
+
+            if (previousMode != displayMode)
             {
-                ConfigureSelection();
+                RebuildVisualElement();
+                SetPanel();
+
+                AssetLensConsole.Log(R.D($"Mode Change : ({previousMode}) -> ({displayMode})"));
+            }
+            else if (previousObject != current)
+            {
+                RebuildGameObjectPanel();
+                
+                AssetLensConsole.Log(R.D($"Object Change : ({previousObject}) -> ({current})"));
             }
         }
 
-        private void OnSelectionChange()
+        private void SetPanel()
         {
-            needRebuild = true;
-            ConfigureSelection();
+            sub_ActivationGuide.style.display = displayMode == EDisplayMode.ActivationGuide
+                ? DisplayStyle.Flex
+                : DisplayStyle.None;
+            sub_Directory.style.display =
+                displayMode == EDisplayMode.Directory ? DisplayStyle.Flex : DisplayStyle.None;
+            sub_EmptyPanel.style.display =
+                displayMode == EDisplayMode.Empty ? DisplayStyle.Flex : DisplayStyle.None;
+            sub_GameObject.style.display =
+                displayMode == EDisplayMode.GameObject ? DisplayStyle.Flex : DisplayStyle.None;
+            sub_InvalidData.style.display = displayMode == EDisplayMode.InvalidDataWarning
+                ? DisplayStyle.Flex
+                : DisplayStyle.None;
+            sub_SceneObject.style.display =
+                displayMode == EDisplayMode.SceneObject ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
-        private void OnFocus()
-        {
-            needRebuild = true;
-            ConfigureSelection();
-        }
-
-        private void ConfigureSelection()
+        /// <summary>
+        /// 오브젝트 선택 확인
+        /// </summary>
+        private void DecideMode()
         {
             lastUpdateTime = Time.realtimeSinceStartup;
             
-            if (lockToggle == null || lockToggle.value)
+            // 1. 플러그인 활성화 여부 확인
+            // 2. 선택된 오브젝트가 있는지 확인
+            // 3. 디렉터리인지 확인
+            // 4. 유효한 에셋 데이터가 있는지 확인
+            // 5. 씬 오브젝트인지 확인
+            // 6. 그리기
+            
+            // 1. Check Plugin Activation
+            if (!Setting.IsEnabled)
+            {
+                displayMode = EDisplayMode.ActivationGuide;
+                // 활성화 가이드를 띄울것이므로 현재 선택 오브젝트 정보 파기
+                
+                current = null;
+                return;
+            }
+
+            // 타겟이 고정되어 있으면 아무 작업 안 함
+            if (IsTargetLocked())
             {
                 return;
             }
 
-            if (!Setting.IsEnabled)
-            {
-                // @TODO :: 초기화 되지 않음 페이지 뷰 보이기
-                drawMode = EDrawMode.NOT_INITIALIZED;
-                goto escape;
-            }
-            else
-            {
-                drawMode = EDrawMode.OBJECT;
-            }
+            var activeObject = Selection.activeObject;
             
-            current = Selection.activeObject;
-
-            // when the selected object is a gameObject in the scene
-            if (!Setting.Inst.ViewSceneObject && current is GameObject go && go.IsSceneObject())
+            // 2. Check NULL
+            if (activeObject == null)
             {
-                needRebuild = true;
-                
-                // @TODO 
-                // null 넣는 대신 씬 오브젝트임을 표기
+                displayMode = EDisplayMode.Empty;
                 current = null;
-                goto escape;
+                return;
             }
 
-            // object changed
-            if (!ReferenceEquals(current, selected.value))
+            // 변경되지 않았음! - 스킵 업데이트
+            if (ReferenceEquals(activeObject, current) && !forceUpdate)
             {
-                // current = selected.value;
-                needRebuild = true;
-            }
-
-            // check changed
-            if (current != null)
-            {
-                string guid = ReferenceUtil.GetGuid(current);
-                string path = AssetDatabase.GetAssetPath(current);
-                
-                // if current object is not folder
-                if (!Directory.Exists(path))
-                {
-                    if (ReferenceUtil.GUID.GetAssetCategory(guid) == EAssetCategory.Object)
-                    {
-                        // RefData data = RefData.Get(guid);
-                    }    
-                }
-
-                drawMode = EDrawMode.NOT_SELECTED;
+                return;
             }
             
-            escape: ;
-            
-            if (needRebuild)
+            if (forceUpdate)
             {
-                RebuildVisualElement();
-                needRebuild = false;
+                forceUpdate = false;
+                AssetLensConsole.Log(R.D($"ReferenceEquals Skipped! ({current}) > ({activeObject})"));
             }
+            
+            string path = AssetDatabase.GetAssetPath(activeObject);
+            string guid = AssetDatabase.AssetPathToGUID(path);
+
+            current = activeObject;
+
+            // 3. Check directory
+            if (Directory.Exists(path))
+            {
+                displayMode = EDisplayMode.Directory;
+                return;
+            }
+            
+            // 4. Validate asset data
+            if (!RefData.CacheExist(guid))
+            {
+                displayMode = EDisplayMode.InvalidDataWarning;
+                return;
+            }
+            
+            // 5. Check Scene Object (Persistence)
+            if (Setting.Inst.ViewSceneObject && activeObject is GameObject go && go.IsSceneObject())
+            {
+                // scene object mode
+                displayMode = EDisplayMode.SceneObject;
+                return;
+            }
+
+            displayMode = EDisplayMode.GameObject;
+        }
+
+        private void RebuildGameObjectPanel()
+        {
+            
         }
 
         private void RebuildVisualElement()
         {
+            switch (displayMode)
+            {
+                case EDisplayMode.GameObject:
+                    break;
+                case EDisplayMode.SceneObject:
+                    break;
+                case EDisplayMode.Directory:
+                    break;
+                case EDisplayMode.ActivationGuide:
+                    break;
+                case EDisplayMode.InvalidDataWarning:
+                    break;
+
+                // ignore case
+                case EDisplayMode.Undefined:
+                default:
+                {
+                    AssetLensConsole.Log(R.D("Undefined display mode."));
+                    break;
+                }
+            }
+            
             selected.value = current;
             
             // clear previous visual element
@@ -324,7 +494,6 @@ namespace AssetLens.UI
             // when selected object is null
             if (null == current)
             {
-                drawMode = EDrawMode.NOT_SELECTED;
                 DontDraw();
                 
                 return;
@@ -342,10 +511,9 @@ namespace AssetLens.UI
 
             string path = AssetDatabase.GetAssetPath(current);
             string guid = AssetDatabase.AssetPathToGUID(path);
-
+            
             if (Directory.Exists(path))
             {
-                drawMode = EDrawMode.DIRECTORY;
                 DontDraw();
                 
                 return;
@@ -378,7 +546,7 @@ namespace AssetLens.UI
             void DontDraw()
             {
                 // 그리지 않기
-                if (drawMode == EDrawMode.NOT_SELECTED || drawMode == EDrawMode.DIRECTORY)
+                // if (drawMode == EDrawMode.NOT_SELECTED || drawMode == EDrawMode.DIRECTORY)
                 {
                     dependencies_label.style.visibility = Visibility.Hidden;
                     used_by_label.style.visibility = Visibility.Hidden;
@@ -390,7 +558,7 @@ namespace AssetLens.UI
 #if UNITY_2020_1_OR_NEWER
                 no_selection.style.display = DisplayStyle.Flex;
 
-                if (drawMode == EDrawMode.NOT_INITIALIZED)
+                // if (drawMode == EDrawMode.NOT_INITIALIZED)
                 {
                     no_selection.text = L.Inst.inspector_not_initialized;
                     no_selection.messageType = HelpBoxMessageType.Error;
@@ -469,9 +637,7 @@ namespace AssetLens.UI
             }
         }
 
-#if DEBUG_ASSETLENS
-        [MenuItem("Window/Asset Lens/Reference Viewer UIToolkit", false, 111)]
-#endif
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public static ReferenceViewer GetWindow()
         {
             ReferenceViewer wnd = GetWindow<ReferenceViewer>();

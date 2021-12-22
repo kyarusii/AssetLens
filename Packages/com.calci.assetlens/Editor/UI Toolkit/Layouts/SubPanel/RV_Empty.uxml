@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="root">
+        <ui:Label text="Empty Panel"/>
+    </ui:VisualElement>
+</ui:UXML>
