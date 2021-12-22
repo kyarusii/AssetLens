@@ -61,7 +61,8 @@ namespace AssetLens.UI
 			}
 #endif
 		}
-
+#endif
+		
 		internal static VisualElement CopyTree(this VisualTreeAsset asset)
 		{
 #if UNITY_2020_3_OR_NEWER
@@ -71,7 +72,5 @@ namespace AssetLens.UI
 #endif
 			return clonedLayout;
 		}
-		
-#endif
 	}
 }
