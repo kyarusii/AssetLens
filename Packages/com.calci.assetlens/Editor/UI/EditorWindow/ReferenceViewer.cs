@@ -123,7 +123,7 @@ namespace AssetLens.UI
 #if DEBUG_ASSETLENS
                     AssetLensConsole.Log(R.D(e.ToString()));
 #else
-                    AssetLensConsole.Warn(R.L(e.ToString());
+                    AssetLensConsole.Warn(R.L(e.ToString()));
 #endif
                 }
             }

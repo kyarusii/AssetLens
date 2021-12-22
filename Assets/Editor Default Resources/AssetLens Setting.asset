@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabled: 1
   localization: English
-  IndexByGuidRegEx: 0
+  IndexByGuidRegEx: 1
   IndexSceneObject: 1
   IndexPackageSubDir: 1
-  ViewSceneObject: 1
+  ViewSceneObject: 0
   ViewInPlayMode: 0
-  ViewIndexerVersion: 1
-  ViewObjectFocusMethod: 2
+  ViewIndexerVersion: 0
+  ViewObjectFocusMethod: 1
   ViewRefreshOnUpdate: 1
   InspectorLensEnable: 1
   InspectorHideWithNoLink: 0
