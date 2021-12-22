@@ -6,16 +6,23 @@ namespace AssetLens.Reference
 	{
 		internal static float AsSecond(this EViewRefreshRate rate)
 		{
-			return rate switch
+			switch (rate)
 			{
-				EViewRefreshRate.NEVER => float.MaxValue,
-				EViewRefreshRate.RARELY => 1000f,
-				EViewRefreshRate.SELDOM => 334f,
-				EViewRefreshRate.SOMETIME => 100f,
-				EViewRefreshRate.OFTEN => 50f,
-				EViewRefreshRate.USUALLY => 20f,
-				_ => 50f
-			};
+				case EViewRefreshRate.NEVER:
+					return float.MaxValue;
+				case EViewRefreshRate.RARELY:
+					return 1000f;
+				case EViewRefreshRate.SELDOM:
+					return 334f;
+				case EViewRefreshRate.SOMETIME:
+					return 100f;
+				case EViewRefreshRate.OFTEN:
+					return 50f;
+				case EViewRefreshRate.USUALLY:
+					return 20f;
+				default:
+					return 1000f;
+			}
 		}
 	}
 }
