@@ -108,6 +108,8 @@ namespace AssetLens
 		public string ViewInPlayModeLabel = "Enable in PlayMode";
 		public string ViewIndexerVersionLabel = "Show indexer version";
 		public string ViewObjectFocusMethodLabel = "Reference Focus Method";
+		public string ViewRefreshOnUpdate = "Viewer Refresh On Update Loop";
+		public string ViewRefreshRate = "View Refresh Rate";
 
 		/*
 		 * Inspector Lens

@@ -63,7 +63,9 @@ namespace AssetLens.UI
         
         private Object current;
         private EDisplayMode displayMode = EDisplayMode.Undefined;
+        
         private bool forceUpdate = false;
+        private bool afterReloadScripts = false;
 
         #region Unity Event
         
@@ -76,6 +78,7 @@ namespace AssetLens.UI
                 AssetLensConsole.Log(R.D($"Reload Scripts : {view.Length}"));
                 
                 view.First().RegisterCallbacks();
+                view.First().afterReloadScripts = true;
             }
         }
 
@@ -101,11 +104,28 @@ namespace AssetLens.UI
         
         private void Update()
         {
+            if (!Setting.Inst.ViewRefreshOnUpdate)
+            {
+                return;
+            }
+            
             // temporal interval to refresh after compiling.
             // need to change initialize on load
-            if (Time.realtimeSinceStartup - lastUpdateTime > 0.1f)
+            // if (Time.realtimeSinceStartup - lastUpdateTime > Setting.Inst.ViewRefreshRate.AsSecond())
+            if (Time.realtimeSinceStartup - lastUpdateTime > 0.2f)
             {
-                UpdateData();
+                try
+                {
+                    UpdateData();
+                }
+                catch (Exception e)
+                {
+#if DEBUG_ASSETLENS
+                    AssetLensConsole.Log(R.D(e.ToString()));
+#else
+                    AssetLensConsole.Warn(R.L(e.ToString());
+#endif
+                }
             }
         }
 
@@ -181,6 +201,7 @@ namespace AssetLens.UI
             dependencies_container.SetHorizontalVisibility(false);
             used_by_container.SetHorizontalVisibility(false);
 
+            forceUpdate = true;
             UpdateData(); 
             OnDockingStateChange();
         }
@@ -197,6 +218,7 @@ namespace AssetLens.UI
         {
             L.onUpdate -= OnLocalizationChange;
             Setting.onSettingChange -= OnSettingUpdate;
+            
         }
 
         private void CreateBody()
@@ -319,9 +341,6 @@ namespace AssetLens.UI
 
         }
 
-
-
-
         private bool IsTargetLocked()
         {
             return lockToggle == null || lockToggle.value;
@@ -352,7 +371,21 @@ namespace AssetLens.UI
             {
                 RebuildGameObjectPanel();
                 
+                // @TODO :: Temporal implementation
+                RebuildVisualElement();
+                
                 AssetLensConsole.Log(R.D($"Object Change : ({previousObject}) -> ({current})"));
+            }
+            
+            if (afterReloadScripts)
+            {
+                AssetLensConsole.Log(R.D($"Script Reloads!"));
+                
+                RebuildVisualElement();
+                RebuildGameObjectPanel();
+                SetPanel();
+                
+                afterReloadScripts = false;
             }
         }
 
