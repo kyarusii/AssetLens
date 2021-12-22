@@ -108,7 +108,19 @@ https://github.com/seonghwan-dev/assetlens.git#upm
 |<img src="https://user-images.githubusercontent.com/79823287/134523257-28173dc7-4fd5-406e-8ac9-56b148debedb.png" width="460">|<img src="https://user-images.githubusercontent.com/79823287/134523437-166bf30b-ccdd-42ea-90ae-3084e0f013f6.png" width="460">|
 |not available|available to trace dependencies|
 
-### Inspector Indicator
+#### Overview
+<p align="center">
+<img width="363" alt="image" src="https://user-images.githubusercontent.com/79823287/147112141-beeb3e1a-8959-4a0e-aef6-2c655d88168f.png">  
+</p>
+
+- `0.2.6` : Indexer version. This represent the which serializer indexes this asset.
+- `(UnityEngine.GameObject)` : the type of selected asset. prefabs are displayed as GameObject.
+- `Last Modified : 2021-12-22 PM 8:39:34` : last modified date time of asset. this information is not from cached data but file metadata.
+- `Dependencies` : list up assets that this asset is using. `Cube 2` includes the material `MAT_Green` in MeshRenderer.
+- `Used By` : list up assets that uses selected asset. if you delete the `Cube 2` then the instantiated prefab in `SampleScene` will be disconnected and displyed as missing.
+---
+
+### Inspector Lens
 Displays the number of other resources using the selected asset.
 
 <p align="center">
@@ -127,21 +139,29 @@ Displays the number of other resources using the selected asset.
 ## Roadmap
 Not stable yet, but under development.
 
+
+[x] Inspector Lens.
+[ ]
+
 ### Reference Viewer
-- Multi Column Viewer (Sortable)
-- Scene Object Reference Graph
+[x] Reference View for Persistent Assets.
+[ ] Reference View for Scene Objects.
+[ ] Sortable Multi-Column viewer.
+[ ] Dependency graph for Scene Objects.
+
+### Inspector Lens.
+[x] Display how many assets are related to selected asset at the top of the inspector.
+[ ] Pop-up window of linked assets such as nested prefab inspector.
 
 ### Safe Delete
-- Alert before the asset that is used by other asset will be deleted.
-- Replace reference during delete asset. (Reference Replacer)
-
-### Inspector Lens
-- Display how many assets are related to selected asset at the top of the inspector.
+[x] Alert before the asset that is used by other asset will be deleted.
+[ ] (Experimental) Replace reference during delete asset. (Reference Replacer)
 
 ### Build Lens
-- Find the assets will be included in build
-- Asset bundle, Addressable, Linked assets with scenes in build setting, resources.
+[ ] Find the assets will be included in build
+[ ] Asset bundle, Addressable, Linked assets with scenes in build setting, resources.
 
+---
 ## Contributes
 - Current Editor Version : `2021.2.0f1`    
 - Fork and clone repository.  
