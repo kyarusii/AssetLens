@@ -141,11 +141,14 @@ namespace AssetLens.Reference
 		
 		#endregion
 
-		public static event Action<Setting> onSettingChange = delegate(Setting setting) {  };
-
+		public static event Action onSettingChange = delegate() {  };
+		public static bool CanSetDirty = false;
+		
 		public static void SetSettingDirty()
 		{
-			onSettingChange(Setting.Inst);
+			if (!CanSetDirty) return;
+			
+			onSettingChange();
 		}
 		
 		public static string Localization {
