@@ -55,7 +55,8 @@ namespace AssetLens
 		public string indexing_proceed = nameof(indexing_proceed);
 		public string indexing_cancel = nameof(indexing_cancel);
 
-		public string processing_title = nameof(processing_title);
+		public string progressbar_readAssets = nameof(progressbar_readAssets);
+		public string progressbar_createGuids = nameof(progressbar_createGuids);
 
 		public string setting_enabled = nameof(setting_enabled);
 		public string setting_language = nameof(setting_language);

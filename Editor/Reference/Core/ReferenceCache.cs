@@ -62,7 +62,7 @@ namespace AssetLens.Reference
 
 				while (fileMap.Keys.Count != allCount)
 				{
-					EditorUtility.DisplayProgressBar(L.Inst.processing_title,
+					EditorUtility.DisplayProgressBar(L.Inst.progressbar_readAssets,
 						$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
 
 					// refresh rate
@@ -146,7 +146,7 @@ namespace AssetLens.Reference
 
 						currentCount++;
 
-						EditorUtility.DisplayProgressBar("CreateGuidMap...",
+						EditorUtility.DisplayProgressBar(L.Inst.progressbar_createGuids,
 							$"({currentCount}/{guidCount})", currentCount / (float)guidCount);
 					}
 				}
@@ -219,7 +219,7 @@ namespace AssetLens.Reference
 
 				// while (fileMap.Keys.Count != allCount)
 				// {
-				// 	EditorUtility.DisplayProgressBar(Localize.Inst.processing_title,
+				// 	EditorUtility.DisplayProgressBar(Localize.Inst.progressbar_readAssets,
 				// 		$"Worker : {threadCount} : ({fileMap.Count}/{allCount})", fileMap.Count / (float)allCount);
 				// }
 
