@@ -25,12 +25,13 @@ namespace AssetLens.UI
 		protected virtual void LoadLayout(string filename)
 		{
 			VisualTreeAsset visualTree = GetLayout(filename);
+			clonedLayout = visualTree.CopyTree();
 			
-#if UNITY_2020_3_OR_NEWER
-			clonedLayout = visualTree.Instantiate();
-#else
-            clonedLayout = visualTree.CloneTree();
-#endif
+// #if UNITY_2020_3_OR_NEWER
+// 			clonedLayout = visualTree.Instantiate();
+// #else
+//             clonedLayout = visualTree.CloneTree();
+// #endif
 			
 			root.Add(clonedLayout);
 		}

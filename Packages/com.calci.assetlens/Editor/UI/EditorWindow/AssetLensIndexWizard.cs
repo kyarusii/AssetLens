@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -306,6 +305,10 @@ namespace AssetLens.UI
 			
 			// Focus Setting
 			ReferenceUtil.Focus(Setting.Inst, EObjectFocusMethod.Selection);
+			// Save Setting
+			
+			EditorUtility.SetDirty(Setting.Inst);
+			AssetDatabase.SaveAssets();
 		}
 
 		private void OnCloseButton()

@@ -19,14 +19,16 @@ MonoBehaviour:
   IndexPackageSubDir: 1
   ViewSceneObject: 0
   ViewInPlayMode: 0
-  ViewIndexerVersion: 0
+  ViewIndexerVersion: 1
   ViewObjectFocusMethod: 1
+  ViewRefreshOnUpdate: 1
   InspectorLensEnable: 1
   InspectorHideWithNoLink: 0
   InspectorDrawObjectInstanceId: 1
   DataAutoUpdate: 1
   DataOverrideIndexer: 0
   DataOverrideIndexerVersion: 206
+  DataCreateIfDataInvalid: 1
   SafeDeleteEnabled: 1
   SafeDeleteOpenReferenceReplacer: 1
   SafeDeleteSaveHistory: 1

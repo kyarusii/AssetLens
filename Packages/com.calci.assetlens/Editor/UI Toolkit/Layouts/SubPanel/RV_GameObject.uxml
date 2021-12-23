@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="root">
+        <ui:VisualElement name="selection-container" class="selection-container">
+            <uie:ObjectField name="selection-field" label="Selected" allow-scene-objects="false" />
+            <ui:VisualElement name="help-box-container" />
+            <ui:VisualElement name="selection-info" class="dark-container">
+                <ui:Label text="version-info" display-tooltip-when-elided="true" name="version-info" />
+                <ui:Label text="modification-info" display-tooltip-when-elided="true" name="modification-info" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="dependency-container" class="container">
+            <ui:Label name="dependencies-label" class="title-label" />
+            <ui:ScrollView name="dependencies-container" class="list-container" />
+        </ui:VisualElement>
+        <ui:VisualElement name="usage-container" class="container">
+            <ui:Label name="used-by-label" class="title-label" />
+            <ui:ScrollView name="used-by-container" class="list-container" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -6,7 +6,7 @@
     "indexing_message": "이 작업은 시간이 오래 소요될 수 있습니다.\n계속하시겠습니까?",
     "indexing_proceed": "계속",
     "indexing_cancel": "작업 취소",
-    "processing_title": "processing_title",
+    "progressbar_readAssets": "progressbar_readAssets",
     "setting_enabled": "활성화",
     "setting_language": "언어",
     "fmt_inspector_usageCount_singular": "{0} usage",
