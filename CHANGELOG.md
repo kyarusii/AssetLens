@@ -1,3 +1,22 @@
+## 0.4.5 (2021-12-23)
+
+### Fix
+
+- add cleanup logic for reload scripts compatible
+- compile error for 2019.4
+- compile error
+- compile error
+- add setting save routine.
+- add missing localization string
+
+### Perf
+
+- add refresh rate
+
+### Refactor
+
+- reference viewer refresh logic
+
 ## 0.4.4 (2021-12-20)
 
 ### Fix

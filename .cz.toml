@@ -1,5 +1,5 @@
 [tool.commitizen]
-version = "0.4.4"
+version = "0.4.5"
 version_files = [
 	"Packages/com.calci.assetlens/package.json"
 ]
