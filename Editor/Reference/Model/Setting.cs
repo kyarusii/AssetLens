@@ -121,6 +121,8 @@ namespace AssetLens.Reference
 		/// </summary>
 		[HideInInspector] public uint DataOverrideIndexerVersion = INDEX_VERSION;
 
+		[HideInInspector] public bool DataCreateIfDataInvalid = true;
+
 		#endregion
 
 		#endregion

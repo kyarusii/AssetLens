@@ -59,6 +59,8 @@ namespace AssetLens.UI
         private VisualElement sub_InvalidData;
         private VisualElement sub_SceneObject;
 
+        private Label sub_CustomHelpBox;
+
         private double lastUpdateTime;
         
         private Object current;
@@ -66,6 +68,7 @@ namespace AssetLens.UI
         
         private bool forceUpdate = false;
         private bool afterReloadScripts = false;
+        private bool initialized = false;
 
         #region Unity Event
         
@@ -105,6 +108,11 @@ namespace AssetLens.UI
         private void Update()
         {
             if (!Setting.Inst.ViewRefreshOnUpdate)
+            {
+                return;
+            }
+
+            if (!initialized)
             {
                 return;
             }
@@ -185,6 +193,8 @@ namespace AssetLens.UI
 
         protected override void Constructor()
         {
+            Cleanup();
+            
             LoadLayout("ReferenceViewer");
             LoadStylesheet("ReferenceViewer");
             
@@ -204,9 +214,23 @@ namespace AssetLens.UI
             forceUpdate = true;
             UpdateData(); 
             OnDockingStateChange();
+            SetPanel(); 
+
+            initialized = true;
+            
+            AssetLensConsole.Log(R.D("RV::Constructor"));
         }
 
         #endregion
+
+        private void Cleanup()
+        {
+            current = null;
+            if (selected != null)
+            {
+                selected.value = null;
+            }
+        }
 
         private void RegisterCallbacks()
         {
@@ -266,6 +290,8 @@ namespace AssetLens.UI
 
             versionTypeLabel = root.Q<Label>("version-info");
             lastModified = root.Q<Label>("modification-info");
+
+            sub_CustomHelpBox = sub_EmptyPanel.Q<Label>("message");
         }
 
         private void InitElements()
@@ -283,6 +309,7 @@ namespace AssetLens.UI
             no_selection.messageType = HelpBoxMessageType.Info;
             no_selection.text = L.Inst.inspector_nothing_selected;
 #endif
+            sub_CustomHelpBox.text = L.Inst.inspector_nothing_selected;
 
             lockToggle.label = L.Inst.inspector_lockSelect;
             PackageLabel.text = L.Inst.DisplayName;
@@ -365,25 +392,31 @@ namespace AssetLens.UI
                 RebuildVisualElement();
                 SetPanel();
 
-                AssetLensConsole.Log(R.D($"Mode Change : ({previousMode}) -> ({displayMode})"));
+                // AssetLensConsole.Log(R.D($"Mode Change : ({previousMode}) -> ({displayMode})"));
             }
             else if (previousObject != current)
             {
                 RebuildGameObjectPanel();
                 
                 // @TODO :: Temporal implementation
-                RebuildVisualElement();
+                RebuildVisualElement(); 
                 
-                AssetLensConsole.Log(R.D($"Object Change : ({previousObject}) -> ({current})"));
+                // AssetLensConsole.Log(R.D($"Object Change : ({previousObject}) -> ({current})"));
             }
             
             if (afterReloadScripts)
             {
                 AssetLensConsole.Log(R.D($"Script Reloads!"));
-                
-                RebuildVisualElement();
-                RebuildGameObjectPanel();
-                SetPanel();
+                try
+                {
+                    RebuildVisualElement();
+                    RebuildGameObjectPanel();
+                    SetPanel();
+                }
+                catch (Exception e)
+                {
+                    AssetLensConsole.Log(R.D(e.ToString()));
+                }
                 
                 afterReloadScripts = false;
             }
@@ -456,7 +489,7 @@ namespace AssetLens.UI
             if (forceUpdate)
             {
                 forceUpdate = false;
-                AssetLensConsole.Log(R.D($"ReferenceEquals Skipped! ({current}) > ({activeObject})"));
+                // AssetLensConsole.Log(R.D($"ReferenceEquals Skipped! ({current}) > ({activeObject})"));
             }
             
             string path = AssetDatabase.GetAssetPath(activeObject);
@@ -474,7 +507,19 @@ namespace AssetLens.UI
             // 4. Validate asset data
             if (!RefData.CacheExist(guid))
             {
-                displayMode = EDisplayMode.InvalidDataWarning;
+                if (Setting.Inst.DataCreateIfDataInvalid)
+                {
+                    var data = RefData.New(guid);
+                    data.Save();
+                    
+                    AssetLensConsole.Log(R.D($"Created {guid}.ref because of invalid data."));
+                    displayMode = EDisplayMode.GameObject;
+                }
+                else
+                {
+                    displayMode = EDisplayMode.InvalidDataWarning;
+                }
+                
                 return;
             }
             

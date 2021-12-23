@@ -1,5 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:VisualElement name="root">
-        <ui:Label text="Empty Panel"/>
+        <ui:VisualElement name="box" style="height: 64px; max-height: 64px; min-height: 64px; flex-direction: row; align-items: center; background-color: rgb(113, 113, 113); border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px;">
+            <ui:VisualElement name="icon" style="width: 36px; height: 36px; max-width: 36px; max-height: 36px; min-width: 36px; background-image: url(&apos;project://database/Packages/com.calci.assetlens/Contents/icons/console.infoicon@2x.png?fileID=2800000&amp;guid=c765d092b5f004c4e875f76a7f99f83c&amp;type=3#console.infoicon@2x&apos;); -unity-background-scale-mode: scale-and-crop;" />
+            <ui:Label text="TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT " display-tooltip-when-elided="true" name="message" style="white-space: normal; color: rgba(255, 255, 255, 255);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
