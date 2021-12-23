@@ -701,7 +701,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Standalone: 
+    Standalone: DEBUG_ASSETLENS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
