@@ -1,3 +1,10 @@
+## 0.4.6 (2021-12-24)
+
+### Fix
+
+- custom help box, asset reference element
+- custom help box, asset reference element
+
 ## 0.4.5 (2021-12-23)
 
 ### Fix
