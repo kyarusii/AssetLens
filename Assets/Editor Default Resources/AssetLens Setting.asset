@@ -20,7 +20,7 @@ MonoBehaviour:
   ViewSceneObject: 0
   ViewInPlayMode: 0
   ViewIndexerVersion: 1
-  ViewObjectFocusMethod: 1
+  ViewObjectFocusMethod: 2
   ViewRefreshOnUpdate: 1
   InspectorLensEnable: 1
   InspectorHideWithNoLink: 0
