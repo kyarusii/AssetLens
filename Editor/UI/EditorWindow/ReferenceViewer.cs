@@ -19,7 +19,7 @@ namespace AssetLens.UI
         {
             Undefined,
             
-            Empty = 0,
+            Empty,
 
             GameObject,
             SceneObject,
@@ -40,9 +40,7 @@ namespace AssetLens.UI
         private Label dependencies_label;
         private Label used_by_label;
 
-#if UNITY_2020_1_OR_NEWER
-        private HelpBox no_selection;
-#endif
+        private CustomHelpBox messageBox;
         private VisualElement additional_info;
 
         private Label versionTypeLabel;
@@ -124,6 +122,8 @@ namespace AssetLens.UI
             {
                 try
                 {
+                    if (!initialized) return;
+                    
                     UpdateData();
                 }
                 catch (Exception e)
@@ -215,6 +215,7 @@ namespace AssetLens.UI
             UpdateData(); 
             OnDockingStateChange();
             SetPanel(); 
+            SetMessage();
 
             initialized = true;
             
@@ -222,6 +223,53 @@ namespace AssetLens.UI
         }
 
         #endregion
+
+        private void SetMessage()
+        {
+            switch (displayMode)
+            {
+                case EDisplayMode.SceneObject:
+                    messageBox.SetVisible(true);
+                    
+                    if (Setting.Inst.ViewSceneObject)
+                    {
+                        messageBox.messageType = HelpBoxMessageType.Info;
+                        messageBox.text = "(Experimental Feature)";
+                    }
+                    else
+                    {
+                        messageBox.messageType = HelpBoxMessageType.Info;
+                        messageBox.text = "Scene object view setting is off.";
+                    }
+                    break;
+                case EDisplayMode.Directory:
+                    messageBox.SetVisible(true);
+                    messageBox.text = "Current selection is the folder.";
+                    messageBox.messageType = HelpBoxMessageType.Info;
+                    break;
+                case EDisplayMode.ActivationGuide:
+                    messageBox.SetVisible(true);
+                    messageBox.text = L.Inst.inspector_not_initialized;
+                    messageBox.messageType = HelpBoxMessageType.Error;
+                    break;
+                case EDisplayMode.InvalidDataWarning:
+                    messageBox.SetVisible(true);
+                    messageBox.text = "Invalid cached data!";
+                    messageBox.messageType = HelpBoxMessageType.Warning;
+                    break;
+                case EDisplayMode.Empty:
+                    messageBox.SetVisible(true);
+                    messageBox.text = L.Inst.inspector_nothing_selected;
+                    messageBox.messageType = HelpBoxMessageType.Info;
+                    break;
+                
+                case EDisplayMode.GameObject:
+                case EDisplayMode.Undefined:
+                default:
+                    messageBox.SetVisible(false);
+                    break;
+            }
+        }
 
         private void Cleanup()
         {
@@ -281,11 +329,11 @@ namespace AssetLens.UI
             dependencies_label = root.Q<Label>("dependencies-label");
             used_by_label = root.Q<Label>("used-by-label");
 
-#if UNITY_2020_1_OR_NEWER
+// #if UNITY_2020_1_OR_NEWER
             // no_selection = root.Q<HelpBox>("no-selection-helpbox");
-            no_selection = new HelpBox();
-            root.Q<VisualElement>("help-box-container").Add(no_selection);
-#endif
+            messageBox = new CustomHelpBox();
+            root.Q<VisualElement>("help-box-container").Add(messageBox);
+// #endif
             additional_info = root.Q<VisualElement>("selection-info");
 
             versionTypeLabel = root.Q<Label>("version-info");
@@ -305,67 +353,14 @@ namespace AssetLens.UI
 
         private void RefreshLocalizedText()
         {
-#if UNITY_2021_1_OR_NEWER
-            no_selection.messageType = HelpBoxMessageType.Info;
-            no_selection.text = L.Inst.inspector_nothing_selected;
-#endif
+// #if UNITY_2021_1_OR_NEWER
+            // messageBox.messageType = HelpBoxMessageType.Info;
+            // messageBox.text = L.Inst.inspector_nothing_selected;
+// #endif
             sub_CustomHelpBox.text = L.Inst.inspector_nothing_selected;
 
             lockToggle.label = L.Inst.inspector_lockSelect;
             PackageLabel.text = L.Inst.DisplayName;
-        }
-
-        private void CreateFeatureButtons()
-        {
-            var featureRoot = root.Q<VisualElement>("feature-buttons");
-            substitute_button = new Button();
-            featureRoot.Add(substitute_button);
-
-            // substitute_button = root.Q<Button>("substitute-button");
-            substitute_button.clicked += () =>
-            {
-                string openFile = EditorUtility.OpenFilePanel("replace", "Assets", "");
-                if (!string.IsNullOrWhiteSpace(openFile))
-                {
-                    var newGuid = AssetDatabase.AssetPathToGUID(openFile);
-                    
-                    RefData newData = RefData.Get(newGuid);
-                    
-                    var path = AssetDatabase.GetAssetPath(selected.value);
-                    var guid = AssetDatabase.AssetPathToGUID(path);
-                    
-                    RefData data = RefData.Get(guid);
-
-                    AssetDatabase.StartAssetEditing();
-                    foreach (string referedByGuid in data.referedByGuids)
-                    {
-                        string assetPath = AssetDatabase.GUIDToAssetPath(referedByGuid);
-                        var obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-                        if (obj != null)
-                        {
-                            RefData refData = RefData.Get(referedByGuid);
-
-                            refData.ownGuids.Remove(guid);
-                            refData.ownGuids.Add(newGuid);
-                            
-                            newData.referedByGuids.Add(referedByGuid);
-
-                            string assetContent = File.ReadAllText(assetPath);
-                            string newAssetContent = assetContent.Replace(guid, newGuid);
-                            
-                            File.WriteAllText(assetPath, newAssetContent);
-                            AssetDatabase.ImportAsset(assetPath);
-                            
-                            refData.Save();
-                        }
-                    }
-                    AssetDatabase.StopAssetEditing();
-                    
-                    newData.Save();
-                    AssetDatabase.SaveAssets();
-                }
-            };
-
         }
 
         private bool IsTargetLocked()
@@ -420,24 +415,38 @@ namespace AssetLens.UI
                 
                 afterReloadScripts = false;
             }
+            
+            SetMessage();
         }
 
         private void SetPanel()
         {
-            sub_ActivationGuide.style.display = displayMode == EDisplayMode.ActivationGuide
-                ? DisplayStyle.Flex
-                : DisplayStyle.None;
-            sub_Directory.style.display =
-                displayMode == EDisplayMode.Directory ? DisplayStyle.Flex : DisplayStyle.None;
-            sub_EmptyPanel.style.display =
-                displayMode == EDisplayMode.Empty ? DisplayStyle.Flex : DisplayStyle.None;
-            sub_GameObject.style.display =
-                displayMode == EDisplayMode.GameObject ? DisplayStyle.Flex : DisplayStyle.None;
-            sub_InvalidData.style.display = displayMode == EDisplayMode.InvalidDataWarning
-                ? DisplayStyle.Flex
-                : DisplayStyle.None;
-            sub_SceneObject.style.display =
-                displayMode == EDisplayMode.SceneObject ? DisplayStyle.Flex : DisplayStyle.None;
+            sub_GameObject.style.display = DisplayStyle.Flex;
+            sub_ActivationGuide.style.display = DisplayStyle.None;
+            sub_Directory.style.display = DisplayStyle.None;
+            sub_EmptyPanel.style.display = DisplayStyle.None;
+            sub_InvalidData.style.display = DisplayStyle.None;
+            sub_SceneObject.style.display = DisplayStyle.None;
+            return;
+            
+            // sub_ActivationGuide.style.display = displayMode == EDisplayMode.ActivationGuide
+            //     ? DisplayStyle.Flex
+            //     : DisplayStyle.None;
+            // sub_Directory.style.display = displayMode == EDisplayMode.Directory
+            //     ? DisplayStyle.Flex
+            //     : DisplayStyle.None;
+            // sub_EmptyPanel.style.display = displayMode == EDisplayMode.Empty
+            //     ? DisplayStyle.Flex
+            //     : DisplayStyle.None;
+            // sub_GameObject.style.display = displayMode == EDisplayMode.GameObject
+            //     ? DisplayStyle.Flex
+            //     : DisplayStyle.None;
+            // sub_InvalidData.style.display = displayMode == EDisplayMode.InvalidDataWarning
+            //     ? DisplayStyle.Flex
+            //     : DisplayStyle.None;
+            // sub_SceneObject.style.display = displayMode == EDisplayMode.SceneObject
+            //     ? DisplayStyle.Flex
+            //     : DisplayStyle.None;
         }
 
         /// <summary>
@@ -541,28 +550,6 @@ namespace AssetLens.UI
 
         private void RebuildVisualElement()
         {
-            switch (displayMode)
-            {
-                case EDisplayMode.GameObject:
-                    break;
-                case EDisplayMode.SceneObject:
-                    break;
-                case EDisplayMode.Directory:
-                    break;
-                case EDisplayMode.ActivationGuide:
-                    break;
-                case EDisplayMode.InvalidDataWarning:
-                    break;
-
-                // ignore case
-                case EDisplayMode.Undefined:
-                default:
-                {
-                    AssetLensConsole.Log(R.D("Undefined display mode."));
-                    break;
-                }
-            }
-            
             selected.value = current;
             
             // clear previous visual element
@@ -583,10 +570,8 @@ namespace AssetLens.UI
                 additional_info.style.display = DisplayStyle.Flex;
             }
 
-#if UNITY_2020_1_OR_NEWER
-            no_selection.style.display = DisplayStyle.None;
-#endif
-
+            SetMessage();
+            
             string path = AssetDatabase.GetAssetPath(current);
             string guid = AssetDatabase.AssetPathToGUID(path);
             
@@ -607,12 +592,14 @@ namespace AssetLens.UI
 
             foreach (string assetGuid in data.ownGuids)
             {
-                dependencies_container.Add(CreateRefDataButton(assetGuid));
+                // dependencies_container.Add(CreateRefDataButton(assetGuid));
+                dependencies_container.Add(new AssetReference(assetGuid));
             }
                     
             foreach (string assetGuid in data.referedByGuids)
             {
-                used_by_container.Add(CreateRefDataButton(assetGuid));
+                // used_by_container.Add(CreateRefDataButton(assetGuid));
+                used_by_container.Add(new AssetReference(assetGuid));
             }
 
             dependencies_label.text = $"Dependencies ({data.ownGuids.Count})";
@@ -620,6 +607,9 @@ namespace AssetLens.UI
                     
             dependencies_label.style.visibility = data.ownGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
             used_by_label.style.visibility = data.referedByGuids.Count > 0 ? Visibility.Visible : Visibility.Hidden;
+            
+            dependencies_container.SetVisible(data.ownGuids.Count > 0);
+            used_by_container.SetVisible(data.referedByGuids.Count > 0);
             
             void DontDraw()
             {
@@ -632,86 +622,6 @@ namespace AssetLens.UI
                     selected.style.display = DisplayStyle.None;
                     additional_info.style.display = DisplayStyle.None;                    
                 }
-                
-#if UNITY_2020_1_OR_NEWER
-                no_selection.style.display = DisplayStyle.Flex;
-
-                // if (drawMode == EDrawMode.NOT_INITIALIZED)
-                {
-                    no_selection.text = L.Inst.inspector_not_initialized;
-                    no_selection.messageType = HelpBoxMessageType.Error;
-                }
-#endif
-            }
-
-            VisualElement CreateRefDataButton(string targetGuid)
-            {
-                // @TODO :: Template으로 빼기
-                EAssetCategory assetCategory = ReferenceUtil.GUID.GetAssetCategory(targetGuid);
-
-                string assetPath = AssetDatabase.GUIDToAssetPath(targetGuid);
-                Object obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-
-                VisualElement buttonRoot = new VisualElement();
-                buttonRoot.AddToClassList("reference-view-container");
-
-                Image image = new Image();
-                Button button = new Button(onClick);
-
-                switch (assetCategory)
-                {
-                    case EAssetCategory.Object:
-                        // @TODO : use uss style instead space
-
-                        if (obj != null)
-                        {
-                            button.text = $"     {obj.name} ({ReferenceUtil.AddSpacesToSentence(obj.GetType().Name)})";
-                            button.tooltip = assetPath;
-                            Texture img = EditorGUIUtility.ObjectContent(obj, obj.GetType()).image;
-                            image.image = img;
-                            image.AddToClassList("reference-view-image");    
-                        }
-                        else
-                        {
-                            button.text = $"     (null) (guid:{targetGuid})";
-                            button.tooltip = assetPath;
-                            Texture img = EditorGUIUtility.ObjectContent(null, typeof(Object)).image;
-                            image.image = img;
-                            image.AddToClassList("reference-view-image"); 
-                        }
-                        
-                        break;
-                    
-                    case EAssetCategory.DefaultResource:
-                        button.text = "Default Resource";
-                        button.SetEnabled(false);
-                        break;
-                    
-                    case EAssetCategory.BuiltInExtra:
-                        button.text = "Built-in Resource";
-                        button.SetEnabled(false);
-                        break;
-                    
-                    case EAssetCategory.Others:
-                        button.text = "Other Internals";
-                        button.SetEnabled(false);
-                        break;
-                    
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                button.AddToClassList("reference-view-button");
-
-                void onClick()
-                {
-                    ReferenceUtil.Focus(obj);
-                }
-
-                buttonRoot.Add(button);
-                button.Add(image);
-
-                return buttonRoot;
             }
         }
 
@@ -728,5 +638,62 @@ namespace AssetLens.UI
             wnd.Show();
             return wnd;
         }
+
+        #region Experimental
+
+        private void CreateFeatureButtons()
+        {
+            var featureRoot = root.Q<VisualElement>("feature-buttons");
+            substitute_button = new Button();
+            featureRoot.Add(substitute_button);
+
+            // substitute_button = root.Q<Button>("substitute-button");
+            substitute_button.clicked += () =>
+            {
+                string openFile = EditorUtility.OpenFilePanel("replace", "Assets", "");
+                if (!string.IsNullOrWhiteSpace(openFile))
+                {
+                    var newGuid = AssetDatabase.AssetPathToGUID(openFile);
+
+                    RefData newData = RefData.Get(newGuid);
+
+                    var path = AssetDatabase.GetAssetPath(selected.value);
+                    var guid = AssetDatabase.AssetPathToGUID(path);
+
+                    RefData data = RefData.Get(guid);
+
+                    AssetDatabase.StartAssetEditing();
+                    foreach (string referedByGuid in data.referedByGuids)
+                    {
+                        string assetPath = AssetDatabase.GUIDToAssetPath(referedByGuid);
+                        var obj = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+                        if (obj != null)
+                        {
+                            RefData refData = RefData.Get(referedByGuid);
+
+                            refData.ownGuids.Remove(guid);
+                            refData.ownGuids.Add(newGuid);
+
+                            newData.referedByGuids.Add(referedByGuid);
+
+                            string assetContent = File.ReadAllText(assetPath);
+                            string newAssetContent = assetContent.Replace(guid, newGuid);
+
+                            File.WriteAllText(assetPath, newAssetContent);
+                            AssetDatabase.ImportAsset(assetPath);
+
+                            refData.Save();
+                        }
+                    }
+
+                    AssetDatabase.StopAssetEditing();
+
+                    newData.Save();
+                    AssetDatabase.SaveAssets();
+                }
+            };
+        }
+        
+        #endregion
     }
 }

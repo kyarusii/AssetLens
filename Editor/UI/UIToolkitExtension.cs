@@ -72,5 +72,15 @@ namespace AssetLens.UI
 #endif
 			return clonedLayout;
 		}
+
+		internal static void SetVisible(this VisualElement target, bool isVisible)
+		{
+			if (target == null)
+			{
+				AssetLensConsole.Log(R.D("SetVisible Target is null!"));
+				return;
+			}
+			target.style.display = isVisible ? DisplayStyle.Flex : DisplayStyle.None;
+		}
 	}
 }
