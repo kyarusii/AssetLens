@@ -1,3 +1,11 @@
+## 0.4.7 (2021-12-27)
+
+### Fix
+
+- Handle stack overflow temporally.
+- fixed an issue that raised in #55
+- fixed an issue that raised in #54
+
 ## 0.4.6 (2021-12-24)
 
 ### Fix
