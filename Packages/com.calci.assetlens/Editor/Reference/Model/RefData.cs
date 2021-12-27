@@ -107,14 +107,26 @@ namespace AssetLens.Reference
 			return true;
 		}
 
-		public void UpdateObjectData()
+		public bool UpdateObjectData()
 		{
+			if (ReferenceUtil.GUID.GetAssetCategory(guid) != EAssetCategory.Object)
+			{
+				AssetLensConsole.Log(R.D($"Skip analyze : {guid}"));
+				return false;
+			}
+			
 			objectPath = AssetDatabase.GUIDToAssetPath(guid);
+			if (string.IsNullOrWhiteSpace(objectPath))
+			{
+				AssetLensConsole.Log(R.D($"This asset is not valid : {guid}"));
+				return false;
+			}
+			
 			FileInfo fi = new FileInfo(objectPath);
-
 			objectName = fi.Name.Replace(fi.Extension, "");
 			
 			Save();
+			return true;
 		}
 
 		public void Save(uint serializerVersion = Setting.INDEX_VERSION)
@@ -141,15 +153,28 @@ namespace AssetLens.Reference
 			RefData loaded = ReferenceSerializer.Deseriallize(guid);
 			if (loaded.IsDirty())
 			{
-				loaded.UpdateObjectData();
-				AssetLensConsole.Log($"CacheUpdated : {loaded.objectPath}");
+				bool result = loaded.UpdateObjectData();
+				if (result)
+				{
+					AssetLensConsole.Log(R.L($"CacheUpdated : {loaded.objectPath}"));
+				}
+				else
+				{
+					AssetLensConsole.Log(R.L($"Failed to update Cache : ({guid}){loaded.objectPath}"));
+				}
 			}
 
 			return loaded;
 		}
 
-		public static RefData New(string guid)
+		public static RefData New(string guid, int depth = 0)
 		{
+			if (depth > 8)
+			{
+				AssetLensConsole.Log(R.D($"Max depth is 8!\n{guid}"));
+				return new GhostRefData(guid);
+			}
+			
 			RefData asset = new RefData(guid, Setting.INDEX_VERSION);
 
 			string assetPath = AssetDatabase.GUIDToAssetPath(guid);
@@ -159,7 +184,7 @@ namespace AssetLens.Reference
 				return GhostData(guid);
 			}
 
-			string assetContent= File.ReadAllText(assetPath);
+			string assetContent = File.ReadAllText(assetPath);
 			List<string> owningGuids = ReferenceUtil.ParseOwnGuids(assetContent);
 
 			// 보유한 에셋에다 레퍼런스 밀어넣기
@@ -187,7 +212,13 @@ namespace AssetLens.Reference
 					}
 					else
 					{
-						RefData ownAsset = New(owningGuid);
+						if (owningGuid == guid)
+						{
+							AssetLensConsole.Log(R.D("This must not be called! - Escape overflows."));
+							continue;
+						}
+						
+						RefData ownAsset = New(owningGuid, ++depth);
 						ownAsset.referedByGuids.Add(guid);
 						ownAsset.Save();
 					}
