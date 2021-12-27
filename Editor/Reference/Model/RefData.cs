@@ -109,9 +109,20 @@ namespace AssetLens.Reference
 
 		public void UpdateObjectData()
 		{
+			if (ReferenceUtil.GUID.GetAssetCategory(guid) != EAssetCategory.Object)
+			{
+				AssetLensConsole.Log(R.D($"Skip analyze : {guid}"));
+				return;
+			}
+			
 			objectPath = AssetDatabase.GUIDToAssetPath(guid);
+			if (string.IsNullOrWhiteSpace(objectPath))
+			{
+				AssetLensConsole.Log(R.D($"This asset is not valid : {guid}"));
+				return;
+			}
+			
 			FileInfo fi = new FileInfo(objectPath);
-
 			objectName = fi.Name.Replace(fi.Extension, "");
 			
 			Save();
