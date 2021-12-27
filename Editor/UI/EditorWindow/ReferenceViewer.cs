@@ -122,7 +122,6 @@ namespace AssetLens.UI
             {
                 try
                 {
-                    if (!initialized) return;
                     
                     UpdateData();
                 }
@@ -226,6 +225,8 @@ namespace AssetLens.UI
 
         private void SetMessage()
         {
+            if (messageBox == null) return;
+            
             switch (displayMode)
             {
                 case EDisplayMode.SceneObject:
@@ -377,6 +378,8 @@ namespace AssetLens.UI
         /// </summary>
         private void UpdateData()
         {
+            if (!initialized) return;
+            
             var previousMode = displayMode;
             var previousObject = current;
             
