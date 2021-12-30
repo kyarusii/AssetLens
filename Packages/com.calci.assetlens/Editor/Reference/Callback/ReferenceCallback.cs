@@ -20,6 +20,11 @@ namespace AssetLens.Reference
 			{
 				return AssetDeleteResult.DidNotDelete;
 			}
+
+			if (!Setting.Inst.SafeDeleteEnabled)
+			{
+				return AssetDeleteResult.DidNotDelete;
+			}
 			
 			// LightingEditor
 			if (Lightmapping.isRunning)
