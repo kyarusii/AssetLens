@@ -8,6 +8,10 @@ namespace AssetLens
 {
 	internal static class PackageSystem
 	{
+		/// <summary>
+		/// 패키지 버전 가져옴
+		/// </summary>
+		/// <returns></returns>
 		internal static async Task<string> GetVersion()
 		{
 			ListRequest list = Client.List(false);
