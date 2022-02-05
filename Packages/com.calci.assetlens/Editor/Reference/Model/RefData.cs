@@ -203,7 +203,6 @@ namespace AssetLens.Reference
 				{
 					if (ReferenceUtil.GUID.IsBuiltInExtra(owningGuid)
 					|| ReferenceUtil.GUID.IsDefaultResource(owningGuid))
-					// if (owningGuid == UNITY_BUILTIN_EXTRA || owningGuid == UNITY_DEFAULT_RESOURCE)
 					{
 						RefData builtinExtra = new RefData(owningGuid, Setting.INDEX_VERSION);
 						
