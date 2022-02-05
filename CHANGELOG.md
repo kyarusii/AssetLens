@@ -1,3 +1,9 @@
+## 0.4.8 (2022-02-05)
+
+### Fix
+
+- branching safe delete option
+
 ## 0.4.7 (2021-12-27)
 
 ### Fix
