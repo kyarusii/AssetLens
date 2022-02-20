@@ -7,7 +7,7 @@ namespace AssetLens.UI
 	/// <summary>
 	/// Shared EditorWindow for UI Toolkit
 	/// </summary>
-	public abstract class AssetLensEditorWindow : EditorWindow
+	internal abstract class AssetLensEditorWindow : EditorWindow
 	{
 		protected VisualElement root = default;
 		protected VisualElement clonedLayout = default;

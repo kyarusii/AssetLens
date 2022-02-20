@@ -56,9 +56,19 @@ namespace AssetLens
 			return $"Failed : {request.Error.message}";
 		}
 		
-		internal static bool IsReadOnlyPackage(this string path)
+		/// <summary>
+		/// 패키지가 Library/PackageCache 디렉터리에 존재하는지 확인 (읽기 전용)
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		internal static bool IsReadOnlyPackage(string path)
 		{
 			return Path.GetFullPath(path).Contains("PackageCache");
+		}
+
+		internal static bool IsUnderDevelopment(string path)
+		{
+			return !PackageSystem.IsReadOnlyPackage(path);
 		}
 	}
 }
