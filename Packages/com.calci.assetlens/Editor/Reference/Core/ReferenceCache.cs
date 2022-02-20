@@ -30,7 +30,8 @@ namespace AssetLens.Reference
 				allAssets.AddRange(AssetDatabase.FindAssets("", new[] { "Packages" })
 					.Select(AssetDatabase.GUIDToAssetPath)
 					// 실제 패키지 경로에 있는 경우만
-					.Where(path => !path.IsReadOnlyPackage())
+					// .Where(path => !path.IsReadOnlyPackage())
+					.Where(PackageSystem.IsUnderDevelopment)
 					.Where(e => !Directory.Exists(e))
 					.Where(File.Exists)
 				);
@@ -187,7 +188,8 @@ namespace AssetLens.Reference
 				allAssets.AddRange(AssetDatabase.FindAssets("", new[] { "Packages" })
 					.Select(AssetDatabase.GUIDToAssetPath)
 					// 실제 패키지 경로에 있는 경우만
-					.Where(path => !path.IsReadOnlyPackage())
+					// @TODO :: 읽기전용 패키지라도 인덱싱을 해야하려나 고민하기
+					.Where(PackageSystem.IsUnderDevelopment)
 					.Where(e => !Directory.Exists(e))
 					.Where(File.Exists)
 				);

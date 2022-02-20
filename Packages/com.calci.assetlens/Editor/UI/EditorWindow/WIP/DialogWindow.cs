@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace AssetLens.UI
 {
-	public sealed class DialogWindow : AssetLensEditorWindow
+	internal sealed class DialogWindow : AssetLensEditorWindow
 	{
 		private event Action OnAccept =delegate {  };
 		private event Action OnCancel =delegate {  };
