@@ -1,11 +1,13 @@
-﻿using UnityEngine.UIElements;
+﻿using System;
+using UnityEngine.UIElements;
 
 namespace AssetLens.UI.Component
 {
 	/// <summary>
     /// User message types.
     /// </summary>
-    public enum HelpBoxMessageType
+    [Serializable]
+    internal enum HelpBoxMessageType
     {
         /// <summary>
         /// Neutral message.
@@ -46,7 +48,7 @@ namespace AssetLens.UI.Component
     /// }
     /// </code>
     /// </example>
-    public class CustomHelpBox : VisualElement
+    internal class CustomHelpBox : VisualElement
     {
         /// <summary>
         /// The USS class name for Elements of this type.

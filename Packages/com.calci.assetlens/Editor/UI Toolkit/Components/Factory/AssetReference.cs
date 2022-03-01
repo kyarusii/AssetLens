@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace AssetLens.UI.Component
 {
-	public class AssetReference : VisualElement
+	internal class AssetReference : VisualElement
 	{
 		private static readonly string ussClassName = "asset-reference";
 		private string guid;
