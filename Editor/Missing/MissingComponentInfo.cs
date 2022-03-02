@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace AssetLens.Missing
 {
-	public class MissingComponentInfo
+	internal class MissingComponentInfo
 	{
 		
 	}

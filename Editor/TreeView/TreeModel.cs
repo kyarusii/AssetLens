@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AssetLens.Reference.TreeWindow
 {
-	public class TreeModel<T> where T : TreeElement
+	internal class TreeModel<T> where T : TreeElement
 	{
 		IList<T> m_Data;
 		T m_Root;
