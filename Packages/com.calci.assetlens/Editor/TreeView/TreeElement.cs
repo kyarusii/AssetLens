@@ -5,7 +5,7 @@ using UnityEngine;
 namespace AssetLens.Reference.TreeWindow
 {
 	[Serializable]
-	public class TreeElement
+	internal class TreeElement
 	{
 		[SerializeField] int m_ID;
 		[SerializeField] string m_Name;
