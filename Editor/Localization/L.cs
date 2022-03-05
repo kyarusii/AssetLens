@@ -4,6 +4,11 @@ namespace AssetLens
 {
 	using Reference;
 	
+	/*
+	 * Roadmap : XML을 이용한 로컬리제이션 방식으로 변경 예정.
+	 * XMLDocument를 파싱하고, 미리 지정된 string으로 Map에서 꺼내옴.
+	 * 새로 파싱해야 할 타이밍을 스스로 결정하지 않고, 지정된 에디터 이벤트와 명시적 파싱 메뉴로 변경
+	 */
 	[Serializable]
 	internal sealed class L
 	{
@@ -161,5 +166,13 @@ namespace AssetLens
 		public string ChangeLog = "Change Log";
 		public string License = "License";
 		public string Credit = "Credit";
+	}
+
+	public class LText
+	{
+		public static string Get(string key)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
