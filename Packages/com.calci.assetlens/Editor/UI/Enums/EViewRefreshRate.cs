@@ -1,6 +1,6 @@
 ﻿namespace AssetLens.Reference
 {
-	public enum EViewRefreshRate
+	internal enum EViewRefreshRate
 	{
 		/// <summary>
 		/// 10 times in a second

@@ -11,7 +11,7 @@ namespace AssetLens.UI
 	using Reference;
 	
 	[CustomEditor(typeof(Setting))]
-	public sealed class AssetLensSettingInspector : AssetLensInspector
+	internal sealed class AssetLensSettingInspector : AssetLensInspector
 	{
 		private VisualElement options;
 		private VisualElement buttons;

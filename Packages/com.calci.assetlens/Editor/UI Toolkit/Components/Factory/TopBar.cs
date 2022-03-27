@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace AssetLens.UI.Component
 {
-	public class TopBar : VisualElement
+	internal class TopBar : VisualElement
 	{
 		public Button closeButton { get; set; }
 		public Button questionButton { get; set; }

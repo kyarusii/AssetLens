@@ -1,6 +1,6 @@
 ﻿namespace AssetLens.Reference
 {
-	public enum EObjectFocusMethod
+	internal enum EObjectFocusMethod
 	{
 		/// <summary>
 		/// Setting 설정을 따름
