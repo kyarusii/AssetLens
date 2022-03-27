@@ -9,7 +9,7 @@ namespace AssetLens.UI
 	using Reference;
 	using Component;
 
-	public sealed class AssetLensIndexWizard : AssetLensEditorWindow
+	internal sealed class AssetLensIndexWizard : AssetLensEditorWindow
 	{
 		/*
 	     * 물어볼 것들

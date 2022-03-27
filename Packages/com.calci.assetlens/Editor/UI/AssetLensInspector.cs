@@ -7,7 +7,7 @@ namespace AssetLens.UI
 	/// <summary>
 	/// Shared Editor(Inspector) for UI Toolkit
 	/// </summary>
-	public abstract class AssetLensInspector : Editor
+	internal abstract class AssetLensInspector : Editor
 	{
 		protected VisualElement root = default;
 		

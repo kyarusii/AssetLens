@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AssetLens.Reference.TreeWindow
 {
-	public static class TreeElementUtility
+	internal static class TreeElementUtility
 	{
 		public static void TreeToList<T>(T root, IList<T> result) where T : TreeElement
 		{
